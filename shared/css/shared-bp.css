@@ -1,0 +1,6 @@
+/* Width breakpoints */
+@media screen and (min-width: 650px){
+	.nav__title{
+		margin-left: calc(25vw - 10rem);
+	}
+}

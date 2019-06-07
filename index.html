@@ -1,0 +1,74 @@
+<!-- random comment -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="height=device-height,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable, maximum-scale=2.0, minimum-scale=1.0">
+    <title>The Book List</title>
+    <link rel="stylesheet" type="text/css" href="shared/css/shared.css">
+    <link rel="stylesheet" type="text/css" href="shared/css/shared-bp.css">
+    <link rel="stylesheet" type="text/css" href="main/css/main.css">
+    <link rel="stylesheet" type="text/css" href="main/css/main-bp.css">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+
+            <a class="nav__title" href="#">The Book List</a>
+            
+        </nav>
+    </header>
+    <main>
+
+        <div class="backdrop" id="add-backdrop">
+            <section class="modal-container">
+                <div class="modal__close" tabindex="-1">
+                    <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        <image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="images/close.svg" width="90" height="90" alt="Close Button"/>
+                    </svg>
+                    <img class="hide-png no-display svg-fallback modal__close-png" src="images/close.png" alt="Close Button">
+                </div>
+                <h1 class="modal-header">Add a Book</h1>
+                <form id="book-form">
+                    <input class="text-field" type="text" name="title" placeholder="Book Title" required="true">
+                    <input class="text-field" type="text" name="author" placeholder="Book Author" required="true">
+                    <input class="text-field" type="text" name="pages" placeholder="Pages">
+                    <div class="checkbox-container">
+                        <input class="form-checkbox" type="checkbox" name="read-checkbox" id="read-checkbox">
+                        <label class="form-label" for="read-checkbox">Read</label>
+                        
+                    </div>
+                    <input type="submit" class="form-submit" id="book-submit" value="Add This Book">
+                </form>
+            
+            </section>
+        </div>
+
+        <section class="section-container">
+            <div class="books-list-container">
+                <div class="book-item">
+                    
+                </div>
+            </div>
+            
+
+        </section>
+
+
+
+
+
+
+        
+    </main>
+
+
+
+    <script type="text/javascript" src="shared/js/shared.js"></script>
+    <script type="text/javascript" src="main/js/main.js"></script>
+</body>
+</html>
