@@ -21,11 +21,50 @@
             
         </nav>
     </header>
-    <main>
+    <main class="main-content">
+
+
+
+        <section class="section-container">
+            <button class="button" id="add-book">+</button>
+            <table class="books-list-container" id="books-list-1">
+                <thead class="books-row books-header"><tr class="books-row books-header">
+                    <td class="books-number">#</td>
+                    <td class="books-title">Title</td>
+                    <td class="books-author">Author</td>
+                    <td class="books-pages">Pages</td>
+                    <td class="books-read">Read</td>
+                    <td class="books-delete">Delete</td>
+
+                </tr></thead>
+                <tr class="books-row books-item">
+                    <td class="books-number">1</td>
+                    <td class="books-title">A Game of Thrones</td>
+                    <td class="books-author">George R.R. Martin</td>
+                    <td class="books-pages">694</td>
+                    <td class="books-read">Yes</td>
+                    <td class="books-delete">bin.SvG</td>
+                </tr>
+                <tr class="books-row books-item">
+                    <td class="books-number">1</td>
+                    <td class="books-title">A Game of Thrones</td>
+                    <td class="books-author">George R.R. Martin</td>
+                    <td class="books-pages">694</td>
+                    <td class="books-read">Yes</td>
+                    <td class="books-delete">bin.SvG</td>
+                    
+
+                </tr>
+                <tr class="books-row books-item"></tr>
+                <tr class="books-row books-item"></tr>
+            </table>
+            
+
+        </section>
 
         <div class="backdrop" id="add-backdrop">
-            <section class="modal-container">
-                <div class="modal__close" tabindex="-1">
+            <section class="modal-container" id="add-content">
+                <div class="modal__close" id="add-close" tabindex="-1">
                     <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
                         <image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="images/close.svg" width="90" height="90" alt="Close Button"/>
@@ -47,28 +86,6 @@
             
             </section>
         </div>
-
-        <section class="section-container">
-            <table class="books-list-container">
-                <thead class="books-row books-header"><tr class="books-row books-header">
-                    <td class="books-number">#</td>
-                    <td class="books-title">Title</td>
-                    <td class="books-author">Author</td>
-                    <td class="books-pages">Pages</td>
-                    <td class="books-read">Read</td>
-                    <td class="books-delete">Delete</td>
-
-                </tr></thead>
-                <tr class="books-row books-item"></tr>
-                <tr class="books-row books-item"></tr>
-                <tr class="books-row books-item"></tr>
-                <tr class="books-row books-item"></tr>
-            </table>
-            
-
-        </section>
-
-
 
 
 

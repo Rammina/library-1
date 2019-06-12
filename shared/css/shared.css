@@ -20,6 +20,7 @@ body {
     height: 200rem;
     min-height: 100%;
     padding: 0;
+    font-size: 1.1rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -40,7 +41,12 @@ main {
 }
 
 button {
-    
+    outline: none;
+    font-size: 1.1rem;
+    padding: 0.7rem;
+    font-family: 'Lato', sans-serif;
+    border: 1px solid #555;
+    border-radius: 5px;
 }
 
 button:focus {
