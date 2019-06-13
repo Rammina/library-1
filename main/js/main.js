@@ -1,4 +1,47 @@
-//I'm a comment 
+// 
+
+// Screen loader
+
+/*
+setTimeout(function () {
+	if (document.readyState === 'loading') {  // Loading hasn't finished yet
+	  document.addEventListener('DOMContentLoaded', function () {
+		document.querySelector(".loader-container").classList.add("no-display");
+  
+	  });
+	} //Loading has already finished
+	else if(document.readyState === "complete" || document.readyState === "interactive" || document.readyState === "loaded"){
+	  console.log(" HTML loaded");
+	  document.querySelector(".loader-container").classList.add("no-display"); //Get rid of the loader
+	}
+  }, 600);
+  */
+  // Checking SVG support
+  
+  var svgSupport = !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect;
+  
+  if (!(svgSupport)) {
+  
+	  let allSvg = document.getElementsByTagName("svg");
+  
+	  for (let svg of allSvg) {
+		  svg.classList.add("no-display");
+		  svg.classList.add("hide-svg");
+	  }
+  
+	  let allSvgFallback = document.querySelectorAll(".svg-fallback");
+  
+	  for (let png of allSvgFallback) {
+		  png.classList.remove("no-display");
+		  png.classList.remove("hide-png");
+	  }
+  
+  
+  
+  }
+
+
+
 var general = {
 	main: document.querySelector(".main-content")
 }
@@ -16,7 +59,7 @@ var bookList = {
 	addButton: document.getElementById("add-book"),
 	table: document.getElementById("books-list-1"),
 	library: [],
-	Book(title, author, pages, read){
+	/*Book(title, author, pages, read){
 		this.title = title;
 		this.author = author;
 		this.pages = pages;
@@ -44,7 +87,7 @@ var bookList = {
 			bookList.table.appendChild(item);
 			counter++;
 		}
-	}
+	}*/
 	
 
 

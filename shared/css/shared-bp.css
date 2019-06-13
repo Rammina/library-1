@@ -3,4 +3,7 @@
 	.nav__title{
 		margin-left: calc(25vw - 10rem);
 	}
+	#add-book {
+		margin-right: calc(25vw - 10rem);
+	}
 }

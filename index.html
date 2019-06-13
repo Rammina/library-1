@@ -18,7 +18,14 @@
         <nav class="main-nav">
 
             <a class="nav__title" href="#">The Book List</a>
-            
+            <button class="button" id="add-book">
+                <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/egor-rumyantsev" title="Egor Rumyantsev">Egor Rumyantsev</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                <svg width="80" height="80" class="plus-svg">
+                    <image class="plus-image" href="https://image.flaticon.com/icons/svg/70/70421.svg" src="../images/plus.svg" width="90" height="90" alt="Plus Sign"/>
+                </svg>
+                <img class="hide-png no-display svg-fallback plus-png" src="../images/plus.png" alt="Plus Sign">
+                <!-- Add New Book  -->
+            </button>
         </nav>
     </header>
     <main class="main-content">
@@ -26,7 +33,7 @@
 
 
         <section class="section-container">
-            <button class="button" id="add-book">+</button>
+            
             <table class="books-list-container" id="books-list-1">
                 <thead class="books-row books-header"><tr class="books-row books-header">
                     <td class="books-number">#</td>

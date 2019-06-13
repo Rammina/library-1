@@ -168,3 +168,30 @@ li {
 	/*overflow: hidden;*/
 	/*margin-left: ;*/
 }
+
+#add-book {
+    position: fixed;
+    overflow: hidden;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    background-color: #FFEFE0;
+    color: #4d4743;
+    margin-left: calc(100vw - 4.5rem);
+    top: calc(98vh - 4.5rem);
+    width: 3rem;
+    height: 3rem;
+    line-height: 1.5rem;
+}
+
+.plus-png, .plus-svg {
+    position: relative;
+    margin: 0 auto;
+    bottom: 0.25rem;
+    right: 0.21rem;
+    filter: invert(24%) sepia(3%) saturate(1509%) hue-rotate(341deg) brightness(94%) contrast(79%);
+}
+
+.plus-png, .plus-svg, .plus-image {
+    width: 2rem;
+    height: 2rem;
+}
