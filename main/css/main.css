@@ -12,6 +12,7 @@ main {
     color: #3d2922;
 }
 
+/* Table starts here */
 .section-container{
 
     width: 100%;
@@ -32,6 +33,11 @@ main {
     border-spacing: 0px;
     border-collapse: collapse;
 }
+
+thead tr {
+    font-size: 2rem;
+}
+
 .books-row{
     /*display: flex;*/
     /*flex-direction: row;*/
@@ -65,17 +71,57 @@ td, th{
     text-align: center;
 }
 
-.books-number{
+.books-number {
     /*width: 3%;*/
 }
-.books-pages, .books-read, .books-delete{
+
+.books-pages, .books-read, .books-delete {
     /*width: 10%;*/
 }
-.books-title{
+
+.books-title {
     /*width: 34%;*/
 }
-.books-author{
+
+.books-author {
     /*width: 33%;*/
+}
+
+.books-read.read {
+    position: relative;
+    background: url(../images/check.png);
+    background-size: 2rem;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    filter: invert(30%) sepia(11%) saturate(859%) hue-rotate(92deg) brightness(99%) contrast(85%);
+}
+
+.books-read.not-read {
+    position: relative;
+    background: url(../images/close-small.png);
+    background-size: 2rem;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    filter: invert(26%) sepia(61%) saturate(1222%) hue-rotate(328deg) brightness(86%) contrast(90%);
+}
+
+.books-read-button::after {
+    /* position: relative;
+    content: url(../images/close-small.png);
+    filter: invert(13%) sepia(12%) saturate(1874%) hue-rotate(330deg) brightness(99%) contrast(87%); */
+}
+
+.books-read-button {
+
+}
+
+.delete-svg, .delete-png {
+    
+}
+
+.delete-svg, .delete-png, .delete-image {
+    width: 2rem;
+    height: 2rem;
 }
 
 .backdrop{
@@ -130,7 +176,7 @@ td, th{
 .modal__close svg, .modal__close-png {
     width: 100%;
     height: 100%;
-    /*filter: invert(100%) sepia(14%) saturate(7480%) hue-rotate(290deg) brightness(120%) contrast(108%);*/
+    filter: invert(13%) sepia(12%) saturate(1874%) hue-rotate(330deg) brightness(99%) contrast(87%);
 }
 .modal__close image {
     width: 100%;
@@ -144,6 +190,7 @@ td, th{
     margin-bottom: 1.5rem;
     text-align: center;
     font-size: 1.8rem;
+    font-family: 'Raleway', sans-serif;
 }
 
 .text-field{
@@ -158,7 +205,7 @@ td, th{
     padding-left: 0.6rem;
     font-size: 1.05rem;
     /*right: 0.5rem; */
-    font-family: 'Lato', sans-serif;
+    font-family: 'Raleway', sans-serif;
 }
 
 .checkbox-container{
@@ -189,8 +236,8 @@ td, th{
     max-width: 16rem;
     height: 3rem;
     font-size: 1.3rem;
-    margin: 1rem auto;
     font-family: 'Raleway', sans-serif;
+    margin: 1rem auto;
     background-color: #3d2922;
     color: #EEE9E3;
     outline: none;

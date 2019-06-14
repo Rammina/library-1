@@ -17,13 +17,13 @@
     <header class="main-header">
         <nav class="main-nav">
 
-            <a class="nav__title" href="#">The Book List</a>
+            <a class="nav__title" href="#"><img class="nav__title-img" src="main/images/book-title.png" alt="The Book List"></a>
             <button class="button" id="add-book">
                 <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/egor-rumyantsev" title="Egor Rumyantsev">Egor Rumyantsev</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
                 <svg width="80" height="80" class="plus-svg">
-                    <image class="plus-image" href="https://image.flaticon.com/icons/svg/70/70421.svg" src="../images/plus.svg" width="90" height="90" alt="Plus Sign"/>
+                    <image class="plus-image" href="https://image.flaticon.com/icons/svg/70/70421.svg" src="main/images/plus.svg" width="90" height="90" alt="Plus Sign"/>
                 </svg>
-                <img class="hide-png no-display svg-fallback plus-png" src="../images/plus.png" alt="Plus Sign">
+                <img class="hide-png no-display svg-fallback plus-png" src="main/images/plus.png" alt="Plus Sign">
                 <!-- Add New Book  -->
             </button>
         </nav>
@@ -40,8 +40,8 @@
                     <td class="books-title">Title</td>
                     <td class="books-author">Author</td>
                     <td class="books-pages">Pages</td>
-                    <td class="books-read">Read</td>
-                    <td class="books-delete">Delete</td>
+                    <td class="">Read</td>
+                    <td class="">Delete</td>
 
                 </tr></thead>
                 <tr class="books-row books-item">
@@ -49,16 +49,28 @@
                     <td class="books-title">A Game of Thrones</td>
                     <td class="books-author">George R.R. Martin</td>
                     <td class="books-pages">694</td>
-                    <td class="books-read">Yes</td>
-                    <td class="books-delete">bin.SvG</td>
+                    <td class="books-read read"></td>
+                    <td class="books-delete">
+                        <svg width="80" height="80" class="delete-svg">
+                            <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                            <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
+                        </svg>
+                        <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
+                    </td>
                 </tr>
                 <tr class="books-row books-item">
                     <td class="books-number">1</td>
                     <td class="books-title">A Game of Thrones</td>
                     <td class="books-author">George R.R. Martin</td>
                     <td class="books-pages">694</td>
-                    <td class="books-read">Yes</td>
-                    <td class="books-delete">bin.SvG</td>
+                    <td class="books-read not-read"></td>
+                    <td class="books-delete">
+                        <svg width="80" height="80" class="delete-svg">
+                            <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                            <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
+                        </svg>
+                        <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
+                    </td>
                     
 
                 </tr>
@@ -74,9 +86,9 @@
                 <div class="modal__close" id="add-close" tabindex="-1">
                     <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                        <image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="images/close.svg" width="90" height="90" alt="Close Button"/>
+                        <image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
                     </svg>
-                    <img class="hide-png no-display svg-fallback modal__close-png" src="images/close.png" alt="Close Button">
+                    <img class="hide-png no-display svg-fallback modal__close-png" src="main/images/close.png" alt="Close Button">
                 </div>
                 <h1 class="modal-header">Add a Book</h1>
                 <form id="book-form">

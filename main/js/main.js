@@ -58,6 +58,7 @@ var helper = {
 var bookList = { 
 	addButton: document.getElementById("add-book"),
 	table: document.getElementById("books-list-1"),
+	readButtons: document.querySelectorAll(".books-read-button"),
 	library: [],
 	/*Book(title, author, pages, read){
 		this.title = title;
@@ -95,9 +96,21 @@ var bookList = {
 
 };
 
-bookList.Book.prototype.toggleRead = function () {
-	this.read = !(this.read);
+// bookList.Book.prototype.toggleRead = function () {
+// 	this.read = !(this.read);
+// }
+
+for(let i = 0; i < bookList.readButtons.length; i++) {
+	bookList.readButtons[i].addEventListener("click", function(){
+		if (bookList.readButtons[i].innerText === "Yes") {
+			bookList.readButtons[i].innerText = "No";
+		}
+		else if (bookList.readButtons[i].innerText === "No") {
+			bookList.readButtons[i].innerText = "Yes";
+		}
+	});
 }
+
 
 var bookModal = {
 	backdrop: document.getElementById("add-backdrop"),
