@@ -70,9 +70,17 @@ td, th{
     /*border-radius: 6px;*/
     text-align: center;
 }
+/*Automatic numbering system*/
+table{
+    counter-reset: rowNumber;
+}
 
-.books-number {
-    /*width: 3%;*/
+table tr:not(:first-child){
+    counter-increment: rowNumber;
+}
+
+.books-number::after {
+    content: counter(rowNumber);
 }
 
 .books-pages, .books-read, .books-delete {
@@ -87,21 +95,27 @@ td, th{
     /*width: 33%;*/
 }
 
-.books-read.read {
+
+.books-read-icon{
+    padding: 0.5rem;
+    box-sizing: content-box;
+}
+
+.books-read-icon.read {
     position: relative;
-    background: url(../images/check.png);
-    background-size: 2rem;
-    background-repeat: no-repeat;
-    background-position: 50%;
+    /*background: url(../images/check.png);*/
+    /*background-size: 2rem;*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: 50%;*/
     filter: invert(30%) sepia(11%) saturate(859%) hue-rotate(92deg) brightness(99%) contrast(85%);
 }
 
-.books-read.not-read {
+.books-read-icon.not-read {
     position: relative;
-    background: url(../images/close-small.png);
-    background-size: 2rem;
-    background-repeat: no-repeat;
-    background-position: 50%;
+    /*background: url(../images/close-small.png);*/
+    /*background-size: 2rem;*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: 50%;*/
     filter: invert(26%) sepia(61%) saturate(1222%) hue-rotate(328deg) brightness(86%) contrast(90%);
 }
 
@@ -116,7 +130,8 @@ td, th{
 }
 
 .delete-svg, .delete-png {
-    
+    box-sizing: content-box;
+    padding: 0.5rem;
 }
 
 .delete-svg, .delete-png, .delete-image {

@@ -36,46 +36,56 @@
             
             <table class="books-list-container" id="books-list-1">
                 <thead class="books-row books-header"><tr class="books-row books-header">
-                    <td class="books-number">#</td>
-                    <td class="books-title">Title</td>
-                    <td class="books-author">Author</td>
-                    <td class="books-pages">Pages</td>
+                    <td class="">#</td>
+                    <td class="">Title</td>
+                    <td class="">Author</td>
+                    <td class="">Pages</td>
                     <td class="">Read</td>
                     <td class="">Delete</td>
 
                 </tr></thead>
+                <tbody class="books-list-body">
+                    
+                
                 <tr class="books-row books-item">
-                    <td class="books-number">1</td>
+                    <td class="books-number"></td>
                     <td class="books-title">A Game of Thrones</td>
                     <td class="books-author">George R.R. Martin</td>
                     <td class="books-pages">694</td>
-                    <td class="books-read read"></td>
+                    <td class="books-read">
+                        <img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">
+                    </td>
                     <td class="books-delete">
-                        <svg width="80" height="80" class="delete-svg">
-                            <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                            <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
-                        </svg>
-                        <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
+                        <div class="books-delete-container">
+                            <svg width="80" height="80" class="delete-svg">
+                                <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
+                            </svg>
+                            <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
+                        </div>
                     </td>
                 </tr>
                 <tr class="books-row books-item">
-                    <td class="books-number">1</td>
+                    <td class="books-number"></td>
                     <td class="books-title">A Game of Thrones</td>
                     <td class="books-author">George R.R. Martin</td>
                     <td class="books-pages">694</td>
-                    <td class="books-read not-read"></td>
+                    <td class="books-read">
+                        <img class="books-read-icon read" src="main/images/check.png" alt="check icon">
+                    </td>
                     <td class="books-delete">
-                        <svg width="80" height="80" class="delete-svg">
-                            <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                            <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
-                        </svg>
-                        <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
+                        <div class="books-delete-container">
+                            <svg width="80" height="80" class="delete-svg">
+                                <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
+                            </svg>
+                            <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
+                        </div>
                     </td>
                     
 
                 </tr>
-                <tr class="books-row books-item"></tr>
-                <tr class="books-row books-item"></tr>
+                </tbody>
             </table>
             
 
@@ -92,9 +102,9 @@
                 </div>
                 <h1 class="modal-header">Add a Book</h1>
                 <form id="book-form">
-                    <input class="text-field" type="text" name="title" placeholder="Book Title" required="true">
-                    <input class="text-field" type="text" name="author" placeholder="Book Author" required="true">
-                    <input class="text-field" type="text" name="pages" placeholder="Pages">
+                    <input id="book-title-field" class="text-field" type="text" name="title" placeholder="Book Title" required="true">
+                    <input id="book-author-field" class="text-field" type="text" name="author" placeholder="Book Author" required="true">
+                    <input id="book-pages-field" class="text-field" type="text" name="pages" placeholder="Pages">
                     <div class="checkbox-container">
                         <input class="form-checkbox" type="checkbox" name="read-checkbox" id="read-checkbox">
                         <label class="form-label" for="read-checkbox">Read</label>
