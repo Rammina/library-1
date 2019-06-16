@@ -1,9 +1,64 @@
 /* Width breakpoints */
-@media screen and (min-width: 650px){
-	.nav__title{
-		margin-left: calc(25vw - 10rem);
+@media screen and (min-width: 1000px){
+	.main-header {
+		width: 17rem;
+		height: 100vh;
+		padding: 0.5rem 1rem;
 	}
-	#add-book {
-		margin-right: calc(25vw - 10rem);
+	.main-nav{
+		justify-content: center;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		/*padding: 50% 0;*/
+		/*padding-top: 25%;*/
 	}
+	.nav__name{
+		display: none;
+	}
+	.nav__portrait-link{
+		display: inline-block;
+	}
+
+	.nav__portrait-container{
+		z-index: 101;
+		position: relative;
+		top: calc(50vh - 16rem);
+		display: block;
+		width: 10rem;
+		height: 10rem;
+		border-radius: 50%;
+		box-shadow: 0 0 0 8px #69282d;
+		margin-top: 10%;
+		margin-bottom: 0rem;
+		overflow: hidden;
+	}
+	.nav__menu{
+		display: none;
+		/*height: 0;*/
+	}
+	.nav__items-container{
+		transition: none;
+		animation: none;
+		z-index: 101;
+		overflow: hidden;
+		position: relative;
+		visibility: visible;
+		width: 100%;
+		/*bottom: 30%;*/
+		top: 0;
+		transform: translateY(0);
+		margin-top: 3rem;
+		margin-bottom: 1rem;
+
+	}
+	.nav__items {
+		/*padding-top: 0;*/
+		text-align: center;
+	}
+	.nav__item{
+		text-align: left;
+		width: 100%;
+		padding-left: 25%;
+	}
+
 }

@@ -7,124 +7,343 @@
     <meta name="viewport" content="height=device-height,initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable, maximum-scale=2.0, minimum-scale=1.0">
-    <title>The Book List</title>
+    <title>Resume</title>
     <link rel="stylesheet" type="text/css" href="shared/css/shared.css">
     <link rel="stylesheet" type="text/css" href="shared/css/shared-bp.css">
     <link rel="stylesheet" type="text/css" href="main/css/main.css">
     <link rel="stylesheet" type="text/css" href="main/css/main-bp.css">
 </head>
 <body>
+
+    <div class="loader-container">
+        <div class="loader__message-container">
+            
+            <div class="loader__text">
+            
+            
+                <p class="loader__p">Loading</p>
+                <div id="spinningSquaresG">
+                    <div id="spinningSquaresG_1" class="spinningSquaresG"></div>
+                    <div id="spinningSquaresG_2" class="spinningSquaresG"></div>
+                    <div id="spinningSquaresG_3" class="spinningSquaresG"></div>
+                    <div id="spinningSquaresG_4" class="spinningSquaresG"></div>
+                    <div id="spinningSquaresG_5" class="spinningSquaresG"></div>
+                    <div id="spinningSquaresG_6" class="spinningSquaresG"></div>
+                    <div id="spinningSquaresG_7" class="spinningSquaresG"></div>
+                    <div id="spinningSquaresG_8" class="spinningSquaresG"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
     <header class="main-header">
         <nav class="main-nav">
+            <a class="nav__name" href="#">Gill Bates</a>
+            
+            <a href="#" class="nav__portrait-link"></a>
+            <div class="nav__portrait-container">
 
-            <a class="nav__title" href="#"><img class="nav__title-img" src="main/images/book-title.png" alt="The Book List"></a>
-            <button class="button" id="add-book">
-                <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/egor-rumyantsev" title="Egor Rumyantsev">Egor Rumyantsev</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                <svg width="80" height="80" class="plus-svg">
-                    <image class="plus-image" href="https://image.flaticon.com/icons/svg/70/70421.svg" src="main/images/plus.svg" width="90" height="90" alt="Plus Sign"/>
+                <div class="nav__portrait">
+                    <!-- Portrait of a person -->
+                    <img src="main/images/portrait-3.jpg" alt="White man">
+                </div>
+            </div>
+            <div class="nav__menu" aria-expanded="false" aria-label="toggle navigation" tabindex="0">
+                <!-- SVG here for the menu button/hamburger -->
+                <svg class="nav__menu-svg" width="80" height="80">
+                    <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                    <image class="nav__menu-image" href="https://image.flaticon.com/icons/svg/56/56763.svg" src="main/images/hamburger.svg" width="312" height="312" role='image' alt="hamburger"/>
                 </svg>
-                <img class="hide-png no-display svg-fallback plus-png" src="main/images/plus.png" alt="Plus Sign">
-                <!-- Add New Book  -->
-            </button>
+            </div>
+            <div class="nav__items-container">
+                <ul class="nav__items">
+
+                    <li><a data-scroll class="nav__item current" href="#"><img class="indicator show" src="main/images/right-arrow.png" alt="pointer">About</a></li>
+                    <li><a class="nav__item" href="#experience-section"><img class="indicator" src="main/images/right-arrow.png" alt="pointer">Experience</a></li>
+                    <li><a class="nav__item" href="#education-section"><img class="indicator" src="main/images/right-arrow.png" alt="pointer">Education</a></li>
+                    <li><a class="nav__item" href="#skills-section"><img class="indicator" src="main/images/right-arrow.png" alt="pointer">Skills</a></li>
+                    <li><a class="nav__item" href="#interests-section"><img class="indicator" src="main/images/right-arrow.png" alt="pointer">Interests</a></li>
+                    <li><a class="nav__item" href="#awards-section"><img class="indicator" src="main/images/right-arrow.png" alt="pointer">Awards</a></li>
+                    
+                </ul>
+            </div>
         </nav>
     </header>
-    <main class="main-content">
-
-
-
-        <section class="section-container">
-            
-            <table class="books-list-container" id="books-list-1">
-                <thead class="books-row books-header"><tr class="books-row books-header">
-                    <td class="">#</td>
-                    <td class="">Title</td>
-                    <td class="">Author</td>
-                    <td class="">Pages</td>
-                    <td class="">Read</td>
-                    <td class="">Delete</td>
-
-                </tr></thead>
-                <tbody class="books-list-body">
-                    
-                
-                <tr class="books-row books-item">
-                    <td class="books-number"></td>
-                    <td class="books-title">A Game of Thrones</td>
-                    <td class="books-author">George R.R. Martin</td>
-                    <td class="books-pages">694</td>
-                    <td class="books-read">
-                        <img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">
-                    </td>
-                    <td class="books-delete">
-                        <div class="books-delete-container">
-                            <svg width="80" height="80" class="delete-svg">
-                                <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                                <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
-                            </svg>
-                            <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
-                        </div>
-                    </td>
-                </tr>
-                <tr class="books-row books-item">
-                    <td class="books-number"></td>
-                    <td class="books-title">A Game of Thrones</td>
-                    <td class="books-author">George R.R. Martin</td>
-                    <td class="books-pages">694</td>
-                    <td class="books-read">
-                        <img class="books-read-icon read" src="main/images/check.png" alt="check icon">
-                    </td>
-                    <td class="books-delete">
-                        <div class="books-delete-container">
-                            <svg width="80" height="80" class="delete-svg">
-                                <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                                <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
-                            </svg>
-                            <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
-                        </div>
-                    </td>
-                    
-
-                </tr>
-                </tbody>
-            </table>
-            
-
-        </section>
-
-        <div class="backdrop" id="add-backdrop">
-            <section class="modal-container" id="add-content">
-                <div class="modal__close" id="add-close" tabindex="-1">
-                    <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                        <image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
-                    </svg>
-                    <img class="hide-png no-display svg-fallback modal__close-png" src="main/images/close.png" alt="Close Button">
+    <main>
+        <section class="section-container" id="about-section">
+            <div class="content-outer">
+                <h1 class="about-name">Gill<span class="about-last-name"> Bates</span></h1>
+                <h2 class="about-address">Insert address here blah blah blah blah <span class="address-dash"> · </span><a href="#" id="about-email"> email@Gmail.com</a></h2>
+                <p class="about-description">I am so good your mother got got nothin "about description" er text filler text filler text Lauren MIPS them. I like Patty cakes and nightclubs because I personally code for them</p>
+                <!-- Social media icons go here -->
+                <div class="logo-container">
+                    <ul class="logos">
+                        <li class="logo">
+                            <a href="#" class="logo-link">
+                                <!-- SVGs and PNG's go here -->
+                                <svg class="logo__svg" id="social__svg-1" width="80" height="80">
+                                    <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                    <image class="logo__image" href="https://image.flaticon.com/icons/svg/1384/1384014.svg" src="main/images/linkedin.svg" width="90" height="90" role='image' alt="LinkedIn Logo"/>
+                                </svg>
+                                <img class="hide-png no-display svg-fallback logo__png" src="main/images/linkedin.png" alt="LinkedIn Logo"> 
+                            </a>
+                        </li>
+                        <li class="logo">
+                            <a href="#" class="logo-link">
+                                <!-- SVGs and PNG's go here -->
+                                <svg class="logo__svg" id="social__svg-2" width="80" height="80">
+                                    <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                    <image class="logo__image" href="https://image.flaticon.com/icons/svg/1051/1051326.svg" src="main/images/github.svg" width="90" height="90" role='image' alt="github Logo"/>
+                                </svg>
+                                <img class="hide-png no-display svg-fallback logo__png" src="main/images/github.png" alt="github Logo"> 
+                            </a>
+                        </li>
+                        <li class="logo">
+                            <a href="#" class="logo-link">
+                                <!-- SVGs and PNG's go here -->
+                                <svg class="logo__svg" id="social__svg-3" width="80" height="80">
+                                    <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/bogdan-rosu" title="Bogdan Rosu">Bogdan Rosu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                    <image class="logo__image" href="https://image.flaticon.com/icons/svg/69/69480.svg" src="main/images/twitter.svg" width="90" height="90" role='image' alt="Twitter Logo"/>
+                                </svg>
+                                <img class="hide-png no-display svg-fallback logo__png" src="main/images/twitter.png" alt="Twitter Logo"> 
+                            </a>
+                        </li>
+                        <li class="logo">
+                            <a href="#" class="logo-link">
+                                <!-- SVGs and PNG's go here -->
+                                <svg class="logo__svg" id="social__svg-4" width="80" height="80">
+                                    <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/bogdan-rosu" title="Bogdan Rosu">Bogdan Rosu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                    <image class="logo__image" href="https://image.flaticon.com/icons/svg/69/69407.svg" src="main/images/facebook.svg" width="90" height="90" role='image' alt="Facebook Logo"/>
+                                </svg>
+                                <img class="hide-png no-display svg-fallback logo__png" src="main/images/facebook.png" alt="Facebook Logo"> 
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <h1 class="modal-header">Add a Book</h1>
-                <form id="book-form">
-                    <input id="book-title-field" class="text-field" type="text" name="title" placeholder="Book Title" required="true">
-                    <input id="book-author-field" class="text-field" type="text" name="author" placeholder="Book Author" required="true">
-                    <input id="book-pages-field" class="text-field" type="text" name="pages" placeholder="Pages">
-                    <div class="checkbox-container">
-                        <input class="form-checkbox" type="checkbox" name="read-checkbox" id="read-checkbox">
-                        <label class="form-label" for="read-checkbox">Read</label>
+            </div><div></div>
+        </section>
+        <section class="section-container" id="experience-section">
+            <div class="content-outer">
+                <h1 class="content-title">Experience</h1>
+                <div class="experience-container-outer">
+                    <div class="experience-description-container">
+                        <h2 class="experience-title">Senior Web Developer</h2>
+                        <h3 class="experience-company">Colorado Springs Design Inc.</h3>
+                        <p class="experience-description">Bacon ham and eggs gravy mushroom chicken curry beef still eggs Benedict tomato chicken pork barbecue I love docs pancakes peanuts hello hello word hello world meant</p>
+                    </div>
+                    <div class="experience-date-container">
+                        <h2 class="experience-date">September 2018 - Present</h2>
+                    </div> 
+                </div>
+                <div class="experience-container-outer">
+                    <div class="experience-description-container">
+                        <h2 class="experience-title">Web Developer</h2>
+                        <h3 class="experience-company">Colorado Springs Design Inc.</h3>
+                        <p class="experience-description">Bacon ham and eggs gravy mushroom chicken curry beef still eggs Benedict tomato chicken pork barbecue I love docs pancakes peanuts hello hello word hello world meant</p>
+                    </div>
+                    <div class="experience-date-container">
+                        <h2 class="experience-date">June 2017 - September 2018</h2>
+                    </div> 
+                </div>
+                <div class="experience-container-outer">
+                    <div class="experience-description-container">
+                        <h2 class="experience-title">Junior Web Developer</h2>
+                        <h3 class="experience-company">Colorado Springs Design Inc.</h3>
+                        <p class="experience-description">Bacon ham and eggs gravy mushroom chicken curry beef still eggs Benedict tomato chicken pork barbecue I love docs pancakes peanuts hello hello word hello world meant</p>
+                    </div>
+                    <div class="experience-date-container">
+                        <h2 class="experience-date">April 2015 - May 2017</h2>
+                    </div> 
+                </div>
+                <div class="experience-container-outer">
+                    <div class="experience-description-container">
+                        <h2 class="experience-title">Web Developer Intern</h2>
+                        <h3 class="experience-company">AppNext</h3>
+                        <p class="experience-description">Bacon ham and eggs gravy mushroom chicken curry beef still eggs Benedict tomato chicken pork barbecue I love docs pancakes peanuts hello hello word hello world meant</p>
+                    </div>
+                    <div class="experience-date-container">
+                        <h2 class="experience-date">November 2014 - February 2015</h2>
+                    </div> 
+                </div>
+            </div><div></div>
+        </section>
+         <section class="section-container" id="education-section">
+            <div class="content-outer">
+                <h1 class="content-title">Education</h1>
+                <div class="education-container-outer">
+                    <div class="education-description-container"> 
+                        <h2 class="education-school">Coding University</h2>
+                        <h3 class="education-degree">Bachelor's Degree in Computer Science</h3>
+                        <h4 class="education-track">Concentration: Web Development</h4>
+                        <h4 class="education-grades">GPA: 3.5</h4>
+
+                    </div> 
+                    <div class="education-date-container">
+                        <h2 class="education-date">2011-2014</h2>
                         
                     </div>
-                    <input type="submit" class="form-submit" id="book-submit" value="Add This Book">
-                </form>
-            
-            </section>
-        </div>
+                </div>
+                <div class="education-container-outer">
+                    <div class="education-description-container"> 
+                        <h2 class="education-school">Coding Academy</h2>
+                        <h3 class="education-degree">Computer Science Track</h3>
+                        <h4 class="education-grades">GPA: 3.5</h4>
+                    </div> 
+                    <div class="education-date-container">
+                        <h2 class="education-date">2007-2010</h2>
+                    </div>
+                </div>
+            </div><div></div>
+        </section>
+        <section class="section-container" id="skills-section">
+            <div class="content-outer">
+                <h1 class="content-title">Skills</h1>
+                <h2 class="skills-header">Programming Languages and Tools</h2>
+                <div class="skills-logo-container">
+                    <!-- SVGs and PNG's here -->
+                    <div class="logo-container skills-container">
+                    <ul class="logos skills-logos">
+                        <li class="logo skills-logo">
+                            <div class="double-filter">
+                                <!-- SVGs and PNG's go here -->
+                                <svg class="logo__svg skills-svg black-filter" width="80" height="80">
+                                    <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                    <image class="logo__image skills-image" href="https://image.flaticon.com/icons/svg/25/25252.svg" src="main/images/html-5.svg" width="90" height="90" role='image' alt="HTML-5 Logo"/>
+                                </svg>
+                                <img class="hide-png no-display svg-fallback logo__png skills-png black-filter" src="main/images/html-5.png" alt="HTML-5 Logo"> 
+                            </div>
+                        </li>
+                        <li class="logo skills-logo">
+                            <div class="double-filter">  
+                                <!-- SVGs and PNG's go here -->
+                                <svg class="logo__svg skills-svg black-filter" width="80" height="80">
+                                    <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                    <image class="logo__image skills-image" href="https://image.flaticon.com/icons/svg/732/732007.svg" src="main/images/css-3.svg" width="90" height="90" role='image' alt="CSS-3 Logo"/>
+                                </svg>
+                                <img class="hide-png no-display svg-fallback logo__png skills-png black-filter" src="main/images/css-3.png" alt="CSS-3 Logo"> 
+                            </div>
+                        </li>
+                        <li class="logo skills-logo">
+                            <div class="double-filter">
+                                <!-- SVGs and PNG's go here -->
+                                <svg class="logo__svg skills-svg black-filter" width="80" height="80">
+                                    <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                    <image class="logo__image skills-image" href="https://image.flaticon.com/icons/svg/74/74962.svg" src="main/images/js.svg" width="90" height="90" role='image' alt="JS Logo"/>
+                                </svg>
+                                <img class="hide-png no-display svg-fallback logo__png skills-png black-filter" src="main/images/js.png" alt="JS Logo"> 
+                            </div>
+                        </li>
+                        <li class="logo skills-logo">
+                            <div class="double-filter">
+                                <!-- SVGs and PNG's go here -->
+                                <svg class="logo__svg skills-svg black-filter" width="80" height="80">
+                                    <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                                    <image class="logo__image skills-image" href="https://image.flaticon.com/icons/svg/59/59137.svg" src="main/images/wordpress.svg" width="90" height="90" role='image' alt="Wordpress Logo"/>
+                                </svg>
+                                <img class="hide-png no-display svg-fallback logo__png skills-png black-filter" src="main/images/wordpress.png" alt="Wordpress Logo"> 
+                            </div>
+                        </li>
+                        <li class="logo skills-logo">
+                            <div class="double-filter">
+                                <!-- https://angular.io/presskit -->
+                                <img class="logo__png skills-png black-filter" src="main/images/angular.png" alt="Angular Logo"> 
+                            </div>
+                        </li>
+                        <li class="logo skills-logo">
+                            <div class="double-filter">
+                                <!-- SVGs and PNG's go here -->
+                                <!-- https://www.onlinewebfonts.com/icon/193987 -->
+                                <img class="logo__png skills-png black-filter" id="less-png" src="main/images/less.png" alt="Less Logo"> 
+                            </div>
+                        </li>
+                        <li class="logo skills-logo">
+                            <div class="double-filter">
+                                <!-- SVGs and PNG's go here -->
+                                <!-- https://www.shareicon.net/prog-nodejs-603824 -->
+                                <img class="logo__png skills-png black-filter" src="main/images/nodejs.png" alt="NodeJS Logo"> 
+                            </div>
+                        </li>
+                        <li class="logo skills-logo">
+                                <!-- SVGs and PNG's go here -->
+                                <div class="double-filter">
+                                    <!-- https://sass-lang.com/styleguide/brand -->
+                                    <img class="logo__png skills-png black-filter" src="main/images/sass.png" alt="Sass Logo"> 
+                                </div> 
+                                <!-- <i class="fab fa-sass"></i> -->
+                        </li>
+                        <li class="logo skills-logo">
+                                <div class="double-filter">
+                                    <!-- SVGs and PNG's go here -->
+                                    <!-- https://iconscout.com/icon/react-native?item_id=555609&ref=similar_items -->
+                                    <img class="logo__png skills-png black-filter" src="main/images/react.png" alt="React Logo"> 
+                                </div>
+                        </li>
+                        <li class="logo skills-logo">
+                                <!-- SVGs and PNG's go here -->
+                                <div class="double-filter">
+                                    <img class="logo__png skills-png black-filter" src="main/images/npm.png" alt="Node Package Manager Logo"> 
+                                </div>
+                        </li>
+                        <li class="logo skills-logo">
+                                <div class="double-filter">
+                                    <!-- https://iconscout.com/icon/grunt-2 -->
+                                    <img class="logo__png skills-png black-filter" src="main/images/grunt.png" alt="Grunt Logo"> 
+                                    <!-- <i class="fab fa-grunt"></i> -->
+                                </div>
+                        </li>
+                        
+                        <li class="logo skills-logo">
+                                <!-- SVGs and PNG's go here -->
+                                <div class="double-filter">
+                                    <!-- https://iconscout.com/icon/gulp-2 -->
+                                    <img class="logo__png skills-png black-filter" id="gulp-png" src="main/images/gulp.png" alt="Gulp Logo"> 
+                                </div>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                <h2 class="skills-header">Workflow</h2>
+                <ul class="skills-workflows">
+                    <li class="skills-workflow">Maximum efficiency and open friendliness to everyone</li>
+                    <li class="skills-workflow">Maximum efficiency and open friendliness to everyone</li>
+                    <li class="skills-workflow">Maximum efficiency and open friendliness to everyone</li>
+                    <li class="skills-workflow">Maximum efficiency and open friendliness to everyone</li>
+                </ul>
+            </div><div></div>
+        </section>
+        <section class="section-container" id="interests-section">
+            <div class="content-outer">
+                <h1 class="content-title">Interests</h1>
 
+                <p class="interest-paragraph">I know I know I've let you down I've been a fool to myself I thought that I have no one else dammit Dragon you can even get lyrics right shame on you shame on you twiceI know I know I've let you down I've been a fool to myself I thought that I have no one else dammit Dragon you can even get lyrics right shame on you shame on I know I know I've let you down I've been a fool to myself I thought that I have no one else dammit Dragon you can even get lyrics right shame on you shame on </p>
 
+                <p class="interest-paragraph">I know I know I've let you down I've been a fool to myself I thought that I have no one else dammit Dragon you can even get lyrics right shame on you shame on 
+                you twiceI know I know I've let you down I've been a fool to myself I thought that I have no one else dammit Dragon you can even get lyrics right shame on you shame on I know I know I've </p>
 
+            </div><div></div>
+        </section>
+        <section class="section-container" id="awards-section">
+            <div class="content-outer">
+                <h1 class="content-title" id="awards-title">Awards and Certificates</h1>                
 
-        
+                <ul class="awards-list">
+                    <div class="list-filter"></div>
+                    <li class="awards-item">Insert award and certification here</li>
+                    <li class="awards-item">Insert award and certification here</li>
+                    <li class="awards-item">Insert award and certification here</li>
+                    <li class="awards-item">Insert award and certification here</li>
+                    <li class="awards-item">Insert award and certification here</li>
+                    <li class="awards-item">Insert award and certification here</li>
+                    <li class="awards-item">Insert award and certification here</li>
+                    
+                </ul>
+            </div><div></div>
+        </section>
     </main>
-
-
-
+    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@15/dist/smooth-scroll.polyfills.min.js"></script>
     <script type="text/javascript" src="shared/js/shared.js"></script>
     <script type="text/javascript" src="main/js/main.js"></script>
+    <script type="text/javascript"> var scroll = new SmoothScroll('a[href*="#"]', {easing: 'easeInOutQuart'});</script>
 </body>
 </html>

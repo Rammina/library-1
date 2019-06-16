@@ -1,86 +1,85 @@
-/*Mobile table*/
-/*Credit to https://css-tricks.com/responsive-data-tables/ for information*/
-@media screen and (max-width: 699px){
-	/*Forced tables to stop acting like tables*/
-	table, .books-header, tbody, thead, th, tr, td{
-		display: block;
-	}
-	.books-list-container{
-		border: none;
-		-webkit-box-shadow: 0px 0px 0px 0px #000;
-		box-shadow: 0px 0px 0px 0px #000;
-	}
-	/*Do not use display none so it remains accessible, this still pushes out the headers offscreen*/
-	thead tr, .books-header{
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
-	/*Make the table data behave like a row*/
-	td {
-		text-align: center;
-		border: none;
-		border-bottom: 1px solid #111;
-		position: relative;
-		padding-left: 50%;
-
-
-	}
-	.books-row:nth-of-type(even){
-		background-color: none;
-	}
-	
-	td:nth-of-type(odd){
-		background-color: #ddd;
-	}
-
-	td::before{
-		/*Now behave like a table header*/
-		position: absolute;
-		top: 28%;
-		left: 0.8rem;
-		width: 45%;
-		padding-right: 10px;
-		white-space: nowrap;
-		text-align: center;
-	}
-
-	tr {
-		position: relative;
-		margin-bottom: 3rem;
-	}
-
-
-	td:nth-of-type(1)::before{content: "#";}
-	td:nth-of-type(2)::before{content: "Title";}
-	td:nth-of-type(3)::before{content: "Author";}
-	td:nth-of-type(4)::before{content: "Pages";}
-	td:nth-of-type(5)::before{content: "Read";}
-	td:nth-of-type(6)::before{content: "Delete";}
-}
-
 /*Width breakpoints */
-@media screen and (min-width: 650px){
-	.modal-container{
-		margin: calc(33vh - 6.5rem) calc(50vw - 20rem);
+@media screen and (min-width: 380px) {
+	.logo-container {
+		margin: 0;
+		margin-bottom: 3rem;
+		/* margin-left: 8vw; */
+		width: 20rem;
 	}
+
+	.logo {
+		margin: 0.5rem 0;
+		margin-right: 1rem;
+	}
+	.skills-logo{
+		width: 25%;
+		margin: 0.5rem auto;
+	}
+	.skills-container{
+		margin: 0 auto;
+		width: 18rem;
+	}
+	#awards-title{
+		font-size: 2.6rem;
+	}
+}
+
+@media screen and (min-width: 500px) {
+	.skills-logo-container {
+		right: 0;
+	}
+	.skills-container {
+		margin: 0;
+		width: 28.5rem;
+	}
+	.skills-logo {
+		width: 16.5%;
+	}
+}
+
+
+@media screen and (min-width: 700px) {
+	.section-container {
+		min-height: 63rem;
+		padding: 2rem;
+	}
+	.logo {
+		width: 4rem;
+		height: 4rem;
+
+	}
+	.skills-logo{width: 16.5%;}	
+
+	/*.skills-workflows{padding-left: 2rem;}*/
+}
+
+@media screen and (min-width: 750px){
+	.experience-description-container, .education-description-container{
+		width: 75%;
+	}
+
+	.experience-date-container, .education-date-container{
+		width: 25%;
+	}
+	.experience-date, .education-date {
+		margin: 1.3rem auto;
+		text-align: center;
+	}
+}
+
+@media screen and (min-width: 1000px){
+	main {
+		padding-top: 0;
+		padding-left: 17rem;
+	}
+	.section-container{
+		padding-left: 3rem;
+	}
+	#about-email {
+		display: inline;
+	}
+	.interest-paragraph{padding-left: 1rem;}
 
 }
-@media screen and (min-width: 700px){
-	#add-book{
-		/*position: relative;*/
-		top: 5rem;
-		margin-left: 0;
-	}
-	/*Zebra striping*/
-	tr:nth-of-type(even){
-		background-color: #ddd;
-	}
 
-
-}
-
-
-
-
-
+/*width And height bp
