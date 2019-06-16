@@ -46,12 +46,21 @@ var general = {
 	main: document.querySelector(".main-content")
 }
 var helper = { 
+	touched: false,
 	openModal(modal){
 		modal.classList.add("show");
 	},
 	closeModal(modal){
 		modal.classList.remove("show");	
-	}
+	},
+	touch(){
+		helper.touched = true;
+	},
+	untouch(){
+		helper.touched = false;
+	},
+	
+
 };
 
 
@@ -84,23 +93,26 @@ var bookList = {
                     <td class="books-author">${author}</td>
                     <td class="books-pages">${pages}</td>
                     `);
-			if(read === true) {
+			if(read === false) {
 				item.insertAdjacentHTML("beforeend", `
-					<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">`);
+					<td class="books-read">
+						<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">
+					</td>`);
 				
 			}
-			else if(read === false) {
+			else if(read === true) {
 				item.insertAdjacentHTML("beforeend", `
-					<img class="books-read-icon read" src="main/images/check.png" alt="check icon">`);
+					<td class="books-read">
+						<img class="books-read-icon read" src="main/images/check.png" alt="check icon">
+					</td>`);
 			}
             item.insertAdjacentHTML("beforeend", `
             	<td class="books-delete">
-                        <svg width="80" height="80" class="delete-svg">
-                            <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                            <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
-                        </svg>
-                        <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
-                        `);
+            		<div class="books-delete-container">
+                        <img class="delete-png" src="main/images/delete.png" alt="Trash bin">
+                             <!-- <img class="delete-png" src="main/images/open-delete.png" alt="Trash bin"> -->
+                    </div>
+                </td>`);
 			bookList.tableBody.appendChild(item);
 			// counter++;
 
@@ -120,21 +132,24 @@ var bookList = {
                     `);
 			if(book.read === true) {
 				item.insertAdjacentHTML("beforeend", `
-					<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">`);
+					<td class="books-read">
+						<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">
+					</td>`);
 				
 			}
 			else if(book.read === false) {
 				item.insertAdjacentHTML("beforeend", `
-					<img class="books-read-icon read" src="main/images/check.png" alt="check icon">`);
+					<td class="books-read">
+						<img class="books-read-icon read" src="main/images/check.png" alt="check icon">
+					</td>`);
 			}
             item.insertAdjacentHTML("beforeend", `
             	<td class="books-delete">
-                        <svg width="80" height="80" class="delete-svg">
-                            <!-- <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                            <image class="delete-image" href="https://image.flaticon.com/icons/svg/121/121113.svg" src="main/images/delete.svg" width="90" height="90" alt="Trash bin"/>
-                        </svg>
-                        <img class="hide-png no-display svg-fallback delete-png" src="main/images/delete.png" alt="Trash bin">
-                        `);
+            		<div class="books-delete-container">
+                        <img class="delete-png" src="main/images/delete.png" alt="Trash bin">
+                             <!-- <img class="delete-png" src="main/images/open-delete.png" alt="Trash bin"> -->
+                    </div>
+                </td>`);
 			bookList.tableBody.appendChild(item);
 			// counter++;
 		}
@@ -150,7 +165,13 @@ var bookModal = {
 	author: document.getElementById("book-author-field"),
 	pages: document.getElementById("book-pages-field"),
 	checkbox: document.getElementById("read-checkbox"),
-	submit: document.getElementById("book-submit")
+	submit: document.getElementById("book-submit"),
+	clearForm(){
+		bookModal.title.value = "";
+		bookModal.author.value = "";
+		bookModal.pages.value = "";
+		bookModal.checkbox.checked = false;
+	}
 }
 
 
@@ -159,7 +180,8 @@ var bookModal = {
 // }
 
 for(let i = 0; i < bookList.readIcons.length; i++) {
-	bookList.readIcons[i].addEventListener("click", function(){
+	bookList.readIcons[i].addEventListener("touchstart", function(){
+
 		if (bookList.readIcons[i].classList.contains("read")) {
 			// Make it look like it's not read
 			bookList.readIcons[i].classList.remove("read");
@@ -182,40 +204,182 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 			// Actually change the property Of the object in the library			
 			bookList.library[i].read = true;
 		}
+
+		helper.touch();
+	});
+	bookList.readIcons[i].addEventListener("click", function(){
+	
+		if(!(helper.touched)) {
+
+
+		
+			if (bookList.readIcons[i].classList.contains("read")) {
+				// Make it look like it's not read
+				bookList.readIcons[i].classList.remove("read");
+				bookList.readIcons[i].classList.add("not-read");
+				bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
+				bookList.readIcons[i].setAttribute("alt", "X icon");
+
+				// Actually change the property Of the object in the library
+				bookList.library[i].read = false;
+
+			}
+			else if (bookList.readIcons[i].classList.contains("not-read")) {
+
+				// Make it look like it's not read
+				bookList.readIcons[i].classList.remove("not-read");
+				bookList.readIcons[i].classList.add("read");
+				bookList.readIcons[i].setAttribute("src", "main/images/check.png");
+				bookList.readIcons[i].setAttribute("alt", "check icon");
+
+				// Actually change the property Of the object in the library			
+				bookList.library[i].read = true;
+			}
+		}
+		helper.untouch();
 	});
 }
 
 
 
 
-
+bookList.addButton.addEventListener("touchstart", function(){
+	helper.openModal(bookModal.backdrop);
+	helper.touch();
+});
 
 bookList.addButton.addEventListener("click", function(){
-	helper.openModal(bookModal.backdrop);
+	if(!(helper.touched)) {
+		helper.openModal(bookModal.backdrop);
+
+	}
+	helper.untouch();
+	
+});
+bookModal.close.addEventListener("touchstart", function(){
+	helper.closeModal(bookModal.backdrop);
+	helper.touch();
 });
 
 bookModal.close.addEventListener("click", function(){
-	helper.closeModal(bookModal.backdrop);
+
+	if(!(helper.touched)) {
+
+		helper.closeModal(bookModal.backdrop);
+	}
+	helper.untouch();
 });
 
-bookModal.backdrop.addEventListener("click", function(event){
+
+bookModal.backdrop.addEventListener("touchstart", function(event){
 	if(!((event.target === bookModal.content) || (bookModal.content.contains(event.target)))) {
 		helper.closeModal(bookModal.backdrop);
 
 	}
+
+	helper.touch();
+});
+
+bookModal.backdrop.addEventListener("click", function(event){
+	
+	if(!(helper.touched)) {
+		if(!((event.target === bookModal.content) || (bookModal.content.contains(event.target)))) {
+			helper.closeModal(bookModal.backdrop);
+		}
+	}
+	helper.untouch();
 });
 
 
 // delete an item from the book list
 for(let i = 0; i < bookList.deleteIcons.length; i++) {
-	bookList.deleteIcons[i].addEventListener("click", function(){
+	bookList.deleteIcons[i].addEventListener("touchstart", function(){
 		bookList.tableBody.removeChild(bookList.tableRows[i]);
+		bookList.library.splice(i, 1);
+
+		helper.touch();
+	});
+
+	bookList.deleteIcons[i].addEventListener("click", function(){
+	
+		if(!(helper.touched)) {
+			bookList.tableBody.removeChild(bookList.tableRows[i]);
+			bookList.library.splice(i, 1);
+		}
+		helper.untouch();
 	});
 
 }
 
 
 // Submit listener for the modal form
-bookModal.submit.addEventListener("submit", function(){
-	bookList.addBook(bookModal.title.value, bookModal.author.value, bookModal.pages.value, bookModal.checkbox.checked);	
+bookModal.submit.addEventListener("touchstart", function(event){
+	event.preventDefault();
+	let errors = document.querySelectorAll(".modal-error-message");
+	for (let error of errors){
+		error.parentNode.removeChild(error);
+	}
+
+	// Count the number of empty and invalid fields
+	let empty = 0;
+	let invalid = 0;
+
+	// Do not submit if not all fields are filled Or if they have invalid input
+	if(bookModal.title.value === "") {bookModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	
+	if(bookModal.author.value === "") {bookModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+
+	if(bookModal.pages.value === "") {bookModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	else if(bookModal.pages.value <= 0) {bookModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid input.</p>`); invalid++;}
+
+	// Abort if there are empty or invalid fields
+	if(empty != 0 || invalid != 0) {
+		return;
+
+	}
+	
+	bookList.addBook(bookModal.title.value, bookModal.author.value, bookModal.pages.value, bookModal.checkbox.checked);
+	bookModal.clearForm();
+	helper.closeModal(bookModal.backdrop);
+	helper.touch();
 });
+
+bookModal.submit.addEventListener("click", function(event){
+	
+
+
+	if(!(helper.touched)) {
+		event.preventDefault();
+		let errors = document.querySelectorAll(".modal-error-message");
+		for (let error of errors){
+			error.parentNode.removeChild(error);
+		}
+
+		// Count the number of empty and invalid fields
+		let empty = 0;
+		let invalid = 0;
+
+		// Do not submit if not all fields are filled Or if they have invalid input
+		if(bookModal.title.value === "") {bookModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+		
+		if(bookModal.author.value === "") {bookModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+
+		if(bookModal.pages.value === "") {bookModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+		else if(bookModal.pages.value <= 0) {bookModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid input.</p>`); invalid++;}
+
+		// Abort if there are empty or invalid fields
+		if(empty != 0 || invalid != 0) {
+			return;
+
+		}
+		
+
+		
+		
+		bookList.addBook(bookModal.title.value, bookModal.author.value, bookModal.pages.value, bookModal.checkbox.checked);
+		bookModal.clearForm();
+		helper.closeModal(bookModal.backdrop)
+	}
+	helper.untouch();
+
+});					
