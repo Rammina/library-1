@@ -18,7 +18,32 @@ main {
     width: 100%;
     padding: 2rem 0.5rem;
 }
-.books-list-container{
+
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+table td {
+    word-wrap: break-word;         /* All browsers since IE 5.5+ */
+    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+}
+
+/*Automatic numbering system*/
+table {
+    counter-reset: rowNumber;
+    counter-increment: rowNumber;
+}
+
+table tr:not(:first-child) {
+    counter-increment: rowNumber;
+}
+
+.books-number::after {
+    content: counter(rowNumber);
+}
+
+.books-list-container {
     width: 100%;
     max-width: 60rem;
     /*min-height: 16rem;*/
@@ -61,28 +86,40 @@ thead tr {
 
 .books-row.books-header{
     font-family: 'Merriweather', serif;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     background-color: #ac9f91;
     color: #111;
 }
 
-td, th{
+td, th {
     padding: 0.8rem;
     border: 1px solid #333;
     /*border-radius: 6px;*/
     text-align: center;
 }
-/*Automatic numbering system*/
-table{
-    counter-reset: rowNumber;
+
+.books-number-header {
+    width: 3.2rem;
 }
 
-table tr:not(:first-child){
-    counter-increment: rowNumber;
+.books-title-header {
+    
 }
 
-.books-number::after {
-    content: counter(rowNumber);
+.books-author-header {
+    
+}
+
+.books-pages-header {
+    width: 5.75rem;
+}
+
+.books-read-header {
+    width: 5.75rem;
+}
+
+.books-delete-header {
+    width: 6.5rem;
 }
 
 .books-pages, .books-read, .books-delete {
@@ -98,7 +135,6 @@ table tr:not(:first-child){
     /*width: 33%;*/
 }
 
-
 .books-read-icon{
     padding: 0.5rem;
     box-sizing: content-box;
@@ -111,6 +147,11 @@ table tr:not(:first-child){
     /*background-repeat: no-repeat;*/
     /*background-position: 50%;*/
     filter: invert(18%) sepia(16%) saturate(1927%) hue-rotate(92deg) brightness(89%) contrast(86%);
+}
+
+.books-read-icon.read:focus, .books-read-icon.not-read:focus {
+    -webkit-box-shadow: 0 0 2px 2px #000;
+    box-shadow: 0 0 2px 2px #000;
 }
 
 .books-read-icon.not-read {
@@ -134,7 +175,7 @@ table tr:not(:first-child){
 
 .delete-svg, .delete-png {
     box-sizing: content-box;
-    padding: 0.5rem;
+    padding: 1rem;
     filter: invert(10%) sepia(5%) saturate(0%) hue-rotate(320deg) brightness(93%) contrast(95%);
     transition: transform 0.25s ease;
 }

@@ -96,19 +96,19 @@ var bookList = {
 			if(read === false) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">
+						<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon" tabindex="0">
 					</td>`);
 				
 			}
 			else if(read === true) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<img class="books-read-icon read" src="main/images/check.png" alt="check icon">
+						<img class="books-read-icon read" src="main/images/check.png" alt="check icon" tabindex="0">
 					</td>`);
 			}
             item.insertAdjacentHTML("beforeend", `
             	<td class="books-delete">
-            		<div class="books-delete-container">
+            		<div class="books-delete-container" tabindex="0">
                         <img class="delete-png" src="main/images/delete.png" alt="Trash bin">
                              <!-- <img class="delete-png" src="main/images/open-delete.png" alt="Trash bin"> -->
                     </div>
@@ -133,19 +133,19 @@ var bookList = {
 			if(book.read === true) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">
+						<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon" tabindex="0">
 					</td>`);
 				
 			}
 			else if(book.read === false) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<img class="books-read-icon read" src="main/images/check.png" alt="check icon">
+						<img class="books-read-icon read" src="main/images/check.png" alt="check icon" tabindex="0">
 					</td>`);
 			}
             item.insertAdjacentHTML("beforeend", `
             	<td class="books-delete">
-            		<div class="books-delete-container">
+            		<div class="books-delete-container" tabindex="0">
                         <img class="delete-png" src="main/images/delete.png" alt="Trash bin">
                              <!-- <img class="delete-png" src="main/images/open-delete.png" alt="Trash bin"> -->
                     </div>
@@ -188,6 +188,7 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 			bookList.readIcons[i].classList.add("not-read");
 			bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
 			bookList.readIcons[i].setAttribute("alt", "X icon");
+			bookList.readIcons[i].setAttribute("tabindex", "0");
 
 			// Actually change the property Of the object in the library
 			bookList.library[i].read = false;
@@ -200,6 +201,7 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 			bookList.readIcons[i].classList.add("read");
 			bookList.readIcons[i].setAttribute("src", "main/images/check.png");
 			bookList.readIcons[i].setAttribute("alt", "check icon");
+			bookList.readIcons[i].setAttribute("tabindex", "0");
 
 			// Actually change the property Of the object in the library			
 			bookList.library[i].read = true;
@@ -219,6 +221,7 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 				bookList.readIcons[i].classList.add("not-read");
 				bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
 				bookList.readIcons[i].setAttribute("alt", "X icon");
+				bookList.readIcons[i].setAttribute("tabindex", "0");
 
 				// Actually change the property Of the object in the library
 				bookList.library[i].read = false;
@@ -231,6 +234,7 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 				bookList.readIcons[i].classList.add("read");
 				bookList.readIcons[i].setAttribute("src", "main/images/check.png");
 				bookList.readIcons[i].setAttribute("alt", "check icon");
+				bookList.readIcons[i].setAttribute("tabindex", "0");
 
 				// Actually change the property Of the object in the library			
 				bookList.library[i].read = true;

@@ -1,9 +1,38 @@
 /* Width breakpoints */
-@media screen and (min-width: 650px){
-	.nav__title{
-		margin-left: calc(25vw - 10rem);
+@media screen and (min-width: 700px) {
+	main {
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
 	}
+	#add-book{
+		position: relative;
+		top: 0;
+		margin-left: 0;
+		margin-right: 0.8rem;
+		border-radius: 5px;
+		background-color: #c0f0bb;
+		color: #3d2922;
+		width: 10rem;
+		font-size: 1.3rem;
+		font-family: 'Roboto', serif;
+	}
+
+	#add-book::after {
+		content: "Add New Book";
+
+	}
+
+	.plus-svg, .plus-png {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 1000px){
+	.nav__title{
+		margin-left: calc(45vw - 28rem);
+	}
+	
 	#add-book {
-		margin-right: calc(25vw - 10rem);
+    	margin-right: calc(45vw - 27rem);
 	}
 }

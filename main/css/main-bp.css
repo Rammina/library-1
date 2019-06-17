@@ -18,6 +18,7 @@
 	}
 	/*Make the table data behave like a row*/
 	td {
+		overflow: hidden;
 		text-align: center;
 		border: none;
 		border-bottom: 1px solid #333;
@@ -40,7 +41,7 @@
 	}
 
 	td:nth-of-type(even):before{
-		background-color: #ece0d1;
+		/* background-color: #ece0d1; */
 		color: #333;
 	}
 
@@ -50,7 +51,7 @@
 	}
 
 	td:nth-of-type(odd):before{
-		background-color: #c8b9a7;
+		/* background-color: #c8b9a7; */
 		color: #222;
 	}
 
@@ -87,17 +88,21 @@
 }
 
 /*Width breakpoints */
+@media screen and (min-width: 500px) {
+	.books-list-container {
+		max-width: 29rem;
+	}
+}
+
 @media screen and (min-width: 650px){
 	.modal-container{
 		margin: calc(33vh - 6.5rem) calc(50vw - 20rem);
 	}
 
 }
-@media screen and (min-width: 700px){
-	#add-book{
-		/*position: relative;*/
-		top: 5rem;
-		margin-left: 0;
+@media screen and (min-width: 700px) {
+	.books-list-container {
+		max-width: 57rem;
 	}
 	/*Zebra striping*/
 	tr:nth-of-type(even){

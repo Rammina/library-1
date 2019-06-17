@@ -164,7 +164,13 @@ li {
     color: #EEE9E3;
     font-size: 2.5rem;
 	/*overflow: hidden;*/
-	/*margin-left: ;*/
+    /*margin-left: ;*/
+
+}
+
+.nav__title:focus {
+    -webkit-box-shadow: inset 0px 0px 0.5px 1px #000000, inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #FFFFFF; 
+    box-shadow: inset 0px 0px 0.5px 1px #000000, inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #FFFFFF;
 }
 
 .nav__title-img {
@@ -177,14 +183,19 @@ li {
     font-size: 1.2rem;
     border: none;
     border-radius: 50%;
-    background-color: #4d4743;
+    background-color: #3d2922;
     color: #FFEFE0;
     padding: 0.5rem;
-    margin-left: calc(100vw - 4.5rem);
-    top: calc(98vh - 4.5rem);
+    margin-left: calc(1rem);
+    top: calc(100vh - 4.5rem);
     width: 3rem;
     height: 3rem;
     /* line-height: 1.5rem; */
+}
+
+#add-book:focus {
+    -webkit-box-shadow: 0px 0px 0.5px 1.5px #000000, 0px 0px 1px 2px #969696, 0px 0px 2px 3px #FFFFFF; 
+    box-shadow: 0px 0px 0.5px 1.5px #000000, 0px 0px 1px 2px #969696, 0px 0px 2px 3px #FFFFFF;
 }
 
 .plus-png, .plus-svg {
