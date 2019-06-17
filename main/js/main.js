@@ -43,7 +43,9 @@ setTimeout(function () {
 
 
 var general = {
-	main: document.querySelector(".main-content")
+	main: document.querySelector(".main-content"),
+	backdrops: document.querySelectorAll(".backdrop"),
+	closeButtons: document.querySelectorAll(".modal__close")
 }
 var helper = { 
 	touched: false,
@@ -71,7 +73,8 @@ var bookList = {
 	tableRows: document.getElementsByClassName("books-item"),
 	readIcons: document.querySelectorAll(".books-read-icon"),
 	deleteIcons: document.querySelectorAll(".books-delete-container"),
-	library: [],
+	library: [{title: "A Game of Thrones", author: "George R.R. Martin", pages: 694, read: false},
+		{title: "A Game of Thrones", author: "George R.R. Martin", pages: 694, read: true}],
 	Book: function(title, author, pages, read){
 		this.title = title;
 		this.author = author;
@@ -157,7 +160,7 @@ var bookList = {
 
 };
 
-var bookModal = {
+var addModal = {
 	backdrop: document.getElementById("add-backdrop"),
 	close: document.getElementById("add-close"),
 	content: document.getElementById("add-content"),
@@ -167,12 +170,21 @@ var bookModal = {
 	checkbox: document.getElementById("read-checkbox"),
 	submit: document.getElementById("book-submit"),
 	clearForm(){
-		bookModal.title.value = "";
-		bookModal.author.value = "";
-		bookModal.pages.value = "";
-		bookModal.checkbox.checked = false;
+		addModal.title.value = "";
+		addModal.author.value = "";
+		addModal.pages.value = "";
+		addModal.checkbox.checked = false;
 	}
 }
+
+var deleteModal = {
+	backdrop: document.getElementById("delete-backdrop"),
+	close: document.getElementById("delete-close"),
+	content: document.getElementById("delete-modal"),
+	delete: document.getElementById("delete-modal-button"),
+	cancel: document.getElementById("cancel-modal-button"),
+	openedBy: null,
+};
 
 
 // bookList.Book.prototype.toggleRead = function () {
@@ -248,58 +260,87 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 
 
 bookList.addButton.addEventListener("touchstart", function(){
-	helper.openModal(bookModal.backdrop);
+	helper.openModal(addModal.backdrop);
 	helper.touch();
 });
 
 bookList.addButton.addEventListener("click", function(){
 	if(!(helper.touched)) {
-		helper.openModal(bookModal.backdrop);
+		helper.openModal(addModal.backdrop);
 
 	}
 	helper.untouch();
 	
 });
-bookModal.close.addEventListener("touchstart", function(){
-	helper.closeModal(bookModal.backdrop);
-	helper.touch();
-});
 
-bookModal.close.addEventListener("click", function(){
+// Intended general modal backdrop closer
+for(let i = 0; i < general.backdrops.length; i++) {
+	general.backdrops[i].addEventListener("touchstart", function(event){
+		if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
+			helper.closeModal(general.backdrops[i]);
 
-	if(!(helper.touched)) {
+			// In case the delete backdrop was opened, reset the openedBy property
+			if(deleteModal.openedBy !== null) {
+				deleteModal.openedBy = null;
+			}
 
-		helper.closeModal(bookModal.backdrop);
-	}
-	helper.untouch();
-});
-
-
-bookModal.backdrop.addEventListener("touchstart", function(event){
-	if(!((event.target === bookModal.content) || (bookModal.content.contains(event.target)))) {
-		helper.closeModal(bookModal.backdrop);
-
-	}
-
-	helper.touch();
-});
-
-bookModal.backdrop.addEventListener("click", function(event){
-	
-	if(!(helper.touched)) {
-		if(!((event.target === bookModal.content) || (bookModal.content.contains(event.target)))) {
-			helper.closeModal(bookModal.backdrop);
 		}
-	}
-	helper.untouch();
-});
+
+		helper.touch();	
+	});
+
+	general.backdrops[i].addEventListener("click", function(event){
+		if(!(helper.touched)) {
 
 
-// delete an item from the book list
+			if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
+				helper.closeModal(general.backdrops[i]);
+
+				// In case the delete backdrop was opened, reset the openedBy property
+				if(deleteModal.openedBy !== null) {
+					deleteModal.openedBy = null;
+				}
+			}
+		}
+		helper.untouch();
+	});
+}
+
+// General close button modal closer
+for(let i = 0; i < general.closeButtons.length; i++) {
+	general.closeButtons[i].addEventListener("touchstart", function(event){
+		helper.closeModal(general.backdrops[i]);
+
+		// In case the delete backdrop was opened, reset the openedBy property
+		if(deleteModal.openedBy !== null) {
+			deleteModal.openedBy = null;
+		}
+
+		
+
+		helper.touch();	
+	});
+
+	general.closeButtons[i].addEventListener("click", function(event){
+		if(!(helper.touched)) {
+			helper.closeModal(general.backdrops[i]);
+
+			// In case the delete backdrop was opened, reset the openedBy property
+			if(deleteModal.openedBy !== null) {
+				deleteModal.openedBy = null;
+				
+			}
+		}
+		helper.untouch();
+	});
+}
+
+// delete an item from the book list ( opening the delete modal )
 for(let i = 0; i < bookList.deleteIcons.length; i++) {
 	bookList.deleteIcons[i].addEventListener("touchstart", function(){
-		bookList.tableBody.removeChild(bookList.tableRows[i]);
-		bookList.library.splice(i, 1);
+		
+		deleteModal.openedBy = i;
+		helper.openModal(deleteModal.backdrop);
 
 		helper.touch();
 	});
@@ -307,17 +348,57 @@ for(let i = 0; i < bookList.deleteIcons.length; i++) {
 	bookList.deleteIcons[i].addEventListener("click", function(){
 	
 		if(!(helper.touched)) {
-			bookList.tableBody.removeChild(bookList.tableRows[i]);
-			bookList.library.splice(i, 1);
+
+			// bookList.tableBody.removeChild(bookList.tableRows[i]);
+			// bookList.library.splice(i, 1);
+			deleteModal.openedBy = i;
+			helper.openModal(deleteModal.backdrop);
+
 		}
 		helper.untouch();
 	});
 
 }
 
+// delete confirmation
+deleteModal.delete.addEventListener("touchstart", function(){
+	bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
+	bookList.library.splice(deleteModal.openedBy, 1);
+	deleteModal.openedBy = null;
+	helper.closeModal(deleteModal.backdrop);
+
+	helper.touch();
+});
+
+deleteModal.delete.addEventListener("click", function(){
+	if(!(helper.touched)) {
+		bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
+		bookList.library.splice(deleteModal.openedBy, 1);
+		deleteModal.openedBy = null;
+		helper.closeModal(deleteModal.backdrop);
+	}
+	helper.untouch();
+});
+
+// cancel deletion
+deleteModal.cancel.addEventListener("touchstart", function(){
+	deleteModal.openedBy = null;
+	helper.closeModal(deleteModal.backdrop);
+
+	helper.touch();
+});
+
+deleteModal.cancel.addEventListener("click", function(){
+	if(!(helper.touched)) {
+		deleteModal.openedBy = null;
+		helper.closeModal(deleteModal.backdrop);
+	}
+
+	helper.untouch();
+});
 
 // Submit listener for the modal form
-bookModal.submit.addEventListener("touchstart", function(event){
+addModal.submit.addEventListener("touchstart", function(event){
 	event.preventDefault();
 	let errors = document.querySelectorAll(".modal-error-message");
 	for (let error of errors){
@@ -329,12 +410,12 @@ bookModal.submit.addEventListener("touchstart", function(event){
 	let invalid = 0;
 
 	// Do not submit if not all fields are filled Or if they have invalid input
-	if(bookModal.title.value === "") {bookModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	if(addModal.title.value === "") {addModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
 	
-	if(bookModal.author.value === "") {bookModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	if(addModal.author.value === "") {addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
 
-	if(bookModal.pages.value === "") {bookModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
-	else if(bookModal.pages.value <= 0) {bookModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid input.</p>`); invalid++;}
+	if(addModal.pages.value === "") {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	else if(addModal.pages.value <= 0) {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); invalid++;}
 
 	// Abort if there are empty or invalid fields
 	if(empty != 0 || invalid != 0) {
@@ -342,13 +423,13 @@ bookModal.submit.addEventListener("touchstart", function(event){
 
 	}
 	
-	bookList.addBook(bookModal.title.value, bookModal.author.value, bookModal.pages.value, bookModal.checkbox.checked);
-	bookModal.clearForm();
-	helper.closeModal(bookModal.backdrop);
+	bookList.addBook(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
+	addModal.clearForm();
+	helper.closeModal(addModal.backdrop);
 	helper.touch();
 });
 
-bookModal.submit.addEventListener("click", function(event){
+addModal.submit.addEventListener("click", function(event){
 	
 
 
@@ -364,12 +445,12 @@ bookModal.submit.addEventListener("click", function(event){
 		let invalid = 0;
 
 		// Do not submit if not all fields are filled Or if they have invalid input
-		if(bookModal.title.value === "") {bookModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+		if(addModal.title.value === "") {addModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
 		
-		if(bookModal.author.value === "") {bookModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+		if(addModal.author.value === "") {addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
 
-		if(bookModal.pages.value === "") {bookModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
-		else if(bookModal.pages.value <= 0) {bookModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid input.</p>`); invalid++;}
+		if(addModal.pages.value === "") {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+		else if(addModal.pages.value <= 0) {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); invalid++;}
 
 		// Abort if there are empty or invalid fields
 		if(empty != 0 || invalid != 0) {
@@ -380,9 +461,9 @@ bookModal.submit.addEventListener("click", function(event){
 
 		
 		
-		bookList.addBook(bookModal.title.value, bookModal.author.value, bookModal.pages.value, bookModal.checkbox.checked);
-		bookModal.clearForm();
-		helper.closeModal(bookModal.backdrop)
+		bookList.addBook(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
+		addModal.clearForm();
+		helper.closeModal(addModal.backdrop)
 	}
 	helper.untouch();
 

@@ -100,7 +100,7 @@
                 <form id="book-form">
                     <input id="book-title-field" class="text-field" type="text" name="title" placeholder="Book Title" required="true">
                     <input id="book-author-field" class="text-field" type="text" name="author" placeholder="Book Author" required="true">
-                    <input id="book-pages-field" class="text-field" type="text" name="pages" placeholder="Pages">
+                    <input id="book-pages-field" class="text-field" type="number" name="pages" placeholder="Pages">
                     <div class="checkbox-container">
                         <input class="form-checkbox" type="checkbox" name="read-checkbox" id="read-checkbox">
                         <label class="form-label" for="read-checkbox">Read</label>
@@ -108,6 +108,26 @@
                     </div>
                     <input type="submit" class="form-submit" id="book-submit" value="Add This Book">
                 </form>
+            
+            </section>
+        </div>
+
+        <div class="backdrop" id="delete-backdrop">
+            <section class="modal-container" id="delete-modal">
+                <div class="modal__close" id="delete-close" tabindex="-1">
+                    <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        <image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
+                    </svg>
+                    <img class="hide-png no-display svg-fallback modal__close-png" src="main/images/close.png" alt="Close Button">
+                </div>
+                <h1 class="modal-header">Delete a Book</h1>
+                <p class="modal-paragraph">Would you like to delete this book from the list?</p>
+                <div class="button-container">
+                    <button class="modal-button" id="delete-modal-button">Delete</button>
+                    <button class="modal-button" id="cancel-modal-button">Cancel</button>
+                </div>
+
             
             </section>
         </div>

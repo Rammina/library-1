@@ -273,6 +273,18 @@ td, th {
     font-family: 'Roboto', sans-serif;
 }
 
+.modal-error-message{
+    position: relative;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    font-size: 1.0rem;
+    width: 85%;
+    max-width: 26rem;
+    margin: 0.8rem auto;
+
+    color: rgb(140, 20, 20);
+}
+
 .checkbox-container{
     /*position: relative;*/
     /*right: 2%;*/
