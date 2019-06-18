@@ -54,7 +54,9 @@
                     <td class="books-author">George R.R. Martin</td>
                     <td class="books-pages">694</td>
                     <td class="books-read">
-                        <img class="books-read-icon not-read" src="main/images/x-icon.png" tabindex="0" alt="X icon">
+                        <div class="books-read-container" tabindex="0">
+                            <img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">
+                        </div> 
                     </td>
                     <td class="books-delete">
                         <div class="books-delete-container" tabindex="0">
@@ -70,7 +72,9 @@
                     <td class="books-author">George R.R. Martin</td>
                     <td class="books-pages">694</td>
                     <td class="books-read">
-                        <img class="books-read-icon read" src="main/images/check.png" alt="check icon" tabindex="0">
+                        <div class="books-read-container" tabindex="0">
+                            <img class="books-read-icon read" src="main/images/check.png" alt="check icon">
+                        </div>
                     </td>
                     <td class="books-delete">
                         <div class="books-delete-container" tabindex="0">
@@ -88,7 +92,7 @@
         </section>
 
         <div class="backdrop" id="add-backdrop">
-            <section class="modal-container" id="add-content">
+            <section class="modal-container" id="add-content" tabindex="-1">
                 <div class="modal__close" id="add-close" tabindex="-1">
                     <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
@@ -121,11 +125,11 @@
                     </svg>
                     <img class="hide-png no-display svg-fallback modal__close-png" src="main/images/close.png" alt="Close Button">
                 </div>
-                <h1 class="modal-header">Delete a Book</h1>
-                <p class="modal-paragraph">Would you like to delete this book from the list?</p>
+                <h1 class="modal-header">Delete this Book</h1>
+                <p class="modal-paragraph">Are you sure you want to remove this book from the list?</p>
                 <div class="button-container">
-                    <button class="modal-button" id="delete-modal-button">Delete</button>
                     <button class="modal-button" id="cancel-modal-button">Cancel</button>
+                    <button class="modal-button" id="delete-modal-button">Delete</button>
                 </div>
 
             

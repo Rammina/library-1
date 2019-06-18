@@ -58,13 +58,13 @@
 	td::before{
 		/*Now behave like a table header*/
 		position: absolute;
-		top: 20%;
+		top: 11%;
 		left: 0.8rem;
 		width: 45%;
 		padding-right: 10px;
 		white-space: nowrap;
 		text-align: center;
-		font-size: 1.4rem;
+		font-size: 1.35rem;
 		font-family: 'Merriweather', serif;
 		color: #111;
 	}
@@ -79,12 +79,25 @@
 	}
 
 
-	td:nth-of-type(1)::before{content: "#";}
-	td:nth-of-type(2)::before{content: "Title";}
-	td:nth-of-type(3)::before{content: "Author";}
-	td:nth-of-type(4)::before{content: "Pages";}
-	td:nth-of-type(5)::before{content: "Read";}
-	td:nth-of-type(6)::before{content: "Delete";}
+	td:nth-of-type(1)::before {
+		content: "#";
+	}
+	td:nth-of-type(2)::before {
+		content: "Title";
+		font-style: normal;
+	}
+	td:nth-of-type(3)::before {
+		content: "Author";
+	}
+	td:nth-of-type(4)::before {
+		content: "Pages";
+	}
+	td:nth-of-type(5)::before {
+		content: "Read";
+	}
+	td:nth-of-type(6)::before {
+		content: "Delete";
+	}
 }
 
 /*Width breakpoints */
@@ -103,6 +116,9 @@
 @media screen and (min-width: 700px) {
 	.books-list-container {
 		max-width: 57rem;
+	}
+	td, th {
+		padding: 0.8rem;
 	}
 	/*Zebra striping*/
 	tr:nth-of-type(even){

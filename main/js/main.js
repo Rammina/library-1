@@ -99,14 +99,18 @@ var bookList = {
 			if(read === false) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon" tabindex="0">
+						<div class="books-read-container" tabindex="0">
+							<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon" >
+						</div>	
 					</td>`);
 				
 			}
 			else if(read === true) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<img class="books-read-icon read" src="main/images/check.png" alt="check icon" tabindex="0">
+						<div class="books-read-container" tabindex="0">
+							<img class="books-read-icon read" src="main/images/check.png" alt="check icon">
+						</div>
 					</td>`);
 			}
             item.insertAdjacentHTML("beforeend", `
@@ -136,14 +140,18 @@ var bookList = {
 			if(book.read === true) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon" tabindex="0">
+						<div class="books-read-container" tabindex="0">
+							<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">
+						</div>
 					</td>`);
 				
 			}
 			else if(book.read === false) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<img class="books-read-icon read" src="main/images/check.png" alt="check icon" tabindex="0">
+						<div class="books-read-container" tabindex="0">
+							<img class="books-read-icon read" src="main/images/check.png" alt="check icon">
+						</div>
 					</td>`);
 			}
             item.insertAdjacentHTML("beforeend", `
@@ -233,7 +241,7 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 				bookList.readIcons[i].classList.add("not-read");
 				bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
 				bookList.readIcons[i].setAttribute("alt", "X icon");
-				bookList.readIcons[i].setAttribute("tabindex", "0");
+				// bookList.readIcons[i].setAttribute("tabindex", "0");
 
 				// Actually change the property Of the object in the library
 				bookList.library[i].read = false;
@@ -246,7 +254,7 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 				bookList.readIcons[i].classList.add("read");
 				bookList.readIcons[i].setAttribute("src", "main/images/check.png");
 				bookList.readIcons[i].setAttribute("alt", "check icon");
-				bookList.readIcons[i].setAttribute("tabindex", "0");
+				// bookList.readIcons[i].setAttribute("tabindex", "0");
 
 				// Actually change the property Of the object in the library			
 				bookList.library[i].read = true;
@@ -261,13 +269,14 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 
 bookList.addButton.addEventListener("touchstart", function(){
 	helper.openModal(addModal.backdrop);
+	addModal.content.focus();
 	helper.touch();
 });
 
 bookList.addButton.addEventListener("click", function(){
 	if(!(helper.touched)) {
 		helper.openModal(addModal.backdrop);
-
+		addModal.content.focus();
 	}
 	helper.untouch();
 	
@@ -334,68 +343,6 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 		helper.untouch();
 	});
 }
-
-// delete an item from the book list ( opening the delete modal )
-for(let i = 0; i < bookList.deleteIcons.length; i++) {
-	bookList.deleteIcons[i].addEventListener("touchstart", function(){
-		
-		deleteModal.openedBy = i;
-		helper.openModal(deleteModal.backdrop);
-
-		helper.touch();
-	});
-
-	bookList.deleteIcons[i].addEventListener("click", function(){
-	
-		if(!(helper.touched)) {
-
-			// bookList.tableBody.removeChild(bookList.tableRows[i]);
-			// bookList.library.splice(i, 1);
-			deleteModal.openedBy = i;
-			helper.openModal(deleteModal.backdrop);
-
-		}
-		helper.untouch();
-	});
-
-}
-
-// delete confirmation
-deleteModal.delete.addEventListener("touchstart", function(){
-	bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
-	bookList.library.splice(deleteModal.openedBy, 1);
-	deleteModal.openedBy = null;
-	helper.closeModal(deleteModal.backdrop);
-
-	helper.touch();
-});
-
-deleteModal.delete.addEventListener("click", function(){
-	if(!(helper.touched)) {
-		bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
-		bookList.library.splice(deleteModal.openedBy, 1);
-		deleteModal.openedBy = null;
-		helper.closeModal(deleteModal.backdrop);
-	}
-	helper.untouch();
-});
-
-// cancel deletion
-deleteModal.cancel.addEventListener("touchstart", function(){
-	deleteModal.openedBy = null;
-	helper.closeModal(deleteModal.backdrop);
-
-	helper.touch();
-});
-
-deleteModal.cancel.addEventListener("click", function(){
-	if(!(helper.touched)) {
-		deleteModal.openedBy = null;
-		helper.closeModal(deleteModal.backdrop);
-	}
-
-	helper.untouch();
-});
 
 // Submit listener for the modal form
 addModal.submit.addEventListener("touchstart", function(event){
@@ -467,4 +414,121 @@ addModal.submit.addEventListener("click", function(event){
 	}
 	helper.untouch();
 
-});					
+});
+
+// delete an item from the book list ( opening the delete modal )
+for(let i = 0; i < bookList.deleteIcons.length; i++) {
+	bookList.deleteIcons[i].addEventListener("touchstart", function(){
+		
+		deleteModal.openedBy = i;
+		helper.openModal(deleteModal.backdrop);
+		deleteModal.content.focus();
+		helper.touch();
+	});
+
+	bookList.deleteIcons[i].addEventListener("click", function(){
+	
+		if(!(helper.touched)) {
+
+			// bookList.tableBody.removeChild(bookList.tableRows[i]);
+			// bookList.library.splice(i, 1);
+			deleteModal.openedBy = i;
+			helper.openModal(deleteModal.backdrop);
+			deleteModal.content.focus();
+		}
+		helper.untouch();
+	});
+
+}
+
+// delete confirmation
+deleteModal.delete.addEventListener("touchstart", function(){
+	bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
+	bookList.library.splice(deleteModal.openedBy, 1);
+	deleteModal.openedBy = null;
+	helper.closeModal(deleteModal.backdrop);
+
+	helper.touch();
+});
+
+deleteModal.delete.addEventListener("click", function(){
+	if(!(helper.touched)) {
+		bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
+		bookList.library.splice(deleteModal.openedBy, 1);
+		deleteModal.openedBy = null;
+		helper.closeModal(deleteModal.backdrop);
+	}
+	helper.untouch();
+});
+
+// cancel deletion
+deleteModal.cancel.addEventListener("touchstart", function(){
+	deleteModal.openedBy = null;
+	helper.closeModal(deleteModal.backdrop);
+
+	helper.touch();
+});
+
+deleteModal.cancel.addEventListener("click", function(){
+	if(!(helper.touched)) {
+		deleteModal.openedBy = null;
+		helper.closeModal(deleteModal.backdrop);
+	}
+
+	helper.untouch();
+});
+
+					
+
+
+/* Find all focusable children
+	focusableElementsString: 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable], [tabindex="-1"]',
+
+	focusableElements: popup.content.querySelectorAll(".popup__close"),
+	// Convert Nodelist to Array
+	focusableElements: Array.prototype.slice.call(popup.focusableElements),
+
+	firstTabStop: popup.focusableElements[0],
+	lastTabStop: popup.focusableElements[popup.focusableElements.length - 1],
+
+
+	products.items[i].addEventListener("keydown", function(event){
+		if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+			popup.openModal(i);
+
+		}
+	});
+
+
+	// Check for TAB key press
+		if (event.keyCode === 9) {
+
+			// SHIFT + TAB
+			if (event.shiftKey) {
+				if (document.activeElement === popup.content[i]) {
+					event.preventDefault();
+					popup.close[i].focus();
+				}
+				else if (document.activeElement === popup.close[i]) {
+					event.preventDefault();
+					popup.content[i].focus();
+				}
+			}
+			// TAB
+			else {
+				if (document.activeElement === popup.close[i]) {
+					event.preventDefault();
+					popup.content[i].focus();
+				}
+				else if (document.activeElement === popup.content[i]) {
+					event.preventDefault();
+					popup.close[i].focus();
+				}
+			}
+		}
+
+		//ESCAPE
+		if (event.keyCode === 27) {
+			popup.closeModal(i);
+		}
+*/
