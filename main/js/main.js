@@ -71,6 +71,7 @@ var bookList = {
 	table: document.getElementById("books-list-1"),
 	tableBody: document.querySelector(".books-list-body"),
 	tableRows: document.getElementsByClassName("books-item"),
+	readContainer: document.querySelectorAll(".books-read-container"),
 	readIcons: document.querySelectorAll(".books-read-icon"),
 	deleteIcons: document.querySelectorAll(".books-delete-container"),
 	library: [{title: "A Game of Thrones", author: "George R.R. Martin", pages: 694, read: false},
@@ -81,12 +82,8 @@ var bookList = {
 		this.pages = pages;
 		this.read = read;
 	},
-	addBook(title, author, pages, read){
-		// Add the book to the array
-		let newBook = new bookList.Book(title, author, pages, read);
-		bookList.library.push(newBook);
-
-		// At the book to the HTML document
+	renderRow(title, author, pages, read){
+			// At the book to the HTML document
 			let item = document.createElement("tr");
 			item.classList.add("books-row");
 			item.classList.add("books-item");
@@ -120,11 +117,19 @@ var bookList = {
                              <!-- <img class="delete-png" src="main/images/open-delete.png" alt="Trash bin"> -->
                     </div>
                 </td>`);
+            let itemRead = item.querySelector(".books-read-container");
 			bookList.tableBody.appendChild(item);
 			// counter++;
 
 	},
-	render(library){
+	addBook(title, author, pages, read){
+		// Add the book to the array
+		let newBook = new bookList.Book(title, author, pages, read);
+		bookList.library.push(newBook);
+		bookList.renderRow(title, author, pages, read);
+					
+	},
+	renderLibrary(library){
 		// let counter = 1;
 		for (let book of library){
 
@@ -199,8 +204,8 @@ var deleteModal = {
 // 	this.read = !(this.read);
 // }
 
-for(let i = 0; i < bookList.readIcons.length; i++) {
-	bookList.readIcons[i].addEventListener("touchstart", function(){
+for(let i = 0; i < bookList.readContainer.length; i++) {
+	bookList.readContainer[i].addEventListener("touchstart", function(){
 
 		if (bookList.readIcons[i].classList.contains("read")) {
 			// Make it look like it's not read
@@ -208,7 +213,7 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 			bookList.readIcons[i].classList.add("not-read");
 			bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
 			bookList.readIcons[i].setAttribute("alt", "X icon");
-			bookList.readIcons[i].setAttribute("tabindex", "0");
+			// bookList.readIcons[i].setAttribute("tabindex", "0");
 
 			// Actually change the property Of the object in the library
 			bookList.library[i].read = false;
@@ -221,7 +226,7 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 			bookList.readIcons[i].classList.add("read");
 			bookList.readIcons[i].setAttribute("src", "main/images/check.png");
 			bookList.readIcons[i].setAttribute("alt", "check icon");
-			bookList.readIcons[i].setAttribute("tabindex", "0");
+			// bookList.readIcons[i].setAttribute("tabindex", "0");
 
 			// Actually change the property Of the object in the library			
 			bookList.library[i].read = true;
@@ -229,7 +234,7 @@ for(let i = 0; i < bookList.readIcons.length; i++) {
 
 		helper.touch();
 	});
-	bookList.readIcons[i].addEventListener("click", function(){
+	bookList.readContainer[i].addEventListener("click", function(){
 	
 		if(!(helper.touched)) {
 
