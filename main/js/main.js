@@ -49,6 +49,8 @@ var general = {
 }
 var helper = { 
 	touched: false,
+	counter: 0,
+
 	openModal(modal){
 		modal.classList.add("show");
 	},
@@ -61,6 +63,7 @@ var helper = {
 	untouch(){
 		helper.touched = false;
 	},
+
 	
 
 };
@@ -101,6 +104,7 @@ var bookList = {
 	deleteIcons: document.querySelectorAll(".books-delete-container"),
 	library: [{title: "A Game of Thrones", author: "George R.R. Martin", pages: 694, read: false},
 		{title: "A Game of Thrones", author: "George R.R. Martin", pages: 694, read: true}],
+	itemCounter: [0, 1],
 	Book: function(title, author, pages, read){
 		this.title = title;
 		this.author = author;
@@ -111,103 +115,8 @@ var bookList = {
 		bookList.readContainer = document.querySelectorAll(".books-read-container");
 		bookList.readIcons = document.querySelectorAll(".books-read-icon");
 		bookList.deleteIcons = document.querySelectorAll(".books-delete-container");
-		var readToggle;
-		for(let i = 0; i < bookList.readContainer.length; i++) {
-			// if(readToggle !== null || readToggle !== undefined) {
-			// 	bookList.readContainer[i].removeEventListener("touchstart", function readToggle(){
-
-			// 	});
-			// }
-			
-			bookList.readContainer[i].addEventListener("touchstart", function readToggle(){
-		
-				if (bookList.readIcons[i].classList.contains("read")) {
-					// Make it look like it's not read
-					bookList.readIcons[i].classList.remove("read");
-					bookList.readIcons[i].classList.add("not-read");
-					bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
-					bookList.readIcons[i].setAttribute("alt", "X icon");
-					// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-					// Actually change the property Of the object in the library
-					console.log(i);
-					bookList.library[i].read = false;
-		
-				}
-				else if (bookList.readIcons[i].classList.contains("not-read")) {
-		
-					// Make it look like it's not read
-					bookList.readIcons[i].classList.remove("not-read");
-					bookList.readIcons[i].classList.add("read");
-					bookList.readIcons[i].setAttribute("src", "main/images/check.png");
-					bookList.readIcons[i].setAttribute("alt", "check icon");
-					// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-					// Actually change the property Of the object in the library
-					console.log(i);			
-					bookList.library[i].read = true;
-				}
-		
-				helper.touch();
-			});
-			bookList.readContainer[i].addEventListener("click", function readClick(){
-			
-				if(!(helper.touched)) {
 		
 		
-				
-					if (bookList.readIcons[i].classList.contains("read")) {
-						// Make it look like it's not read
-						bookList.readIcons[i].classList.remove("read");
-						bookList.readIcons[i].classList.add("not-read");
-						bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
-						bookList.readIcons[i].setAttribute("alt", "X icon");
-						// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-						// Actually change the property Of the object in the library
-						console.log(i);
-						bookList.library[i].read = false;
-		
-					}
-					else if (bookList.readIcons[i].classList.contains("not-read")) {
-		
-						// Make it look like it's not read
-						bookList.readIcons[i].classList.remove("not-read");
-						bookList.readIcons[i].classList.add("read");
-						bookList.readIcons[i].setAttribute("src", "main/images/check.png");
-						bookList.readIcons[i].setAttribute("alt", "check icon");
-						// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-						// Actually change the property Of the object in the library
-						console.log(i);			
-						bookList.library[i].read = true;
-					}
-				}
-				helper.untouch();
-			});
-			// delete an item from the book list ( opening the delete modal )
-		
-			bookList.deleteIcons[i].addEventListener("touchstart", function(){
-				
-				deleteModal.openedBy = i;
-				helper.openModal(deleteModal.backdrop);
-				deleteModal.content.focus();
-				helper.touch();
-			});
-
-			bookList.deleteIcons[i].addEventListener("click", function(){
-			
-				if(!(helper.touched)) {
-
-					// bookList.tableBody.removeChild(bookList.tableRows[i]);
-					// bookList.library.splice(i, 1);
-					deleteModal.openedBy = i;
-					helper.openModal(deleteModal.backdrop);
-					deleteModal.content.focus();
-				}
-				helper.untouch();
-			});
-		}
 		
 		
 	},
@@ -250,18 +159,217 @@ var bookList = {
                              <!-- <img class="delete-png" src="main/images/open-delete.png" alt="Trash bin"> -->
                     </div>
                 </td>`);
-			
-			
+            // Add the book to the array
+            let newBook = new bookList.Book(title, author, pages, read);
+            newBook.counter = helper.counter;
+
+            helper.counter++;
+            bookList.library.push(newBook);
+
+			let readContainer = item.querySelector(".books-read-container");
+			let readIcon = item.querySelector(".books-read-icon");
+			readContainer.addEventListener("touchstart", function(){
+				
+				if (readIcon.classList.contains("read")) {
+					// Make it look like it's not read
+					readIcon.classList.remove("read");
+					readIcon.classList.add("not-read");
+					readIcon.setAttribute("src", "main/images/x-icon.png");
+					readIcon.setAttribute("alt", "X icon");
+					// readIcon.setAttribute("tabindex", "0");
+		
+					// Actually change the property Of the object in the library
+					// console.log(i);
+					// newBook.read = false;
+		
+				}
+				else if (readIcon.classList.contains("not-read")) {
+		
+					// Make it look like it's not read
+					readIcon.classList.remove("not-read");
+					readIcon.classList.add("read");
+					readIcon.setAttribute("src", "main/images/check.png");
+					readIcon.setAttribute("alt", "check icon");
+					// bookList.readIcons[i].setAttribute("tabindex", "0");
+		
+					// Actually change the property Of the object in the library
+					// console.log(i);			
+					// newBook.read = true;
+				}
+				newBook.toggleRead();
+				helper.touch();
+			});
+			readContainer.addEventListener("click", function(){
+				if(!(helper.touched)) {
+
+
+				
+				// Indent everything here
+				if (readIcon.classList.contains("read")) {
+					// Make it look like it's not read
+					readIcon.classList.remove("read");
+					readIcon.classList.add("not-read");
+					readIcon.setAttribute("src", "main/images/x-icon.png");
+					readIcon.setAttribute("alt", "X icon");
+					// readIcon.setAttribute("tabindex", "0");
+		
+					// Actually change the property Of the object in the library
+					// console.log(i);
+					// newBook.read = false;
+		
+				}
+				else if (readIcon.classList.contains("not-read")) {
+		
+					// Make it look like it's not read
+					readIcon.classList.remove("not-read");
+					readIcon.classList.add("read");
+					readIcon.setAttribute("src", "main/images/check.png");
+					readIcon.setAttribute("alt", "check icon");
+					// bookList.readIcons[i].setAttribute("tabindex", "0");
+		
+					// Actually change the property Of the object in the library
+					// console.log(i);			
+					// newBook.read = true;
+				}
+
+				newBook.toggleRead();
+
+			}
+		
+				helper.untouch();
+			});
+
+			let deleteIcon = item.querySelector(".books-delete-container");
+
+			deleteIcon.addEventListener("touchstart", function(){
+				
+				let deleteModal = document.createElement("div");
+				deleteModal.classList.add("backdrop");
+				deleteModal.classList.add("show");
+				deleteModal.setAttribute("id", "delete-backdrop");
+				deleteModal.insertAdjacentHTML("beforeend", `
+					<section class="modal-container" id="delete-modal">
+                		<div class="modal__close" id="delete-close" tabindex="-1">
+                    		<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        	<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        	<image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
+                    		</svg>
+                    		<img class="hide-png no-display svg-fallback modal__close-png" src="main/images/close.png" alt="Close Button">
+                		</div>
+                		<h1 class="modal-header">Delete this Book</h1>
+                		<p class="modal-paragraph">Are you sure you want to remove this book from the list?</p>
+                		<div class="button-container">
+                    		<button class="modal-button" id="cancel-modal-button">Cancel</button>
+                    		<button class="modal-button" id="delete-modal-button">Delete</button>
+                		</div>
+                	</section>`);
+
+                deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
+                	bookList.tableBody.removeChild(item);
+                	bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+                	general.main.removeChild(deleteModal);
+                	helper.touch();
+                });
+                deleteModal.querySelector("#delete-modal-button").addEventListener("click", function(){
+                	if(!(helper.touched)) {
+                		bookList.tableBody.removeChild(item);
+                		bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+                		general.main.removeChild(deleteModal);
+
+                	}
+                	helper.untouch();
+                });
+
+                deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
+                	general.main.removeChild(deleteModal);
+                	helper.touch();
+                });
+                deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
+                	if(!(helper.touched)) {
+                		general.main.removeChild(deleteModal);
+
+                	}
+                	
+                	helper.untouch();
+                });
+                general.main.appendChild(deleteModal);
+
+
+
+
+				helper.touch();
+			});
+			deleteIcon.addEventListener("click", function(){
+
+				console.log("hello");
+				if(!(helper.touched)) {
+					console.log("hello");
+				let deleteModal = document.createElement("div");
+				deleteModal.classList.add("backdrop");
+				deleteModal.classList.add("show");
+				deleteModal.setAttribute("id", "delete-backdrop");
+				deleteModal.insertAdjacentHTML("beforeend", `
+					<section class="modal-container" id="delete-modal">
+                		<div class="modal__close" id="delete-close" tabindex="-1">
+                    		<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        	<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        	<image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
+                    		</svg>
+                    		<img class="hide-png no-display svg-fallback modal__close-png" src="main/images/close.png" alt="Close Button">
+                		</div>
+                		<h1 class="modal-header">Delete this Book</h1>
+                		<p class="modal-paragraph">Are you sure you want to remove this book from the list?</p>
+                		<div class="button-container">
+                    		<button class="modal-button" id="cancel-modal-button">Cancel</button>
+                    		<button class="modal-button" id="delete-modal-button">Delete</button>
+                		</div>
+                	</section>`);
+
+                deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
+                	bookList.tableBody.removeChild(item);
+                	bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+                	general.main.removeChild(deleteModal);
+                	helper.touch();
+
+                });
+                deleteModal.querySelector("#delete-modal-button").addEventListener("click", function(){
+                	if(!(helper.touched)) {
+                		bookList.tableBody.removeChild(item);
+                		bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+                		general.main.removeChild(deleteModal);
+
+                	}
+                	helper.untouch();
+                });
+
+                deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
+                	general.main.removeChild(deleteModal);
+                	helper.touch();
+                });
+                deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
+                	if(!(helper.touched)) {
+                		general.main.removeChild(deleteModal);
+
+                	}
+                	
+                	helper.untouch();
+                });
+                console.log("hello");
+                general.main.appendChild(deleteModal);
+
+
+
+				// helper.untouch();
+				}
+				helper.untouch();
+			});
 			bookList.tableBody.appendChild(item);
-			bookList.refreshBookListeners();
+			// bookList.refreshBookListeners();
 			// counter++;
 
 	},
 	addBook(title, author, pages, read){
-		// Add the book to the array
-		let newBook = new bookList.Book(title, author, pages, read);
-		bookList.library.push(newBook);
-		bookList.renderRow(title, author, pages, read);
+		// Add the book to the arraylet newBook = new bookList.Book(title, author, pages, read);bookList.library.push(newBook);bookList.renderRow(title, author, pages, read);
 					
 	},
 	renderLibrary(library){
@@ -277,9 +385,11 @@ var bookList = {
 
 
 
-// bookList.Book.prototype.toggleRead = function () {
-// 	this.read = !(this.read);
-// }
+
+
+bookList.Book.prototype.toggleRead = function () {
+	this.read = !(this.read);
+}
 
 
 
@@ -389,7 +499,7 @@ addModal.submit.addEventListener("touchstart", function(event){
 
 	}
 	
-	bookList.addBook(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
+	bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
 	addModal.clearForm();
 	helper.closeModal(addModal.backdrop);
 	helper.touch();
@@ -427,9 +537,9 @@ addModal.submit.addEventListener("click", function(event){
 
 		
 		
-		bookList.addBook(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
+		bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
 		addModal.clearForm();
-		helper.closeModal(addModal.backdrop)
+		helper.closeModal(addModal.backdrop);
 	}
 	helper.untouch();
 
@@ -450,7 +560,7 @@ deleteModal.delete.addEventListener("touchstart", function(){
 deleteModal.delete.addEventListener("click", function(){
 	if(!(helper.touched)) {
 		bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
-		bookList.library.splice(deleteModal.openedBy, 1);
+		bookListHelp.library.splice(deleteModal.openedBy, 1);
 		deleteModal.openedBy = null;
 		bookList.refreshBookListeners();
 		helper.closeModal(deleteModal.backdrop);
@@ -475,7 +585,97 @@ deleteModal.cancel.addEventListener("click", function(){
 	helper.untouch();
 });
 
-bookList.refreshBookListeners();				
+for(let i = 0; i < bookList.readContainer.length; i++) {
+			
+			bookList.readContainer[i].addEventListener("touchstart", function readToggle(){
+		
+				if (bookList.readIcons[i].classList.contains("read")) {
+					// Make it look like it's not read
+					bookList.readIcons[i].classList.remove("read");
+					bookList.readIcons[i].classList.add("not-read");
+					bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
+					bookList.readIcons[i].setAttribute("alt", "X icon");
+					// bookList.readIcons[i].setAttribute("tabindex", "0");
+		
+					// Actually change the property Of the object in the library
+					console.log(i);
+					bookList.library[i].read = false;
+		
+				}
+				else if (bookList.readIcons[i].classList.contains("not-read")) {
+		
+					// Make it look like it's not read
+					bookList.readIcons[i].classList.remove("not-read");
+					bookList.readIcons[i].classList.add("read");
+					bookList.readIcons[i].setAttribute("src", "main/images/check.png");
+					bookList.readIcons[i].setAttribute("alt", "check icon");
+					// bookList.readIcons[i].setAttribute("tabindex", "0");
+		
+					// Actually change the property Of the object in the library
+					console.log(i);			
+					bookList.library[i].read = true;
+				}
+		
+				helper.touch();
+			});
+			bookList.readContainer[i].addEventListener("click", function readClick(){
+			
+				if(!(helper.touched)) {
+		
+		
+				
+					if (bookList.readIcons[i].classList.contains("read")) {
+						// Make it look like it's not read
+						bookList.readIcons[i].classList.remove("read");
+						bookList.readIcons[i].classList.add("not-read");
+						bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
+						bookList.readIcons[i].setAttribute("alt", "X icon");
+						// bookList.readIcons[i].setAttribute("tabindex", "0");
+		
+						// Actually change the property Of the object in the library
+						console.log(i);
+						bookList.library[i].read = false;
+		
+					}
+					else if (bookList.readIcons[i].classList.contains("not-read")) {
+		
+						// Make it look like it's not read
+						bookList.readIcons[i].classList.remove("not-read");
+						bookList.readIcons[i].classList.add("read");
+						bookList.readIcons[i].setAttribute("src", "main/images/check.png");
+						bookList.readIcons[i].setAttribute("alt", "check icon");
+						// bookList.readIcons[i].setAttribute("tabindex", "0");
+		
+						// Actually change the property Of the object in the library
+						console.log(i);			
+						bookList.library[i].read = true;
+					}
+				}
+				helper.untouch();
+			});
+			// delete an item from the book list ( opening the delete modal )
+		
+			bookList.deleteIcons[i].addEventListener("touchstart", function(){
+				
+				deleteModal.openedBy = i;
+				helper.openModal(deleteModal.backdrop);
+				deleteModal.content.focus();
+				helper.touch();
+			});
+
+			bookList.deleteIcons[i].addEventListener("click", function(){
+			
+				if(!(helper.touched)) {
+
+					// bookList.tableBody.removeChild(bookList.tableRows[i]);
+					// bookList.library.splice(i, 1);
+					deleteModal.openedBy = i;
+					helper.openModal(deleteModal.backdrop);
+					deleteModal.content.focus();
+				}
+				helper.untouch();
+			});
+		}
 
 
 /* Find all focusable children
