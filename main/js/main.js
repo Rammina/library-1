@@ -291,7 +291,34 @@ var bookList = {
                 	}
                 	
                 	helper.untouch();
-                });
+				});
+				deleteModal.addEventListener("touchstart", function(event){
+					if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+						general.main.removeChild(deleteModal);
+					}
+
+					helper.touch();	
+				});
+
+				deleteModal.addEventListener("click", function(event){
+					if(!(helper.touched)) {
+						if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+							general.main.removeChild(deleteModal);
+						}
+					}
+					helper.untouch();
+				});
+				deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
+					general.main.removeChild(deleteModal);
+					helper.touch();	
+				});
+
+				deleteModal.querySelector("#delete-close").addEventListener("click", function(event){
+					if(!(helper.touched)) {
+						general.main.removeChild(deleteModal);
+					}
+					helper.untouch();
+				});
                 general.main.appendChild(deleteModal);
 
 
@@ -353,7 +380,34 @@ var bookList = {
                 	}
                 	
                 	helper.untouch();
-                });
+				});
+				deleteModal.addEventListener("touchstart", function(event){
+					if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+						general.main.removeChild(deleteModal);
+					}
+
+					helper.touch();	
+				});
+
+				deleteModal.addEventListener("click", function(event){
+					if(!(helper.touched)) {
+						if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+							general.main.removeChild(deleteModal);
+						}
+					}
+					helper.untouch();
+				});
+				deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
+					general.main.removeChild(deleteModal);
+					helper.touch();	
+				});
+
+				deleteModal.querySelector("#delete-close").addEventListener("click", function(event){
+					if(!(helper.touched)) {
+						general.main.removeChild(deleteModal);
+					}
+					helper.untouch();
+				});
                 console.log("hello");
                 general.main.appendChild(deleteModal);
 
@@ -368,10 +422,7 @@ var bookList = {
 			// counter++;
 
 	},
-	addBook(title, author, pages, read){
-		// Add the book to the arraylet newBook = new bookList.Book(title, author, pages, read);bookList.library.push(newBook);bookList.renderRow(title, author, pages, read);
-					
-	},
+	
 	renderLibrary(library){
 		// let counter = 1;
 		for (let book of library){
@@ -560,7 +611,7 @@ deleteModal.delete.addEventListener("touchstart", function(){
 deleteModal.delete.addEventListener("click", function(){
 	if(!(helper.touched)) {
 		bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
-		bookListHelp.library.splice(deleteModal.openedBy, 1);
+		bookList.library.splice(deleteModal.openedBy, 1);
 		deleteModal.openedBy = null;
 		bookList.refreshBookListeners();
 		helper.closeModal(deleteModal.backdrop);
