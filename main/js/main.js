@@ -124,8 +124,9 @@ var bookList = {
 			// Getting the size of the library before adding this book
 			// let librarySize = bookList.library.length;
 
-			
-			// At the book to the HTML document
+			// To prevent bottleneck
+			setTimeout(function(){ 
+				// At the book to the HTML document
 			let item = document.createElement("tr");
 			item.classList.add("books-row");
 			item.classList.add("books-item");
@@ -168,77 +169,114 @@ var bookList = {
 
 			let readContainer = item.querySelector(".books-read-container");
 			let readIcon = item.querySelector(".books-read-icon");
-			readContainer.addEventListener("touchstart", function(){
+			setTimeout(function(){
+				readContainer.addEventListener("touchstart", function(){
 				
-				if (readIcon.classList.contains("read")) {
-					// Make it look like it's not read
-					readIcon.classList.remove("read");
-					readIcon.classList.add("not-read");
-					readIcon.setAttribute("src", "main/images/x-icon.png");
-					readIcon.setAttribute("alt", "X icon");
-					// readIcon.setAttribute("tabindex", "0");
-		
-					// Actually change the property Of the object in the library
-					// console.log(i);
-					// newBook.read = false;
-		
-				}
-				else if (readIcon.classList.contains("not-read")) {
-		
-					// Make it look like it's not read
-					readIcon.classList.remove("not-read");
-					readIcon.classList.add("read");
-					readIcon.setAttribute("src", "main/images/check.png");
-					readIcon.setAttribute("alt", "check icon");
-					// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-					// Actually change the property Of the object in the library
-					// console.log(i);			
-					// newBook.read = true;
-				}
-				newBook.toggleRead();
-				helper.touch();
-			});
-			readContainer.addEventListener("click", function(){
-				if(!(helper.touched)) {
+					if (readIcon.classList.contains("read")) {
+						// Make it look like it's not read
+						readIcon.classList.remove("read");
+						readIcon.classList.add("not-read");
+						readIcon.setAttribute("src", "main/images/x-icon.png");
+						readIcon.setAttribute("alt", "X icon");
+						// readIcon.setAttribute("tabindex", "0");
+			
+						// Actually change the property Of the object in the library
+						// console.log(i);
+						// newBook.read = false;
+			
+					}
+					else if (readIcon.classList.contains("not-read")) {
+			
+						// Make it look like it's not read
+						readIcon.classList.remove("not-read");
+						readIcon.classList.add("read");
+						readIcon.setAttribute("src", "main/images/check.png");
+						readIcon.setAttribute("alt", "check icon");
+						// bookList.readIcons[i].setAttribute("tabindex", "0");
+			
+						// Actually change the property Of the object in the library
+						// console.log(i);			
+						// newBook.read = true;
+					}
+					newBook.toggleRead();
+					helper.touch();
+				});
+			}, 0);
+			setTimeout(function(){ 
+				readContainer.addEventListener("click", function(){
+					if(!(helper.touched)) {
 
 
+					
+					// Indent everything here
+					if (readIcon.classList.contains("read")) {
+						// Make it look like it's not read
+						readIcon.classList.remove("read");
+						readIcon.classList.add("not-read");
+						readIcon.setAttribute("src", "main/images/x-icon.png");
+						readIcon.setAttribute("alt", "X icon");
+						// readIcon.setAttribute("tabindex", "0");
+			
+						// Actually change the property Of the object in the library
+						// console.log(i);
+						// newBook.read = false;
+			
+					}
+					else if (readIcon.classList.contains("not-read")) {
+			
+						// Make it look like it's not read
+						readIcon.classList.remove("not-read");
+						readIcon.classList.add("read");
+						readIcon.setAttribute("src", "main/images/check.png");
+						readIcon.setAttribute("alt", "check icon");
+						// bookList.readIcons[i].setAttribute("tabindex", "0");
+			
+						// Actually change the property Of the object in the library
+						// console.log(i);			
+						// newBook.read = true;
+					}
+
+					newBook.toggleRead();
+
+				}
+			
+					helper.untouch();
+				});
+			}, 0);
+
+			readContainer.addEventListener("keydown", function(event){
+				if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+					if (readIcon.classList.contains("read")) {
+						// Make it look like it's not read
+						readIcon.classList.remove("read");
+						readIcon.classList.add("not-read");
+						readIcon.setAttribute("src", "main/images/x-icon.png");
+						readIcon.setAttribute("alt", "X icon");
+						// readIcon.setAttribute("tabindex", "0");
+			
+						// Actually change the property Of the object in the library
+						// console.log(i);
+						// newBook.read = false;
+			
+					}
+					else if (readIcon.classList.contains("not-read")) {
+			
+						// Make it look like it's not read
+						readIcon.classList.remove("not-read");
+						readIcon.classList.add("read");
+						readIcon.setAttribute("src", "main/images/check.png");
+						readIcon.setAttribute("alt", "check icon");
+						// bookList.readIcons[i].setAttribute("tabindex", "0");
+			
+						// Actually change the property Of the object in the library
+						// console.log(i);			
+						// newBook.read = true;
+					}
+					newBook.toggleRead();
+				}
 				
-				// Indent everything here
-				if (readIcon.classList.contains("read")) {
-					// Make it look like it's not read
-					readIcon.classList.remove("read");
-					readIcon.classList.add("not-read");
-					readIcon.setAttribute("src", "main/images/x-icon.png");
-					readIcon.setAttribute("alt", "X icon");
-					// readIcon.setAttribute("tabindex", "0");
-		
-					// Actually change the property Of the object in the library
-					// console.log(i);
-					// newBook.read = false;
-		
-				}
-				else if (readIcon.classList.contains("not-read")) {
-		
-					// Make it look like it's not read
-					readIcon.classList.remove("not-read");
-					readIcon.classList.add("read");
-					readIcon.setAttribute("src", "main/images/check.png");
-					readIcon.setAttribute("alt", "check icon");
-					// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-					// Actually change the property Of the object in the library
-					// console.log(i);			
-					// newBook.read = true;
-				}
-
-				newBook.toggleRead();
-
-			}
-		
-				helper.untouch();
 			});
-
+			
 			let deleteIcon = item.querySelector(".books-delete-container");
 
 			deleteIcon.addEventListener("touchstart", function(){
@@ -248,7 +286,7 @@ var bookList = {
 				deleteModal.classList.add("show");
 				deleteModal.setAttribute("id", "delete-backdrop");
 				deleteModal.insertAdjacentHTML("beforeend", `
-					<section class="modal-container" id="delete-modal">
+					<section class="modal-container" id="delete-modal" tabindex="0">
                 		<div class="modal__close" id="delete-close" tabindex="-1">
                     		<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         	<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
@@ -263,63 +301,85 @@ var bookList = {
                     		<button class="modal-button" id="delete-modal-button">Delete</button>
                 		</div>
                 	</section>`);
-
-                deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
-                	bookList.tableBody.removeChild(item);
-                	bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
-                	general.main.removeChild(deleteModal);
-                	helper.touch();
-                });
-                deleteModal.querySelector("#delete-modal-button").addEventListener("click", function(){
-                	if(!(helper.touched)) {
-                		bookList.tableBody.removeChild(item);
-                		bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
-                		general.main.removeChild(deleteModal);
-
-                	}
-                	helper.untouch();
-                });
-
-                deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
-                	general.main.removeChild(deleteModal);
-                	helper.touch();
-                });
-                deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
-                	if(!(helper.touched)) {
-                		general.main.removeChild(deleteModal);
-
-                	}
-                	
-                	helper.untouch();
-				});
-				deleteModal.addEventListener("touchstart", function(event){
-					if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+				setTimeout(function(){
+					deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
+						bookList.tableBody.removeChild(item);
+						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 						general.main.removeChild(deleteModal);
-					}
+						helper.touch();
+					});
+					deleteModal.querySelector("#delete-modal-button").addEventListener("click", function(){
+						if(!(helper.touched)) {
+							bookList.tableBody.removeChild(item);
+							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+							general.main.removeChild(deleteModal);
 
-					helper.touch();	
-				});
+						}
+						helper.untouch();
+					});
+					deleteModal.querySelector("#delete-modal-button").addEventListener("keydown", function(event){
+						if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+							bookList.tableBody.removeChild(item);
+							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+							general.main.removeChild(deleteModal);
+						}
+					});
+				}, 0);
+                
+				setTimeout(function(){ 
+					deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
+						general.main.removeChild(deleteModal);
+						helper.touch();
+					});
+					deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
+						if(!(helper.touched)) {
+							general.main.removeChild(deleteModal);
 
-				deleteModal.addEventListener("click", function(event){
-					if(!(helper.touched)) {
+						}
+						
+					helper.untouch();
+					});
+					deleteModal.querySelector("#cancel-modal-button").addEventListener("keydown", function(event){
+							if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+								general.main.removeChild(deleteModal);
+							}
+						});
+				}, 0);
+
+                setTimeout(function(){ 
+					deleteModal.addEventListener("touchstart", function(event){
 						if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
 							general.main.removeChild(deleteModal);
 						}
-					}
-					helper.untouch();
-				});
-				deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
-					general.main.removeChild(deleteModal);
-					helper.touch();	
-				});
-
-				deleteModal.querySelector("#delete-close").addEventListener("click", function(event){
-					if(!(helper.touched)) {
+	
+						helper.touch();	
+					});
+	
+					deleteModal.addEventListener("click", function(event){
+						if(!(helper.touched)) {
+							if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+								general.main.removeChild(deleteModal);
+							}
+						}
+						helper.untouch();
+					});
+				}, 0);
+				setTimeout(function(){ 
+					deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
 						general.main.removeChild(deleteModal);
-					}
-					helper.untouch();
-				});
-                general.main.appendChild(deleteModal);
+						helper.touch();	
+					});
+
+					deleteModal.querySelector("#delete-close").addEventListener("click", function(event){
+						if(!(helper.touched)) {
+							general.main.removeChild(deleteModal);
+						}
+						helper.untouch();
+					});
+				}, 0);
+				
+				general.main.appendChild(deleteModal);
+				document.querySelector("#delete-modal").focus();
 
 
 
@@ -328,15 +388,15 @@ var bookList = {
 			});
 			deleteIcon.addEventListener("click", function(){
 
-				console.log("hello");
+
 				if(!(helper.touched)) {
-					console.log("hello");
+
 				let deleteModal = document.createElement("div");
 				deleteModal.classList.add("backdrop");
 				deleteModal.classList.add("show");
 				deleteModal.setAttribute("id", "delete-backdrop");
 				deleteModal.insertAdjacentHTML("beforeend", `
-					<section class="modal-container" id="delete-modal">
+					<section class="modal-container" id="delete-modal" tabindex="0">
                 		<div class="modal__close" id="delete-close" tabindex="-1">
                     		<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         	<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
@@ -351,53 +411,73 @@ var bookList = {
                     		<button class="modal-button" id="delete-modal-button">Delete</button>
                 		</div>
                 	</section>`);
-
-                deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
-                	bookList.tableBody.removeChild(item);
-                	bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
-                	general.main.removeChild(deleteModal);
-                	helper.touch();
-
-                });
-                deleteModal.querySelector("#delete-modal-button").addEventListener("click", function(){
-                	if(!(helper.touched)) {
-                		bookList.tableBody.removeChild(item);
-                		bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
-                		general.main.removeChild(deleteModal);
-
-                	}
-                	helper.untouch();
-                });
-
-                deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
-                	general.main.removeChild(deleteModal);
-                	helper.touch();
-                });
-                deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
-                	if(!(helper.touched)) {
-                		general.main.removeChild(deleteModal);
-
-                	}
-                	
-                	helper.untouch();
-				});
-				deleteModal.addEventListener("touchstart", function(event){
-					if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+				setTimeout(function(){
+					deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
+						bookList.tableBody.removeChild(item);
+						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 						general.main.removeChild(deleteModal);
-					}
-
-					helper.touch();	
-				});
-
-				deleteModal.addEventListener("click", function(event){
-					if(!(helper.touched)) {
+						helper.touch();
+	
+					});
+					deleteModal.querySelector("#delete-modal-button").addEventListener("click", function(){
+						if(!(helper.touched)) {
+							bookList.tableBody.removeChild(item);
+							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+							general.main.removeChild(deleteModal);
+	
+						}
+						helper.untouch();
+					});
+					deleteModal.querySelector("#delete-modal-button").addEventListener("keydown", function(event){
+						if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+							bookList.tableBody.removeChild(item);
+							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+							general.main.removeChild(deleteModal);
+						}
+					});
+				}, 0);
+                
+				setTimeout(function(){
+					deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
+						general.main.removeChild(deleteModal);
+						helper.touch();
+					});
+					deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
+						if(!(helper.touched)) {
+							general.main.removeChild(deleteModal);
+	
+						}
+						
+						helper.untouch();
+					});
+					deleteModal.querySelector("#cancel-modal-button").addEventListener("keydown", function(event){
+							if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+								general.main.removeChild(deleteModal);
+							}
+						});
+				}, 0);
+                
+				setTimeout(function(){
+					deleteModal.addEventListener("touchstart", function(event){
 						if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
 							general.main.removeChild(deleteModal);
 						}
-					}
-					helper.untouch();
-				});
-				deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
+	
+						helper.touch();	
+					});
+	
+					deleteModal.addEventListener("click", function(event){
+						if(!(helper.touched)) {
+							if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+								general.main.removeChild(deleteModal);
+							}
+						}
+						helper.untouch();
+					});
+				}, 0);
+				
+				setTimeout(function(){
+					deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
 					general.main.removeChild(deleteModal);
 					helper.touch();	
 				});
@@ -408,19 +488,124 @@ var bookList = {
 					}
 					helper.untouch();
 				});
-                console.log("hello");
+				}, 0);
+				
                 general.main.appendChild(deleteModal);
-
+				document.querySelector("#delete-modal").focus();
 
 
 				// helper.untouch();
 				}
 				helper.untouch();
 			});
+			deleteIcon.addEventListener("keydown", function(event){
+				if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+					let deleteModal = document.createElement("div");
+					deleteModal.classList.add("backdrop");
+					deleteModal.classList.add("show");
+					deleteModal.setAttribute("id", "delete-backdrop");
+					deleteModal.insertAdjacentHTML("beforeend", `
+						<section class="modal-container" id="delete-modal" tabindex="0">
+							<div class="modal__close" id="delete-close" tabindex="-1">
+								<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+								<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+								<image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
+								</svg>
+								<img class="hide-png no-display svg-fallback modal__close-png" src="main/images/close.png" alt="Close Button">
+							</div>
+							<h1 class="modal-header">Delete this Book</h1>
+							<p class="modal-paragraph">Are you sure you want to remove this book from the list?</p>
+							<div class="button-container">
+								<button class="modal-button" id="cancel-modal-button">Cancel</button>
+								<button class="modal-button" id="delete-modal-button">Delete</button>
+							</div>
+						</section>`);
+					setTimeout(function(){
+						deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
+							bookList.tableBody.removeChild(item);
+							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+							general.main.removeChild(deleteModal);
+							helper.touch();
+						});
+						deleteModal.querySelector("#delete-modal-button").addEventListener("click", function(){
+							if(!(helper.touched)) {
+								bookList.tableBody.removeChild(item);
+								bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+								general.main.removeChild(deleteModal);
+
+							}
+							helper.untouch();
+						});
+						deleteModal.querySelector("#delete-modal-button").addEventListener("keydown", function(event){
+							if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+								bookList.tableBody.removeChild(item);
+								bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+								general.main.removeChild(deleteModal);
+							}
+					});
+					}, 0);
+					// To be continued....->
+					setTimeout(function(){ 
+						deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
+							general.main.removeChild(deleteModal);
+							helper.touch();
+						});
+						deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
+							if(!(helper.touched)) {
+								general.main.removeChild(deleteModal);
+
+							}
+							
+						helper.untouch();
+						});
+						deleteModal.querySelector("#cancel-modal-button").addEventListener("keydown", function(event){
+							if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+								general.main.removeChild(deleteModal);
+							}
+						});
+					}, 0);
+
+					setTimeout(function(){ 
+						deleteModal.addEventListener("touchstart", function(event){
+							if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+								general.main.removeChild(deleteModal);
+							}
+		
+							helper.touch();	
+						});
+		
+						deleteModal.addEventListener("click", function(event){
+							if(!(helper.touched)) {
+								if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+									general.main.removeChild(deleteModal);
+								}
+							}
+							helper.untouch();
+						});
+					}, 0);
+					setTimeout(function(){ 
+						deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
+							general.main.removeChild(deleteModal);
+							helper.touch();	
+						});
+
+						deleteModal.querySelector("#delete-close").addEventListener("click", function(event){
+							if(!(helper.touched)) {
+								general.main.removeChild(deleteModal);
+							}
+							helper.untouch();
+						});
+					}, 0);
+					general.main.appendChild(deleteModal);
+					document.querySelector("#delete-modal").focus();
+					}	
+			});
 			bookList.tableBody.appendChild(item);
 			// bookList.refreshBookListeners();
 			// counter++;
 
+			 }, 1);
+			
 	},
 	
 	renderLibrary(library){
@@ -467,12 +652,6 @@ for(let i = 0; i < general.backdrops.length; i++) {
 	general.backdrops[i].addEventListener("touchstart", function(event){
 		if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
 			helper.closeModal(general.backdrops[i]);
-
-			// In case the delete backdrop was opened, reset the openedBy property
-			if(deleteModal.openedBy !== null) {
-				deleteModal.openedBy = null;
-			}
-
 		}
 
 		helper.touch();	
@@ -484,11 +663,6 @@ for(let i = 0; i < general.backdrops.length; i++) {
 
 			if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
 				helper.closeModal(general.backdrops[i]);
-
-				// In case the delete backdrop was opened, reset the openedBy property
-				if(deleteModal.openedBy !== null) {
-					deleteModal.openedBy = null;
-				}
 			}
 		}
 		helper.untouch();
@@ -499,26 +673,12 @@ for(let i = 0; i < general.backdrops.length; i++) {
 for(let i = 0; i < general.closeButtons.length; i++) {
 	general.closeButtons[i].addEventListener("touchstart", function(event){
 		helper.closeModal(general.backdrops[i]);
-
-		// In case the delete backdrop was opened, reset the openedBy property
-		if(deleteModal.openedBy !== null) {
-			deleteModal.openedBy = null;
-		}
-
-		
-
 		helper.touch();	
 	});
 
 	general.closeButtons[i].addEventListener("click", function(event){
 		if(!(helper.touched)) {
 			helper.closeModal(general.backdrops[i]);
-
-			// In case the delete backdrop was opened, reset the openedBy property
-			if(deleteModal.openedBy !== null) {
-				deleteModal.openedBy = null;
-				
-			}
 		}
 		helper.untouch();
 	});
@@ -596,137 +756,9 @@ addModal.submit.addEventListener("click", function(event){
 
 });
 
-
-// delete confirmation
-deleteModal.delete.addEventListener("touchstart", function(){
-	bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
-	bookList.library.splice(deleteModal.openedBy, 1);
-	deleteModal.openedBy = null;
-	bookList.refreshBookListeners();
-	helper.closeModal(deleteModal.backdrop);
-
-	helper.touch();
-});
-
-deleteModal.delete.addEventListener("click", function(){
-	if(!(helper.touched)) {
-		bookList.tableBody.removeChild(bookList.tableRows[deleteModal.openedBy]);
-		bookList.library.splice(deleteModal.openedBy, 1);
-		deleteModal.openedBy = null;
-		bookList.refreshBookListeners();
-		helper.closeModal(deleteModal.backdrop);
-	}
-	helper.untouch();
-});
-
-// cancel deletion
-deleteModal.cancel.addEventListener("touchstart", function(){
-	deleteModal.openedBy = null;
-	helper.closeModal(deleteModal.backdrop);
-
-	helper.touch();
-});
-
-deleteModal.cancel.addEventListener("click", function(){
-	if(!(helper.touched)) {
-		deleteModal.openedBy = null;
-		helper.closeModal(deleteModal.backdrop);
-	}
-
-	helper.untouch();
-});
-
-for(let i = 0; i < bookList.readContainer.length; i++) {
-			
-			bookList.readContainer[i].addEventListener("touchstart", function readToggle(){
-		
-				if (bookList.readIcons[i].classList.contains("read")) {
-					// Make it look like it's not read
-					bookList.readIcons[i].classList.remove("read");
-					bookList.readIcons[i].classList.add("not-read");
-					bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
-					bookList.readIcons[i].setAttribute("alt", "X icon");
-					// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-					// Actually change the property Of the object in the library
-					console.log(i);
-					bookList.library[i].read = false;
-		
-				}
-				else if (bookList.readIcons[i].classList.contains("not-read")) {
-		
-					// Make it look like it's not read
-					bookList.readIcons[i].classList.remove("not-read");
-					bookList.readIcons[i].classList.add("read");
-					bookList.readIcons[i].setAttribute("src", "main/images/check.png");
-					bookList.readIcons[i].setAttribute("alt", "check icon");
-					// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-					// Actually change the property Of the object in the library
-					console.log(i);			
-					bookList.library[i].read = true;
-				}
-		
-				helper.touch();
-			});
-			bookList.readContainer[i].addEventListener("click", function readClick(){
-			
-				if(!(helper.touched)) {
-		
-		
-				
-					if (bookList.readIcons[i].classList.contains("read")) {
-						// Make it look like it's not read
-						bookList.readIcons[i].classList.remove("read");
-						bookList.readIcons[i].classList.add("not-read");
-						bookList.readIcons[i].setAttribute("src", "main/images/x-icon.png");
-						bookList.readIcons[i].setAttribute("alt", "X icon");
-						// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-						// Actually change the property Of the object in the library
-						console.log(i);
-						bookList.library[i].read = false;
-		
-					}
-					else if (bookList.readIcons[i].classList.contains("not-read")) {
-		
-						// Make it look like it's not read
-						bookList.readIcons[i].classList.remove("not-read");
-						bookList.readIcons[i].classList.add("read");
-						bookList.readIcons[i].setAttribute("src", "main/images/check.png");
-						bookList.readIcons[i].setAttribute("alt", "check icon");
-						// bookList.readIcons[i].setAttribute("tabindex", "0");
-		
-						// Actually change the property Of the object in the library
-						console.log(i);			
-						bookList.library[i].read = true;
-					}
-				}
-				helper.untouch();
-			});
-			// delete an item from the book list ( opening the delete modal )
-		
-			bookList.deleteIcons[i].addEventListener("touchstart", function(){
-				
-				deleteModal.openedBy = i;
-				helper.openModal(deleteModal.backdrop);
-				deleteModal.content.focus();
-				helper.touch();
-			});
-
-			bookList.deleteIcons[i].addEventListener("click", function(){
-			
-				if(!(helper.touched)) {
-
-					// bookList.tableBody.removeChild(bookList.tableRows[i]);
-					// bookList.library.splice(i, 1);
-					deleteModal.openedBy = i;
-					helper.openModal(deleteModal.backdrop);
-					deleteModal.content.focus();
-				}
-				helper.untouch();
-			});
-		}
+setTimeout(function(){ 
+	bookList.renderLibrary(bookList.library);
+ }, 0);
 
 
 /* Find all focusable children
