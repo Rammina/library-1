@@ -50,6 +50,7 @@ var general = {
 var helper = { 
 	touched: false,
 	counter: 0,
+	trappedObject: null,
 
 	openModal(modal){
 		modal.classList.add("show");
@@ -63,6 +64,9 @@ var helper = {
 	untouch(){
 		helper.touched = false;
 	},
+	trap(){
+		helper.trappedObject = document.activeElement;
+	}
 
 	
 
@@ -77,6 +81,7 @@ var addModal = {
 	pages: document.getElementById("book-pages-field"),
 	checkbox: document.getElementById("read-checkbox"),
 	submit: document.getElementById("book-submit"),
+	
 	clearForm(){
 		addModal.title.value = "";
 		addModal.author.value = "";
@@ -84,6 +89,8 @@ var addModal = {
 		addModal.checkbox.checked = false;
 	}
 }
+addModal.tabbables = addModal.content.querySelectorAll("input, [tabindex='-1']");
+
 
 var deleteModal = {
 	backdrop: document.getElementById("delete-backdrop"),
@@ -280,7 +287,8 @@ var bookList = {
 			let deleteIcon = item.querySelector(".books-delete-container");
 
 			deleteIcon.addEventListener("touchstart", function(){
-				
+				event.preventDefault();
+
 				let deleteModal = document.createElement("div");
 				deleteModal.classList.add("backdrop");
 				deleteModal.classList.add("show");
@@ -301,9 +309,50 @@ var bookList = {
                     		<button class="modal-button" id="delete-modal-button">Delete</button>
                 		</div>
                 	</section>`);
+
+				// Exit the modal when you press escape
+				{
+					deleteModal.querySelector("#delete-modal").addEventListener("keydown", function(event){
+						if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
+						}
+					});
+
+				}
+
+				// Enable tabbing Through the delete modal
+				{
+					let tabbables = deleteModal.querySelectorAll("button, div[tabindex='-1']");
+					for(let i = 0; i < tabbables.length; i++) {
+						tabbables[i].addEventListener("keydown", function(event){
+							
+							if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
+							}
+
+							if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
+								event.preventDefault();	
+								let next = i + 1;
+
+								if(next === tabbables.length) {
+									tabbables[0].focus();
+
+								}
+								else{
+									tabbables[next].focus();
+								}
+							}
+						});
+
+					}
+				}
+
 				setTimeout(function(){
 					deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
 						bookList.tableBody.removeChild(item);
+						helper.trappedObject.focus();
 						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 						general.main.removeChild(deleteModal);
 						helper.touch();
@@ -311,6 +360,7 @@ var bookList = {
 					deleteModal.querySelector("#delete-modal-button").addEventListener("click", function(){
 						if(!(helper.touched)) {
 							bookList.tableBody.removeChild(item);
+							helper.trappedObject.focus();
 							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 							general.main.removeChild(deleteModal);
 
@@ -320,6 +370,7 @@ var bookList = {
 					deleteModal.querySelector("#delete-modal-button").addEventListener("keydown", function(event){
 						if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
 							bookList.tableBody.removeChild(item);
+							helper.trappedObject.focus();
 							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 							general.main.removeChild(deleteModal);
 						}
@@ -329,11 +380,13 @@ var bookList = {
 				setTimeout(function(){ 
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
 						general.main.removeChild(deleteModal);
+						helper.trappedObject.focus();
 						helper.touch();
 					});
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
 						if(!(helper.touched)) {
 							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
 
 						}
 						
@@ -342,6 +395,7 @@ var bookList = {
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("keydown", function(event){
 							if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 							}
 						});
 				}, 0);
@@ -350,6 +404,7 @@ var bookList = {
 					deleteModal.addEventListener("touchstart", function(event){
 						if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
 							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
 						}
 	
 						helper.touch();	
@@ -359,6 +414,7 @@ var bookList = {
 						if(!(helper.touched)) {
 							if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 							}
 						}
 						helper.untouch();
@@ -367,6 +423,7 @@ var bookList = {
 				setTimeout(function(){ 
 					deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
 						general.main.removeChild(deleteModal);
+						helper.trappedObject.focus();
 						helper.touch();	
 					});
 
@@ -377,13 +434,10 @@ var bookList = {
 						helper.untouch();
 					});
 				}, 0);
-				
+				helper.trap();
 				general.main.appendChild(deleteModal);
+				
 				document.querySelector("#delete-modal").focus();
-
-
-
-
 				helper.touch();
 			});
 			deleteIcon.addEventListener("click", function(){
@@ -411,11 +465,48 @@ var bookList = {
                     		<button class="modal-button" id="delete-modal-button">Delete</button>
                 		</div>
                 	</section>`);
+
+				{
+					deleteModal.querySelector("#delete-modal").addEventListener("keydown", function(event){
+						if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
+						}
+					});
+				}
+				{
+					let tabbables = deleteModal.querySelectorAll("button, div[tabindex='-1']");
+					for(let i = 0; i < tabbables.length; i++) {
+						tabbables[i].addEventListener("keydown", function(event){
+							
+							if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
+							}
+
+							if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
+								event.preventDefault();
+								let next = i + 1;
+
+								if(next === tabbables.length) {
+									tabbables[0].focus();
+
+								}
+								else{
+									tabbables[next].focus();
+								}
+							}
+						});
+
+					}
+				}
+
 				setTimeout(function(){
 					deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
 						bookList.tableBody.removeChild(item);
 						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 						general.main.removeChild(deleteModal);
+						helper.trappedObject.focus();
 						helper.touch();
 	
 					});
@@ -424,6 +515,7 @@ var bookList = {
 							bookList.tableBody.removeChild(item);
 							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
 	
 						}
 						helper.untouch();
@@ -433,6 +525,7 @@ var bookList = {
 							bookList.tableBody.removeChild(item);
 							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
 						}
 					});
 				}, 0);
@@ -440,11 +533,13 @@ var bookList = {
 				setTimeout(function(){
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
 						general.main.removeChild(deleteModal);
+						helper.trappedObject.focus();
 						helper.touch();
 					});
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
 						if(!(helper.touched)) {
 							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
 	
 						}
 						
@@ -453,6 +548,7 @@ var bookList = {
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("keydown", function(event){
 							if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 							}
 						});
 				}, 0);
@@ -461,6 +557,7 @@ var bookList = {
 					deleteModal.addEventListener("touchstart", function(event){
 						if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
 							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
 						}
 	
 						helper.touch();	
@@ -470,6 +567,7 @@ var bookList = {
 						if(!(helper.touched)) {
 							if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 							}
 						}
 						helper.untouch();
@@ -479,18 +577,21 @@ var bookList = {
 				setTimeout(function(){
 					deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
 					general.main.removeChild(deleteModal);
+					helper.trappedObject.focus();
 					helper.touch();	
 				});
 
 				deleteModal.querySelector("#delete-close").addEventListener("click", function(event){
 					if(!(helper.touched)) {
 						general.main.removeChild(deleteModal);
+						helper.trappedObject.focus();
 					}
 					helper.untouch();
 				});
 				}, 0);
-				
+				helper.trap();
                 general.main.appendChild(deleteModal);
+                
 				document.querySelector("#delete-modal").focus();
 
 
@@ -520,11 +621,47 @@ var bookList = {
 								<button class="modal-button" id="delete-modal-button">Delete</button>
 							</div>
 						</section>`);
+				{
+					deleteModal.querySelector("#delete-modal").addEventListener("keydown", function(event){
+						if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
+						}
+					});
+				}
+				{
+					let tabbables = deleteModal.querySelectorAll("button, div[tabindex='-1']");
+					for(let i = 0; i < tabbables.length; i++) {
+						tabbables[i].addEventListener("keydown", function(event){
+							
+							if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
+							}
+
+							if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
+								event.preventDefault();
+								let next = i + 1;
+
+								if(next === tabbables.length) {
+									tabbables[0].focus();
+
+								}
+								else{
+									tabbables[next].focus();
+								}
+							}
+						});
+
+					}
+				}
+
 					setTimeout(function(){
 						deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
 							bookList.tableBody.removeChild(item);
 							bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
 							helper.touch();
 						});
 						deleteModal.querySelector("#delete-modal-button").addEventListener("click", function(){
@@ -532,6 +669,7 @@ var bookList = {
 								bookList.tableBody.removeChild(item);
 								bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 
 							}
 							helper.untouch();
@@ -541,18 +679,21 @@ var bookList = {
 								bookList.tableBody.removeChild(item);
 								bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 							}
 					});
 					}, 0);
-					// To be continued....->
+					
 					setTimeout(function(){ 
 						deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
 							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
 							helper.touch();
 						});
 						deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
 							if(!(helper.touched)) {
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 
 							}
 							
@@ -561,6 +702,7 @@ var bookList = {
 						deleteModal.querySelector("#cancel-modal-button").addEventListener("keydown", function(event){
 							if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 							}
 						});
 					}, 0);
@@ -569,6 +711,7 @@ var bookList = {
 						deleteModal.addEventListener("touchstart", function(event){
 							if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 							}
 		
 							helper.touch();	
@@ -578,6 +721,7 @@ var bookList = {
 							if(!(helper.touched)) {
 								if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
 									general.main.removeChild(deleteModal);
+									helper.trappedObject.focus();
 								}
 							}
 							helper.untouch();
@@ -586,17 +730,21 @@ var bookList = {
 					setTimeout(function(){ 
 						deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
 							general.main.removeChild(deleteModal);
+							helper.trappedObject.focus();
 							helper.touch();	
 						});
 
 						deleteModal.querySelector("#delete-close").addEventListener("click", function(event){
 							if(!(helper.touched)) {
 								general.main.removeChild(deleteModal);
+								helper.trappedObject.focus();
 							}
 							helper.untouch();
 						});
 					}, 0);
+					helper.trap();
 					general.main.appendChild(deleteModal);
+
 					document.querySelector("#delete-modal").focus();
 					}	
 			});
@@ -633,6 +781,8 @@ bookList.Book.prototype.toggleRead = function () {
 
 
 bookList.addButton.addEventListener("touchstart", function(){
+	event.preventDefault();
+	helper.trap();
 	helper.openModal(addModal.backdrop);
 	addModal.content.focus();
 	helper.touch();
@@ -640,6 +790,7 @@ bookList.addButton.addEventListener("touchstart", function(){
 
 bookList.addButton.addEventListener("click", function(){
 	if(!(helper.touched)) {
+		helper.trap();
 		helper.openModal(addModal.backdrop);
 		addModal.content.focus();
 	}
@@ -652,6 +803,7 @@ for(let i = 0; i < general.backdrops.length; i++) {
 	general.backdrops[i].addEventListener("touchstart", function(event){
 		if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
 			helper.closeModal(general.backdrops[i]);
+			helper.trappedObject.focus();
 		}
 
 		helper.touch();	
@@ -663,6 +815,7 @@ for(let i = 0; i < general.backdrops.length; i++) {
 
 			if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
 				helper.closeModal(general.backdrops[i]);
+				helper.trappedObject.focus();
 			}
 		}
 		helper.untouch();
@@ -674,15 +827,59 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 	general.closeButtons[i].addEventListener("touchstart", function(event){
 		helper.closeModal(general.backdrops[i]);
 		helper.touch();	
+		helper.trappedObject.focus();
 	});
 
 	general.closeButtons[i].addEventListener("click", function(event){
 		if(!(helper.touched)) {
 			helper.closeModal(general.backdrops[i]);
+			helper.trappedObject.focus();
 		}
 		helper.untouch();
 	});
+	general.closeButtons[i].addEventListener("keydown", function(event){
+		if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+			helper.closeModal(general.backdrops[i]);
+			helper.trappedObject.focus();
+		}
+	});
+
 }
+
+// Enable escape button when focusing add modal
+addModal.content.addEventListener("keydown", function(event){
+	if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+		helper.closeModal(addModal.backdrop);
+		helper.trappedObject.focus();
+	}
+});
+
+// Enable tab scrolling in the add modal
+for(let i = 0; i < addModal.tabbables.length; i++) {
+	addModal.tabbables[i].addEventListener("keydown", function(event){
+		
+		if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+			helper.closeModal(addModal.backdrop);		
+			helper.trappedObject.focus();
+
+		}
+
+		if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
+			event.preventDefault();
+			let next = i + 1;
+
+			if(next === addModal.tabbables.length) {
+				addModal.tabbables[0].focus();
+
+			}
+			else{
+				addModal.tabbables[next].focus();
+			}
+		}
+	});
+
+}		
+
 
 // Submit listener for the modal form
 addModal.submit.addEventListener("touchstart", function(event){
@@ -713,8 +910,12 @@ addModal.submit.addEventListener("touchstart", function(event){
 	bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
 	addModal.clearForm();
 	helper.closeModal(addModal.backdrop);
+	helper.trappedObject.focus();
 	helper.touch();
 });
+
+
+
 
 addModal.submit.addEventListener("click", function(event){
 	
@@ -751,9 +952,44 @@ addModal.submit.addEventListener("click", function(event){
 		bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
 		addModal.clearForm();
 		helper.closeModal(addModal.backdrop);
+		helper.trappedObject.focus();
 	}
 	helper.untouch();
 
+});
+
+addModal.submit.addEventListener("keydown", function(event){
+	if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+	// Needs indentation
+	event.preventDefault();
+	let errors = document.querySelectorAll(".modal-error-message");
+	for (let error of errors){
+		error.parentNode.removeChild(error);
+	}
+
+	// Count the number of empty and invalid fields
+	let empty = 0;
+	let invalid = 0;
+
+	// Do not submit if not all fields are filled Or if they have invalid input
+	if(addModal.title.value === "") {addModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	
+	if(addModal.author.value === "") {addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+
+	if(addModal.pages.value === "") {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	else if(addModal.pages.value <= 0) {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); invalid++;}
+
+	// Abort if there are empty or invalid fields
+	if(empty != 0 || invalid != 0) {
+		return;
+
+	}
+	
+	bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
+	addModal.clearForm();
+	helper.closeModal(addModal.backdrop);
+	helper.trappedObject.focus();
+	}
 });
 
 setTimeout(function(){ 

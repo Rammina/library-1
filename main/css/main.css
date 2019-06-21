@@ -48,11 +48,11 @@ table tr:not(:first-child) {
     max-width: 60rem;
     /*min-height: 16rem;*/
     /*background-color: #ccc;*/
-    border-radius: 6px;
+    border-radius: 3px;
     margin: 0 auto;
     margin-top: 1rem;
-    -webkit-box-shadow: 0px 0.5px 0px 3px #333;
-    box-shadow: 0px 0.5px 0px 3px #333;
+    -webkit-box-shadow: 1px 1.5px 0px 1.5px #333, 2px 2.5px 0px 1.7px #777;
+    box-shadow: 1px 1.5px 0px 1.5px #333, 2px 2.5px 0px 1.7px #777;
     overflow: hidden;
     /*border: 2px solid #111;    */
     border-spacing: 0px;
@@ -220,11 +220,17 @@ td, th {
     margin: calc(33vh - 6.5rem) calc(50vw - 50%);
     padding: 2rem 1rem;
     background-color: #EEE9E3;
+    -webkit-box-shadow: 0 0 0 3px #555;
     box-shadow: 0 0 0 3px #555;
     border-radius: 5px;
     /*overflow: hidden;*/
     overflow-y: auto;
     max-height: calc(100vh - 2rem);
+}
+
+.modal-container:focus{
+    -webkit-box-shadow: 0 0 0 1px #111, 0 0 0 2px #555, 0 0 0 4px #eee;
+    box-shadow: 0 0 0 1px #111, 0 0 0 2px #555, 0 0 0 4px #eee;
 }
 
 .modal__close {
@@ -239,6 +245,8 @@ td, th {
     /*margin-right: 0;*/
     margin-top: -2.2rem;
 }
+
+
 
 .modal__close svg, .modal__close-png {
     width: 100%;

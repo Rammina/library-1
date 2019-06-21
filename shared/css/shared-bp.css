@@ -17,6 +17,11 @@
 		font-family: 'Roboto', serif;
 	}
 
+	#add-book:hover {
+		text-shadow: 0 0 0.3px #111;
+		background-color: #c0f0c5;
+	}
+
 	#add-book::after {
 		content: "Add New Book";
 

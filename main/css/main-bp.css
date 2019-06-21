@@ -32,7 +32,11 @@
 	}
 	
 	.books-row.books-item {
-		border: 2px solid #333;
+		border-radius: 3px;
+		border: 2px solid #333;	
+		border-left: 1px solid #333;	
+		border-top: 1px solid #333;	
+		border-right: 3px solid #333;	
 	}
 
 	td:nth-of-type(even){
