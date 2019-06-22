@@ -317,6 +317,10 @@ var bookList = {
 							general.main.removeChild(deleteModal);
 							helper.trappedObject.focus();
 						}
+						else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
+							event.preventDefault();
+							deleteModal.querySelector(".modal__close").focus();
+						}
 					});
 
 				}
@@ -331,8 +335,19 @@ var bookList = {
 								general.main.removeChild(deleteModal);
 								helper.trappedObject.focus();
 							}
+							else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
+								event.preventDefault();
+								let previous = i - 1;
 
-							if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
+								if(previous < 0) {
+									tabbables[tabbables.length - 1].focus();
+
+								}
+								else{
+									tabbables[previous].focus();
+								}
+							}
+							else if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
 								event.preventDefault();	
 								let next = i + 1;
 
@@ -472,6 +487,10 @@ var bookList = {
 							general.main.removeChild(deleteModal);
 							helper.trappedObject.focus();
 						}
+						else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
+							event.preventDefault();
+							deleteModal.querySelector(".modal__close").focus();
+						}
 					});
 				}
 				{
@@ -483,8 +502,19 @@ var bookList = {
 								general.main.removeChild(deleteModal);
 								helper.trappedObject.focus();
 							}
+							else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
+								event.preventDefault();
+								let previous = i - 1;
 
-							if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
+								if(previous < 0) {
+									tabbables[tabbables.length - 1].focus();
+
+								}
+								else{
+									tabbables[previous].focus();
+								}
+							}
+							else if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
 								event.preventDefault();
 								let next = i + 1;
 
@@ -627,6 +657,12 @@ var bookList = {
 							general.main.removeChild(deleteModal);
 							helper.trappedObject.focus();
 						}
+						else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
+							event.preventDefault();
+							deleteModal.querySelector(".modal__close").focus();
+								
+						}
+
 					});
 				}
 				{
@@ -638,8 +674,19 @@ var bookList = {
 								general.main.removeChild(deleteModal);
 								helper.trappedObject.focus();
 							}
+							else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
+								event.preventDefault();
+								let previous = i - 1;
 
-							if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
+								if(previous < 0) {
+									tabbables[tabbables.length - 1].focus();
+
+								}
+								else{
+									tabbables[previous].focus();
+								}
+							}
+							else if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
 								event.preventDefault();
 								let next = i + 1;
 
@@ -852,6 +899,11 @@ addModal.content.addEventListener("keydown", function(event){
 		helper.closeModal(addModal.backdrop);
 		helper.trappedObject.focus();
 	}
+	else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
+			event.preventDefault();
+			document.getElementById("add-close").focus();
+	}
+
 });
 
 // Enable tab scrolling in the add modal
@@ -863,8 +915,19 @@ for(let i = 0; i < addModal.tabbables.length; i++) {
 			helper.trappedObject.focus();
 
 		}
+		else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
+			event.preventDefault();
+			let previous = i - 1;
 
-		if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
+			if(previous < 0) {
+				addModal.tabbables[addModal.tabbables.length - 1].focus();
+
+			}
+			else{
+				addModal.tabbables[previous].focus();
+			}
+		}
+		else if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
 			event.preventDefault();
 			let next = i + 1;
 
@@ -880,6 +943,45 @@ for(let i = 0; i < addModal.tabbables.length; i++) {
 
 }		
 
+{//Listeners for the text fields
+	let errorCounts = [];
+	let textFields = document.querySelectorAll(".text-field");
+	for(let i = 0; i < textFields.length; i++) {
+		errorCounts[i] = 0;
+		textFields[i].addEventListener("blur", function(){
+			if(errorCounts[i] !== 0) {
+				let error = textFields[i].parentNode.querySelector(".modal-error-message");
+				textFields[i].parentNode.removeChild(error);			
+				errorCounts[i] = 0;
+			}
+			if(textFields[i].value === "") {
+
+				textFields[i].classList.add("invalid");
+				textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
+				errorCounts[i]++;
+			}
+
+			// Check if it's the page number text field
+			if(textFields[i] === document.querySelector("#book-pages-field")) {
+				if(textFields[i].value <= 0 && textFields[i].value !== "") {
+
+					textFields[i].classList.add("invalid");
+					textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid number.</p>`); 
+					errorCounts[i]++;
+
+				}
+			}
+				
+		});
+		textFields[i].addEventListener("focus", function(){
+			
+			textFields[i].classList.remove("invalid");
+			
+		});
+			
+	}
+
+}
 
 // Submit listener for the modal form
 addModal.submit.addEventListener("touchstart", function(event){
@@ -894,7 +996,11 @@ addModal.submit.addEventListener("touchstart", function(event){
 	let invalid = 0;
 
 	// Do not submit if not all fields are filled Or if they have invalid input
-	if(addModal.title.value === "") {addModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	if(addModal.title.value === "") {
+		addModal.title.classList.add("invalid");
+		addModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
+		empty++;
+	}
 	
 	if(addModal.author.value === "") {addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
 
@@ -933,7 +1039,11 @@ addModal.submit.addEventListener("click", function(event){
 		let invalid = 0;
 
 		// Do not submit if not all fields are filled Or if they have invalid input
-		if(addModal.title.value === "") {addModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+		if(addModal.title.value === "") {
+			addModal.title.classList.add("invalid");
+			addModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
+			empty++;
+		}
 		
 		if(addModal.author.value === "") {addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
 
@@ -972,13 +1082,18 @@ addModal.submit.addEventListener("keydown", function(event){
 	let invalid = 0;
 
 	// Do not submit if not all fields are filled Or if they have invalid input
-	if(addModal.title.value === "") {addModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	if(addModal.title.value === "") {
+		addModal.title.classList.add("invalid");
+		addModal.title.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`);
+		empty++;
+	}
 	
 	if(addModal.author.value === "") {addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
 
 	if(addModal.pages.value === "") {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
 	else if(addModal.pages.value <= 0) {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); invalid++;}
 
+	
 	// Abort if there are empty or invalid fields
 	if(empty != 0 || invalid != 0) {
 		return;
