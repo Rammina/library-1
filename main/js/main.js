@@ -2,7 +2,7 @@
 
 // Screen loader
 
-/*
+
 setTimeout(function () {
 	if (document.readyState === 'loading') {  // Loading hasn't finished yet
 	  document.addEventListener('DOMContentLoaded', function () {
@@ -14,8 +14,8 @@ setTimeout(function () {
 	  console.log(" HTML loaded");
 	  document.querySelector(".loader-container").classList.add("no-display"); //Get rid of the loader
 	}
-  }, 600);
-  */
+  }, 2000);
+  
   // Checking SVG support
   
   var svgSupport = !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect;
@@ -51,6 +51,7 @@ var helper = {
 	touched: false,
 	counter: 0,
 	trappedObject: null,
+	errorCounts: [],
 
 	openModal(modal){
 		modal.classList.add("show");
@@ -66,8 +67,30 @@ var helper = {
 	},
 	trap(){
 		helper.trappedObject = document.activeElement;
+	},
+	// Clear all error messages
+	clearErrors(){
+		let errors = document.querySelectorAll(".modal-error-message");
+		for (let error of errors){
+			error.parentNode.removeChild(error);
+		}
+		for (let i = 0; i < helper.errorCounts.length; i++) { 
+			helper.errorCounts[i] = 0;
+		}
+	},
+	// Clear all empty field error messages
+	clearEmptyErrors(){
+		
+		let textFields = document.querySelectorAll(".text-field");
+		for (let i = 0; i < textFields.length; i++) {
+			if (textFields[i].value === "") {
+				textFields[i].classList.remove("invalid");
+				let error = textFields[i].parentNode.querySelector(".modal-error-message");
+				error.parentNode.removeChild(error);
+				helper.errorCounts[i] = 0;
+			}
+		}
 	}
-
 	
 
 };
@@ -82,12 +105,14 @@ var addModal = {
 	checkbox: document.getElementById("read-checkbox"),
 	submit: document.getElementById("book-submit"),
 	
+	// Clear all input fields
 	clearForm(){
 		addModal.title.value = "";
 		addModal.author.value = "";
 		addModal.pages.value = "";
 		addModal.checkbox.checked = false;
-	}
+	},
+
 }
 addModal.tabbables = addModal.content.querySelectorAll("input, [tabindex='-1']");
 
@@ -330,7 +355,7 @@ var bookList = {
 					let tabbables = deleteModal.querySelectorAll("button, div[tabindex='-1']");
 					for(let i = 0; i < tabbables.length; i++) {
 						tabbables[i].addEventListener("keydown", function(event){
-							
+							event.stopPropagation();
 							if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
 								general.main.removeChild(deleteModal);
 								helper.trappedObject.focus();
@@ -497,7 +522,7 @@ var bookList = {
 					let tabbables = deleteModal.querySelectorAll("button, div[tabindex='-1']");
 					for(let i = 0; i < tabbables.length; i++) {
 						tabbables[i].addEventListener("keydown", function(event){
-							
+							event.stopPropagation();
 							if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
 								general.main.removeChild(deleteModal);
 								helper.trappedObject.focus();
@@ -669,7 +694,7 @@ var bookList = {
 					let tabbables = deleteModal.querySelectorAll("button, div[tabindex='-1']");
 					for(let i = 0; i < tabbables.length; i++) {
 						tabbables[i].addEventListener("keydown", function(event){
-							
+							event.stopPropagation();
 							if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
 								general.main.removeChild(deleteModal);
 								helper.trappedObject.focus();
@@ -849,6 +874,7 @@ bookList.addButton.addEventListener("click", function(){
 for(let i = 0; i < general.backdrops.length; i++) {
 	general.backdrops[i].addEventListener("touchstart", function(event){
 		if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
+			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
 			helper.trappedObject.focus();
 		}
@@ -861,6 +887,7 @@ for(let i = 0; i < general.backdrops.length; i++) {
 
 
 			if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
+				helper.clearEmptyErrors();
 				helper.closeModal(general.backdrops[i]);
 				helper.trappedObject.focus();
 			}
@@ -872,6 +899,7 @@ for(let i = 0; i < general.backdrops.length; i++) {
 // General close button modal closer
 for(let i = 0; i < general.closeButtons.length; i++) {
 	general.closeButtons[i].addEventListener("touchstart", function(event){
+		helper.clearEmptyErrors();
 		helper.closeModal(general.backdrops[i]);
 		helper.touch();	
 		helper.trappedObject.focus();
@@ -879,6 +907,7 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 
 	general.closeButtons[i].addEventListener("click", function(event){
 		if(!(helper.touched)) {
+			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
 			helper.trappedObject.focus();
 		}
@@ -886,6 +915,7 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 	});
 	general.closeButtons[i].addEventListener("keydown", function(event){
 		if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
 			helper.trappedObject.focus();
 		}
@@ -909,7 +939,7 @@ addModal.content.addEventListener("keydown", function(event){
 // Enable tab scrolling in the add modal
 for(let i = 0; i < addModal.tabbables.length; i++) {
 	addModal.tabbables[i].addEventListener("keydown", function(event){
-		
+		event.stopPropagation();	
 		if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
 			helper.closeModal(addModal.backdrop);		
 			helper.trappedObject.focus();
@@ -944,21 +974,21 @@ for(let i = 0; i < addModal.tabbables.length; i++) {
 }		
 
 {//Listeners for the text fields
-	let errorCounts = [];
+	
 	let textFields = document.querySelectorAll(".text-field");
 	for(let i = 0; i < textFields.length; i++) {
-		errorCounts[i] = 0;
+		helper.errorCounts[i] = 0;
 		textFields[i].addEventListener("blur", function(){
-			if(errorCounts[i] !== 0) {
+			if(helper.errorCounts[i] !== 0) {
 				let error = textFields[i].parentNode.querySelector(".modal-error-message");
 				textFields[i].parentNode.removeChild(error);			
-				errorCounts[i] = 0;
+				helper.errorCounts[i] = 0;
 			}
 			if(textFields[i].value === "") {
 
 				textFields[i].classList.add("invalid");
 				textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
-				errorCounts[i]++;
+				helper.errorCounts[i]++;
 			}
 
 			// Check if it's the page number text field
@@ -967,7 +997,7 @@ for(let i = 0; i < addModal.tabbables.length; i++) {
 
 					textFields[i].classList.add("invalid");
 					textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid number.</p>`); 
-					errorCounts[i]++;
+					helper.BookerrorCounts[i]++;
 
 				}
 			}
@@ -1002,10 +1032,22 @@ addModal.submit.addEventListener("touchstart", function(event){
 		empty++;
 	}
 	
-	if(addModal.author.value === "") {addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	if(addModal.author.value === "") {
+		addModal.author.classList.add("invalid");
+		addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
+		empty++;
+	}
 
-	if(addModal.pages.value === "") {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
-	else if(addModal.pages.value <= 0) {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); invalid++;}
+	if(addModal.pages.value === "") {
+			addModal.pages.classList.add("invalid");
+			addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
+			empty++;
+	}
+	else if(addModal.pages.value <= 0) {
+		addModal.pages.classList.add("invalid");
+		addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); 
+		invalid++;
+	}
 
 	// Abort if there are empty or invalid fields
 	if(empty != 0 || invalid != 0) {
@@ -1045,10 +1087,22 @@ addModal.submit.addEventListener("click", function(event){
 			empty++;
 		}
 		
-		if(addModal.author.value === "") {addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+		if(addModal.author.value === "") {
+			addModal.author.classList.add("invalid");
+			addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
+			empty++;
+		}
 
-		if(addModal.pages.value === "") {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
-		else if(addModal.pages.value <= 0) {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); invalid++;}
+		if(addModal.pages.value === "") {
+			addModal.pages.classList.add("invalid");
+			addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
+			empty++;
+		}
+		else if(addModal.pages.value <= 0) {
+			addModal.pages.classList.add("invalid");
+			addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); 
+			invalid++;
+		}
 
 		// Abort if there are empty or invalid fields
 		if(empty != 0 || invalid != 0) {
@@ -1088,10 +1142,22 @@ addModal.submit.addEventListener("keydown", function(event){
 		empty++;
 	}
 	
-	if(addModal.author.value === "") {addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
+	if(addModal.author.value === "") {
+		addModal.author.classList.add("invalid");
+		addModal.author.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
+		empty++;
+	}
 
-	if(addModal.pages.value === "") {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); empty++;}
-	else if(addModal.pages.value <= 0) {addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); invalid++;}
+	if(addModal.pages.value === "") {
+			addModal.pages.classList.add("invalid");
+			addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
+			empty++;
+		}
+	else if(addModal.pages.value <= 0) {
+		addModal.pages.classList.add("invalid");
+		addModal.pages.insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); 
+		invalid++;
+	}
 
 	
 	// Abort if there are empty or invalid fields
