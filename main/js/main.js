@@ -14,7 +14,7 @@ setTimeout(function () {
 	  console.log(" HTML loaded");
 	  document.querySelector(".loader-container").classList.add("no-display"); //Get rid of the loader
 	}
-  }, 2000);
+  }, 600);
   
   // Checking SVG support
   
@@ -55,9 +55,11 @@ var helper = {
 
 	openModal(modal){
 		modal.classList.add("show");
+		modal.firstElementChild.setAttribute("aria-hidden", "false");
 	},
 	closeModal(modal){
 		modal.classList.remove("show");	
+		modal.firstElementChild.setAttribute("aria-hidden", "true");
 	},
 	touch(){
 		helper.touched = true;
@@ -85,9 +87,12 @@ var helper = {
 		for (let i = 0; i < textFields.length; i++) {
 			if (textFields[i].value === "") {
 				textFields[i].classList.remove("invalid");
+
 				let error = textFields[i].parentNode.querySelector(".modal-error-message");
-				error.parentNode.removeChild(error);
-				helper.errorCounts[i] = 0;
+					if(error !== null && error !== undefined) {
+						error.parentNode.removeChild(error);
+						helper.errorCounts[i] = 0;
+					}
 			}
 		}
 	}
@@ -117,13 +122,8 @@ var addModal = {
 addModal.tabbables = addModal.content.querySelectorAll("input, [tabindex='-1']");
 
 
-var deleteModal = {
-	backdrop: document.getElementById("delete-backdrop"),
-	close: document.getElementById("delete-close"),
-	content: document.getElementById("delete-modal"),
-	delete: document.getElementById("delete-modal-button"),
-	cancel: document.getElementById("cancel-modal-button"),
-	openedBy: null,
+var deleteFunctions = {
+
 };
 
 var bookList = { 
@@ -143,22 +143,8 @@ var bookList = {
 		this.pages = pages;
 		this.read = read;
 	},
-	refreshBookListeners(){
-		bookList.readContainer = document.querySelectorAll(".books-read-container");
-		bookList.readIcons = document.querySelectorAll(".books-read-icon");
-		bookList.deleteIcons = document.querySelectorAll(".books-delete-container");
-		
-		
-		
-		
-	},
-	renderRow(title, author, pages, read){
-			// Getting the size of the library before adding this book
-			// let librarySize = bookList.library.length;
-
-			// To prevent bottleneck
-			setTimeout(function(){ 
-				// At the book to the HTML document
+	createBookRow(title, author, pages, read){
+				
 			let item = document.createElement("tr");
 			item.classList.add("books-row");
 			item.classList.add("books-item");
@@ -168,11 +154,13 @@ var bookList = {
                     <td class="books-author">${author}</td>
                     <td class="books-pages">${pages}</td>
                     `);
+			//urgent: I inserted the aria roles in the wrong element kill me
+			// Move them to the parent there aria label and role
 			if(read === false) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
 						<div class="books-read-container" tabindex="0">
-							<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon" >
+							<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon" aria-label="not read, toggle to change to read" role="button">
 						</div>	
 					</td>`);
 				
@@ -181,14 +169,58 @@ var bookList = {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
 						<div class="books-read-container" tabindex="0">
-							<img class="books-read-icon read" src="main/images/check.png" alt="check icon">
+							<img class="books-read-icon read" src="main/images/check.png" alt="check icon" aria-label="read, toggle to change to not read" role="button">
 						</div>
 					</td>`);
 			}
             item.insertAdjacentHTML("beforeend", `
             	<td class="books-delete">
             		<div class="books-delete-container" tabindex="0">
-                        <img class="delete-png" src="main/images/delete.png" alt="Trash bin">
+                        <img class="delete-png" src="main/images/delete.png" alt="Trash bin" aria-label="delete this book" role="button">
+                             <!-- <img class="delete-png" src="main/images/open-delete.png" alt="Trash bin"> -->
+                    </div>
+                </td>`);
+        	return item;
+	},
+	renderRow(title, author, pages, read){
+			// Getting the size of the library before adding this book
+			// let librarySize = bookList.library.length;
+
+			// To prevent bottleneck
+		setTimeout(function(){ 
+			// At the book to the HTML document
+			let item = document.createElement("tr");
+			item.classList.add("books-row");
+			item.classList.add("books-item");
+			item.insertAdjacentHTML("beforeend", `
+                    <td class="books-number"></td>
+                    <td class="books-title">${title}</td>
+                    <td class="books-author">${author}</td>
+                    <td class="books-pages">${pages}</td>
+                    `);
+			//urgent: I inserted the aria roles in the wrong element kill me
+			// Move them to the parent there aria label and role
+			if(read === false) {
+				item.insertAdjacentHTML("beforeend", `
+					<td class="books-read">
+						<div class="books-read-container" tabindex="0">
+							<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon" aria-label="not read, toggle to change to read" role="button">
+						</div>	
+					</td>`);
+				
+			}
+			else if(read === true) {
+				item.insertAdjacentHTML("beforeend", `
+					<td class="books-read">
+						<div class="books-read-container" tabindex="0">
+							<img class="books-read-icon read" src="main/images/check.png" alt="check icon" aria-label="read, toggle to change to not read" role="button">
+						</div>
+					</td>`);
+			}
+            item.insertAdjacentHTML("beforeend", `
+            	<td class="books-delete">
+            		<div class="books-delete-container" tabindex="0">
+                        <img class="delete-png" src="main/images/delete.png" alt="Trash bin" aria-label="delete this book" role="button">
                              <!-- <img class="delete-png" src="main/images/open-delete.png" alt="Trash bin"> -->
                     </div>
                 </td>`);
@@ -210,6 +242,9 @@ var bookList = {
 						readIcon.classList.add("not-read");
 						readIcon.setAttribute("src", "main/images/x-icon.png");
 						readIcon.setAttribute("alt", "X icon");
+						// Urgent: replace icon to container
+						readIcon.setAttribute("aria-label", "not read, toggle to change to read");
+						readIcon.setAttribute("role", "button");
 						// readIcon.setAttribute("tabindex", "0");
 			
 						// Actually change the property Of the object in the library
@@ -224,6 +259,8 @@ var bookList = {
 						readIcon.classList.add("read");
 						readIcon.setAttribute("src", "main/images/check.png");
 						readIcon.setAttribute("alt", "check icon");
+						readIcon.setAttribute("aria-label", "read, toggle to change to not read");
+						readIcon.setAttribute("role", "button");
 						// bookList.readIcons[i].setAttribute("tabindex", "0");
 			
 						// Actually change the property Of the object in the library
@@ -247,6 +284,8 @@ var bookList = {
 						readIcon.classList.add("not-read");
 						readIcon.setAttribute("src", "main/images/x-icon.png");
 						readIcon.setAttribute("alt", "X icon");
+						readIcon.setAttribute("aria-label", "not read, toggle to change to read");
+						readIcon.setAttribute("role", "button");
 						// readIcon.setAttribute("tabindex", "0");
 			
 						// Actually change the property Of the object in the library
@@ -261,6 +300,8 @@ var bookList = {
 						readIcon.classList.add("read");
 						readIcon.setAttribute("src", "main/images/check.png");
 						readIcon.setAttribute("alt", "check icon");
+						readIcon.setAttribute("aria-label", "read, toggle to change to not read");
+						readIcon.setAttribute("role", "button");
 						// bookList.readIcons[i].setAttribute("tabindex", "0");
 			
 						// Actually change the property Of the object in the library
@@ -284,6 +325,8 @@ var bookList = {
 						readIcon.classList.add("not-read");
 						readIcon.setAttribute("src", "main/images/x-icon.png");
 						readIcon.setAttribute("alt", "X icon");
+						readIcon.setAttribute("aria-label", "not read, toggle to change to read");
+						readIcon.setAttribute("role", "button");
 						// readIcon.setAttribute("tabindex", "0");
 			
 						// Actually change the property Of the object in the library
@@ -298,6 +341,8 @@ var bookList = {
 						readIcon.classList.add("read");
 						readIcon.setAttribute("src", "main/images/check.png");
 						readIcon.setAttribute("alt", "check icon");
+						readIcon.setAttribute("aria-label", "read, toggle to change to not read");
+						readIcon.setAttribute("role", "button");
 						// bookList.readIcons[i].setAttribute("tabindex", "0");
 			
 						// Actually change the property Of the object in the library
@@ -319,8 +364,8 @@ var bookList = {
 				deleteModal.classList.add("show");
 				deleteModal.setAttribute("id", "delete-backdrop");
 				deleteModal.insertAdjacentHTML("beforeend", `
-					<section class="modal-container" id="delete-modal" tabindex="0">
-                		<div class="modal__close" id="delete-close" tabindex="-1">
+					<section class="modal-container" id="delete-modal" tabindex="0" role="dialog" aria-hidden="false">
+                		<div class="modal__close" id="delete-close" tabindex="-1" role="button" aria-label="close button">
                     		<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         	<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
                         	<image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
@@ -490,8 +535,8 @@ var bookList = {
 				deleteModal.classList.add("show");
 				deleteModal.setAttribute("id", "delete-backdrop");
 				deleteModal.insertAdjacentHTML("beforeend", `
-					<section class="modal-container" id="delete-modal" tabindex="0">
-                		<div class="modal__close" id="delete-close" tabindex="-1">
+					<section class="modal-container" id="delete-modal" tabindex="0" role="dialog" aria-hidden="false">
+                		<div class="modal__close" id="delete-close" tabindex="-1" role="button" aria-label="close button">
                     		<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         	<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
                         	<image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
@@ -661,8 +706,8 @@ var bookList = {
 					deleteModal.classList.add("show");
 					deleteModal.setAttribute("id", "delete-backdrop");
 					deleteModal.insertAdjacentHTML("beforeend", `
-						<section class="modal-container" id="delete-modal" tabindex="0">
-							<div class="modal__close" id="delete-close" tabindex="-1">
+						<section class="modal-container" id="delete-modal" tabindex="0" role="dialog" aria-hidden="false">
+							<div class="modal__close" id="delete-close" tabindex="-1" role="button" aria-label="close button">
 								<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 								<!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
 								<image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
@@ -876,6 +921,7 @@ for(let i = 0; i < general.backdrops.length; i++) {
 		if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
 			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
+			
 			helper.trappedObject.focus();
 		}
 
@@ -889,6 +935,7 @@ for(let i = 0; i < general.backdrops.length; i++) {
 			if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
 				helper.clearEmptyErrors();
 				helper.closeModal(general.backdrops[i]);
+				
 				helper.trappedObject.focus();
 			}
 		}
@@ -901,6 +948,7 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 	general.closeButtons[i].addEventListener("touchstart", function(event){
 		helper.clearEmptyErrors();
 		helper.closeModal(general.backdrops[i]);
+		
 		helper.touch();	
 		helper.trappedObject.focus();
 	});
@@ -909,6 +957,7 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 		if(!(helper.touched)) {
 			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
+			
 			helper.trappedObject.focus();
 		}
 		helper.untouch();
@@ -917,6 +966,7 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 		if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
 			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
+			
 			helper.trappedObject.focus();
 		}
 	});
@@ -927,6 +977,7 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 addModal.content.addEventListener("keydown", function(event){
 	if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
 		helper.closeModal(addModal.backdrop);
+		
 		helper.trappedObject.focus();
 	}
 	else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
@@ -942,6 +993,7 @@ for(let i = 0; i < addModal.tabbables.length; i++) {
 		event.stopPropagation();	
 		if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
 			helper.closeModal(addModal.backdrop);		
+			
 			helper.trappedObject.focus();
 
 		}
@@ -1058,6 +1110,7 @@ addModal.submit.addEventListener("touchstart", function(event){
 	bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
 	addModal.clearForm();
 	helper.closeModal(addModal.backdrop);
+	
 	helper.trappedObject.focus();
 	helper.touch();
 });
@@ -1116,6 +1169,7 @@ addModal.submit.addEventListener("click", function(event){
 		bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
 		addModal.clearForm();
 		helper.closeModal(addModal.backdrop);
+		
 		helper.trappedObject.focus();
 	}
 	helper.untouch();
@@ -1169,6 +1223,7 @@ addModal.submit.addEventListener("keydown", function(event){
 	bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
 	addModal.clearForm();
 	helper.closeModal(addModal.backdrop);
+	
 	helper.trappedObject.focus();
 	}
 });
