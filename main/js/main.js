@@ -1,8 +1,5 @@
-// 
 
 // Screen loader
-
-
 setTimeout(function () {
 	if (document.readyState === 'loading') {  // Loading hasn't finished yet
 	  document.addEventListener('DOMContentLoaded', function () {
@@ -17,7 +14,6 @@ setTimeout(function () {
   }, 600);
   
   // Checking SVG support
-  
   var svgSupport = !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect;
   
   if (!(svgSupport)) {
@@ -35,18 +31,14 @@ setTimeout(function () {
 		  png.classList.remove("no-display");
 		  png.classList.remove("hide-png");
 	  }
-  
-  
-  
   }
-
-
 
 var general = {
 	main: document.querySelector(".main-content"),
 	backdrops: document.querySelectorAll(".backdrop"),
 	closeButtons: document.querySelectorAll(".modal__close")
 }
+
 var helper = { 
 	touched: false,
 	counter: 0,
@@ -74,13 +66,17 @@ var helper = {
 	},
 	// Clear all error messages
 	clearErrors(){
-		let errors = document.querySelectorAll(".modal-error-message");
-		for (let error of errors){
-			error.parentNode.removeChild(error);
-		}
-		for (let i = 0; i < helper.errorCounts.length; i++) { 
-			helper.errorCounts[i] = 0;
-		}
+		let textFields = document.querySelectorAll(".text-field");
+		for (let i = 0; i < textFields.length; i++) {
+			
+			textFields[i].classList.remove("invalid");
+
+			let error = textFields[i].parentNode.querySelector(".modal-error-message");
+			if(error !== null && error !== undefined) {
+				error.parentNode.removeChild(error);
+				helper.errorCounts[i] = 0;
+			}
+		}	
 	},
 	// Clear all empty field error messages
 	clearEmptyErrors(){
@@ -99,7 +95,6 @@ var helper = {
 		}
 	}
 	
-
 };
 
 var addModal = {
@@ -123,61 +118,52 @@ var addModal = {
 	verifyThenSubmit(){
 		helper.clearErrors();
 
-	// Count the number of empty and invalid fields
-	let empty = 0;
-	let invalid = 0;
+		// Count the number of empty and invalid fields
+		let empty = 0;
+		let invalid = 0;
 
 		{//Listeners for the text fields
-	
-	let textFields = document.querySelectorAll(".text-field");
-	for(let i = 0; i < textFields.length; i++) {
-
 		
-			
-			if(textFields[i].value === "") {
+		let textFields = document.querySelectorAll(".text-field");
+		for(let i = 0; i < textFields.length; i++) {
 
-				textFields[i].classList.add("invalid");
-				textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
-				helper.errorCounts[i]++;
-				error++;
-			}
-
-			// Check if it's the page number text field
-			if(textFields[i] === document.querySelector("#book-pages-field")) {
-				if(textFields[i].value <= 0 && textFields[i].value !== "") {
+				if(textFields[i].value === "") {
 
 					textFields[i].classList.add("invalid");
-					textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); 
+					textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
 					helper.errorCounts[i]++;
-					invalid++;
+					empty++;
 				}
-			}
-				
-		
-			
-	}
-}
-	// Abort if there are empty or invalid fields
-	if(empty != 0 || invalid != 0) {
-		return;
 
-	}
-	// Submit if there are no errors
-	bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
-	addModal.clearForm();
-	helper.closeModal(addModal.backdrop);
-	
-	helper.trappedObject.focus();
-	
+				// Check if it's the page number text field
+				if(textFields[i] === document.querySelector("#book-pages-field")) {
+					if(textFields[i].value <= 0 && textFields[i].value !== "") {
+
+						textFields[i].classList.add("invalid");
+						textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); 
+						helper.errorCounts[i]++;
+						invalid++;
+					}
+				}
+
+			}
+		}
+		// Abort if there are empty or invalid fields
+		if(empty != 0 || invalid != 0) {
+			return;
+		}
+
+		// Submit if there are no errors
+		bookList.renderRow(addModal.title.value, addModal.author.value, addModal.pages.value, addModal.checkbox.checked);
+		addModal.clearForm();
+		helper.closeModal(addModal.backdrop);
+
+		
 	}
 
 }
 addModal.tabbables = addModal.content.querySelectorAll("input, [tabindex='-1']");
 
-
-var deleteFunctions = {
-
-};
 
 var bookList = { 
 	addButton: document.getElementById("add-book"),
@@ -207,13 +193,12 @@ var bookList = {
                     <td class="books-author">${author}</td>
                     <td class="books-pages">${pages}</td>
                     `);
-			//urgent: I inserted the aria roles in the wrong element kill me
-			// Move them to the parent there aria label and role
+		
 			if(read === false) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<div class="books-read-container" tabindex="0">
-							<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon" aria-label="not read, toggle to change to read" role="button">
+						<div class="books-read-container" tabindex="0" aria-label="not read, toggle to change to read" role="button">
+							<img class="books-read-icon not-read" src="main/images/x-icon.png" alt="X icon">
 						</div>	
 					</td>`);
 				
@@ -221,46 +206,42 @@ var bookList = {
 			else if(read === true) {
 				item.insertAdjacentHTML("beforeend", `
 					<td class="books-read">
-						<div class="books-read-container" tabindex="0">
-							<img class="books-read-icon read" src="main/images/check.png" alt="check icon" aria-label="read, toggle to change to not read" role="button">
+						<div class="books-read-container" tabindex="0" aria-label="read, toggle to change to not read" role="button">
+							<img class="books-read-icon read" src="main/images/check.png" alt="check icon">
 						</div>
 					</td>`);
 			}
             item.insertAdjacentHTML("beforeend", `
             	<td class="books-delete">
-            		<div class="books-delete-container" tabindex="0">
-                        <img class="delete-png" src="main/images/delete.png" alt="Trash bin" aria-label="delete this book" role="button">
-                             <!-- <img class="delete-png" src="main/images/open-delete.png" alt="Trash bin"> -->
+            		<div class="books-delete-container" tabindex="0" aria-label="delete this book" role="button">
+                        <img class="delete-png" src="main/images/delete.png" alt="Trash bin">
                     </div>
                 </td>`);
         	return item;
 	},
 	toggleReadIcon(readContainer, readIcon, newBook){
-					if (readIcon.classList.contains("read")) {
-						// Make it look like it's not read
-						readIcon.classList.remove("read");
-						readIcon.classList.add("not-read");
-						readIcon.setAttribute("src", "main/images/x-icon.png");
-						readIcon.setAttribute("alt", "X icon");
-						// Urgent: replace icon to container
-						readIcon.setAttribute("aria-label", "not read, toggle to change to read");
-						readIcon.setAttribute("role", "button");
-					}
-					else if (readIcon.classList.contains("not-read")) {
-			
-						// Make it look like it's not read
-						readIcon.classList.remove("not-read");
-						readIcon.classList.add("read");
-						readIcon.setAttribute("src", "main/images/check.png");
-						readIcon.setAttribute("alt", "check icon");
-						readIcon.setAttribute("aria-label", "read, toggle to change to not read");
-						readIcon.setAttribute("role", "button");
-					}
-					newBook.toggleRead();
-					
+		if (readIcon.classList.contains("read")) {
+			// Make it look like it's not read
+			readIcon.classList.remove("read");
+			readIcon.classList.add("not-read");
+			readIcon.setAttribute("src", "main/images/x-icon.png");
+			readIcon.setAttribute("alt", "X icon");
+			// Urgent: replace icon to container
+			readContainer.setAttribute("aria-label", "not read, toggle to change to read");
+			readContainer.setAttribute("role", "button");
+		}
+		else if (readIcon.classList.contains("not-read")) {
+			// Make it look like it's not read
+			readIcon.classList.remove("not-read");
+			readIcon.classList.add("read");
+			readIcon.setAttribute("src", "main/images/check.png");
+			readIcon.setAttribute("alt", "check icon");
+			readContainer.setAttribute("aria-label", "read, toggle to change to not read");
+			readContainer.setAttribute("role", "button");
+			}
+		newBook.toggleRead();		
 	},
-	createDeleteModal(newBook){
-
+	createDeleteModal(newBook, item){
 				let deleteModal = document.createElement("div");
 				deleteModal.classList.add("backdrop");
 				deleteModal.classList.add("show");
@@ -338,11 +319,10 @@ var bookList = {
 				// Close the delete modal when clicking the delete buttonAs well as delete the row and book item
 				function confirmDeleteModal() {
 						bookList.tableBody.removeChild(item);
-						helper.trappedObject.focus();
+						document.querySelector(".nav__title").focus();
 						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
 						general.main.removeChild(deleteModal);
 						helper.touch();
-
 				};
 				setTimeout(function(){
 					deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
@@ -362,10 +342,6 @@ var bookList = {
 					});
 				}, 0);
                 
-                function cancelDeleteModal() {
-
-
-                }
 				setTimeout(function(){ 
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
 						general.main.removeChild(deleteModal);
@@ -424,15 +400,11 @@ var bookList = {
 				}, 0);
 				helper.trap();
 				general.main.appendChild(deleteModal);
-				
 				document.querySelector("#delete-modal").focus();
-				
+
 	},
 	renderRow(title, author, pages, read){
-			// Getting the size of the library before adding this book
-			// let librarySize = bookList.library.length;
-
-			// To prevent bottleneck
+		// To prevent bottleneck
 		setTimeout(function(){ 
 			// At the book to the HTML document
 			let item = bookList.createBookRow(title, author, pages, read);
@@ -477,19 +449,19 @@ var bookList = {
 
 			deleteIcon.addEventListener("touchstart", function(){
 				event.preventDefault();
-				bookList.createDeleteModal(newBook);
+				bookList.createDeleteModal(newBook, item);
 				helper.touch();
 			});
 			deleteIcon.addEventListener("click", function(){
 				if(!(helper.touched)) {
-					bookList.createDeleteModal(newBook);
+					bookList.createDeleteModal(newBook, item);
 				
 				}
 				helper.untouch();
 			});
 			deleteIcon.addEventListener("keydown", function(event){
 				if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
-					bookList.createDeleteModal(newBook);
+					bookList.createDeleteModal(newBook, item);
 					}	
 			});
 			bookList.tableBody.appendChild(item);
@@ -500,26 +472,15 @@ var bookList = {
 	renderLibrary(library){
 		// let counter = 1;
 		for (let book of library){
-
 			bookList.renderRow(book.title, book.author, book.pages, book.read);
-
 		}
 	},
 
 };
 
-
-
-
-
 bookList.Book.prototype.toggleRead = function () {
 	this.read = !(this.read);
 }
-
-
-
-
-
 
 bookList.addButton.addEventListener("touchstart", function(){
 	event.preventDefault();
@@ -545,22 +506,16 @@ for(let i = 0; i < general.backdrops.length; i++) {
 		if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
 			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
-			
-			
 		}
-
 		helper.touch();	
 	});
 
 	general.backdrops[i].addEventListener("click", function(event){
 		if(!(helper.touched)) {
 
-
 			if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
 				helper.clearEmptyErrors();
 				helper.closeModal(general.backdrops[i]);
-				
-				helper.trappedObject.focus();
 			}
 		}
 		helper.untouch();
@@ -572,17 +527,13 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 	general.closeButtons[i].addEventListener("touchstart", function(event){
 		helper.clearEmptyErrors();
 		helper.closeModal(general.backdrops[i]);
-		
 		helper.touch();	
-		helper.trappedObject.focus();
 	});
 
 	general.closeButtons[i].addEventListener("click", function(event){
 		if(!(helper.touched)) {
 			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
-			
-			helper.trappedObject.focus();
 		}
 		helper.untouch();
 	});
@@ -590,8 +541,6 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 		if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
 			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
-			
-			helper.trappedObject.focus();
 		}
 	});
 
@@ -601,14 +550,11 @@ for(let i = 0; i < general.closeButtons.length; i++) {
 addModal.content.addEventListener("keydown", function(event){
 	if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
 		helper.closeModal(addModal.backdrop);
-		
-		helper.trappedObject.focus();
 	}
 	else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
 			event.preventDefault();
 			document.getElementById("add-close").focus();
 	}
-
 });
 
 // Enable tab scrolling in the add modal
@@ -617,17 +563,12 @@ for(let i = 0; i < addModal.tabbables.length; i++) {
 		event.stopPropagation();	
 		if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
 			helper.closeModal(addModal.backdrop);		
-			
-			helper.trappedObject.focus();
-
 		}
 		else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
 			event.preventDefault();
 			let previous = i - 1;
-
 			if(previous < 0) {
 				addModal.tabbables[addModal.tabbables.length - 1].focus();
-
 			}		
 			else{
 				addModal.tabbables[previous].focus();
@@ -636,10 +577,8 @@ for(let i = 0; i < addModal.tabbables.length; i++) {
 		else if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
 			event.preventDefault();
 			let next = i + 1;
-
 			if(next === addModal.tabbables.length) {
 				addModal.tabbables[0].focus();
-
 			}
 			else{
 				addModal.tabbables[next].focus();
@@ -661,7 +600,6 @@ for(let i = 0; i < addModal.tabbables.length; i++) {
 				helper.errorCounts[i] = 0;
 			}
 			if(textFields[i].value === "") {
-
 				textFields[i].classList.add("invalid");
 				textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Please fill up this field.</p>`); 
 				helper.errorCounts[i]++;
@@ -670,23 +608,17 @@ for(let i = 0; i < addModal.tabbables.length; i++) {
 			// Check if it's the page number text field
 			if(textFields[i] === document.querySelector("#book-pages-field")) {
 				if(textFields[i].value <= 0 && textFields[i].value !== "") {
-
 					textFields[i].classList.add("invalid");
 					textFields[i].insertAdjacentHTML("afterend", `<p class="modal-error-message">Invalid page number.</p>`); 
 					helper.errorCounts[i]++;
-
 				}
 			}
-				
 		});
 		textFields[i].addEventListener("focus", function(){
-			
 			textFields[i].classList.remove("invalid");
-			
 		});
 			
 	}
-
 }
 
 // Submit listener for the modal form
@@ -696,9 +628,6 @@ addModal.submit.addEventListener("touchstart", function(event){
 	helper.touch();
 });
 
-
-
-
 addModal.submit.addEventListener("click", function(event){
 	if(!(helper.touched)) {
 		event.preventDefault();
@@ -706,70 +635,15 @@ addModal.submit.addEventListener("click", function(event){
 		
 	}
 	helper.untouch();
-
 });
 
 addModal.submit.addEventListener("keydown", function(event){
 	if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
-	// Needs indentation
-	event.preventDefault();
-	addModal.verifyThenSubmit();
+		event.preventDefault();
+		addModal.verifyThenSubmit();
 	}
 });
 
 setTimeout(function(){ 
 	bookList.renderLibrary(bookList.library);
  }, 0);
-
-
-/* Find all focusable children
-	focusableElementsString: 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable], [tabindex="-1"]',
-
-	focusableElements: popup.content.querySelectorAll(".popup__close"),
-	// Convert Nodelist to Array
-	focusableElements: Array.prototype.slice.call(popup.focusableElements),
-
-	firstTabStop: popup.focusableElements[0],
-	lastTabStop: popup.focusableElements[popup.focusableElements.length - 1],
-
-
-	products.items[i].addEventListener("keydown", function(event){
-		if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
-			popup.openModal(i);
-
-		}
-	});
-
-
-	// Check for TAB key press
-		if (event.keyCode === 9) {
-
-			// SHIFT + TAB
-			if (event.shiftKey) {
-				if (document.activeElement === popup.content[i]) {
-					event.preventDefault();
-					popup.close[i].focus();
-				}
-				else if (document.activeElement === popup.close[i]) {
-					event.preventDefault();
-					popup.content[i].focus();
-				}
-			}
-			// TAB
-			else {
-				if (document.activeElement === popup.close[i]) {
-					event.preventDefault();
-					popup.content[i].focus();
-				}
-				else if (document.activeElement === popup.content[i]) {
-					event.preventDefault();
-					popup.close[i].focus();
-				}
-			}
-		}
-
-		//ESCAPE
-		if (event.keyCode === 27) {
-			popup.closeModal(i);
-		}
-*/
