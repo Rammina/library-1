@@ -173,8 +173,7 @@ var bookList = {
 	readContainer: document.querySelectorAll(".books-read-container"),
 	readIcons: document.querySelectorAll(".books-read-icon"),
 	deleteIcons: document.querySelectorAll(".books-delete-container"),
-	library: [{title: "A Game of Thrones", author: "George R.R. Martin", pages: 694, read: false},
-		{title: "A Game of Thrones", author: "George R.R. Martin", pages: 694, read: true}],
+	library: JSON.parse(localStorage.getItem("library")),
 	itemCounter: [0, 1],
 	Book: function(title, author, pages, read){
 		this.title = title;
@@ -320,7 +319,8 @@ var bookList = {
 				function confirmDeleteModal() {
 						bookList.tableBody.removeChild(item);
 						document.querySelector(".nav__title").focus();
-						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1)
+						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1);
+						localStorage.setItem("library", JSON.stringify(bookList.library));
 						general.main.removeChild(deleteModal);
 						helper.touch();
 				};
@@ -416,7 +416,8 @@ var bookList = {
             newBook.counter = helper.counter;
             helper.counter++;
 
-            bookList.library.push(newBook);
+			bookList.library.push(newBook);
+			localStorage.setItem("library", JSON.stringify(bookList.library));
 
 			let readContainer = item.querySelector(".books-read-container");
 			let readIcon = item.querySelector(".books-read-icon");
@@ -482,111 +483,123 @@ bookList.Book.prototype.toggleRead = function () {
 	this.read = !(this.read);
 }
 
-bookList.addButton.addEventListener("touchstart", function(){
-	event.preventDefault();
-	helper.trap();
-	helper.openModal(addModal.backdrop);
-	addModal.content.focus();
-	helper.touch();
-});
-
-bookList.addButton.addEventListener("click", function(){
-	if(!(helper.touched)) {
+setTimeout(function(){
+	bookList.addButton.addEventListener("touchstart", function(){
+		event.preventDefault();
 		helper.trap();
 		helper.openModal(addModal.backdrop);
 		addModal.content.focus();
-	}
-	helper.untouch();
-	
-});
-
-// Intended general modal backdrop closer
-for(let i = 0; i < general.backdrops.length; i++) {
-	general.backdrops[i].addEventListener("touchstart", function(event){
-		if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
-			helper.clearEmptyErrors();
-			helper.closeModal(general.backdrops[i]);
-		}
-		helper.touch();	
+		helper.touch();
 	});
-
-	general.backdrops[i].addEventListener("click", function(event){
+	
+	bookList.addButton.addEventListener("click", function(){
 		if(!(helper.touched)) {
+			helper.trap();
+			helper.openModal(addModal.backdrop);
+			addModal.content.focus();
+		}
+		helper.untouch();
+		
+	});
+}, 0);
 
+setTimeout(function(){
+	// Intended general modal backdrop closer
+	for(let i = 0; i < general.backdrops.length; i++) {
+		general.backdrops[i].addEventListener("touchstart", function(event){
 			if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
 				helper.clearEmptyErrors();
 				helper.closeModal(general.backdrops[i]);
 			}
-		}
-		helper.untouch();
-	});
-}
+			helper.touch();	
+		});
 
-// General close button modal closer
-for(let i = 0; i < general.closeButtons.length; i++) {
-	general.closeButtons[i].addEventListener("touchstart", function(event){
-		helper.clearEmptyErrors();
-		helper.closeModal(general.backdrops[i]);
-		helper.touch();	
-	});
+		general.backdrops[i].addEventListener("click", function(event){
+			if(!(helper.touched)) {
 
-	general.closeButtons[i].addEventListener("click", function(event){
-		if(!(helper.touched)) {
+				if(!((event.target === general.backdrops[i].firstElementChild) || (general.backdrops[i].firstElementChild.contains(event.target)))) {
+					helper.clearEmptyErrors();
+					helper.closeModal(general.backdrops[i]);
+				}
+			}
+			helper.untouch();
+		});
+	}
+}, 0);
+
+setTimeout(function(){
+	// General close button modal closer
+	for(let i = 0; i < general.closeButtons.length; i++) {
+		general.closeButtons[i].addEventListener("touchstart", function(event){
 			helper.clearEmptyErrors();
 			helper.closeModal(general.backdrops[i]);
-		}
-		helper.untouch();
-	});
-	general.closeButtons[i].addEventListener("keydown", function(event){
-		if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
-			helper.clearEmptyErrors();
-			helper.closeModal(general.backdrops[i]);
-		}
-	});
+			helper.touch();	
+		});
 
-}
+		general.closeButtons[i].addEventListener("click", function(event){
+			if(!(helper.touched)) {
+				helper.clearEmptyErrors();
+				helper.closeModal(general.backdrops[i]);
+			}
+			helper.untouch();
+		});
+		general.closeButtons[i].addEventListener("keydown", function(event){
+			if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+				helper.clearEmptyErrors();
+				helper.closeModal(general.backdrops[i]);
+			}
+		});
 
-// Enable escape button when focusing add modal
-addModal.content.addEventListener("keydown", function(event){
-	if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
-		helper.closeModal(addModal.backdrop);
 	}
-	else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
-			event.preventDefault();
-			document.getElementById("add-close").focus();
-	}
-});
+}, 0);
 
-// Enable tab scrolling in the add modal
-for(let i = 0; i < addModal.tabbables.length; i++) {
-	addModal.tabbables[i].addEventListener("keydown", function(event){
-		event.stopPropagation();	
+
+setTimeout(function(){
+	// Enable escape button when focusing add modal
+	addModal.content.addEventListener("keydown", function(event){
 		if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
-			helper.closeModal(addModal.backdrop);		
+			helper.closeModal(addModal.backdrop);
 		}
 		else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
-			event.preventDefault();
-			let previous = i - 1;
-			if(previous < 0) {
-				addModal.tabbables[addModal.tabbables.length - 1].focus();
-			}		
-			else{
-				addModal.tabbables[previous].focus();
-			}
-		}
-		else if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
-			event.preventDefault();
-			let next = i + 1;
-			if(next === addModal.tabbables.length) {
-				addModal.tabbables[0].focus();
-			}
-			else{
-				addModal.tabbables[next].focus();
-			}
+				event.preventDefault();
+				document.getElementById("add-close").focus();
 		}
 	});
+}, 0);
 
-}		
+setTimeout(function(){
+	// Enable tab scrolling in the add modal
+	for(let i = 0; i < addModal.tabbables.length; i++) {
+		addModal.tabbables[i].addEventListener("keydown", function(event){
+			event.stopPropagation();	
+			if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+				helper.closeModal(addModal.backdrop);		
+			}
+			else if(event.shiftKey && (event.key === "Tab" || event.which === 9 || event.keyCode === 9)) {
+				event.preventDefault();
+				let previous = i - 1;
+				if(previous < 0) {
+					addModal.tabbables[addModal.tabbables.length - 1].focus();
+				}		
+				else{
+					addModal.tabbables[previous].focus();
+				}
+			}
+			else if(event.key === "Tab" || event.which === 9 || event.keyCode === 9) {
+				event.preventDefault();
+				let next = i + 1;
+				if(next === addModal.tabbables.length) {
+					addModal.tabbables[0].focus();
+				}
+				else{
+					addModal.tabbables[next].focus();
+				}
+			}
+		});
+	}		
+}, 0);
+
+
 
 {//Listeners for the text fields
 	
@@ -645,5 +658,8 @@ addModal.submit.addEventListener("keydown", function(event){
 });
 
 setTimeout(function(){ 
-	bookList.renderLibrary(bookList.library);
+	if(localStorage.getItem("library")) {
+		bookList.renderLibrary(bookList.library);
+	} 
  }, 0);
+
