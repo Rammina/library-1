@@ -193,7 +193,9 @@ td, th {
 }
 
 .backdrop {
-    display: none; 
+    display: block;
+    visibility: hidden;
+    opacity: 0;
     z-index: 200;
     position: fixed;
     /*display: none;*/
@@ -205,9 +207,12 @@ td, th {
     /*opacity: 0.7;*/
     bottom: 0;
     right: 0;
+    transition: all 0.5s ease-in-out;
 }
+
 .backdrop.show{
-    display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal-container{
@@ -228,6 +233,20 @@ td, th {
     /*overflow: hidden;*/
     overflow-y: auto;
     max-height: calc(100vh - 2rem);
+}
+
+#add-content {
+    transform: translateY(-1000px);
+    transition: transform 0.5s ease-in-out;
+}
+
+#add-content.show {
+    transform: translateY(0px);
+}
+
+#delete-modal {
+    position: relative;
+    top: 8%;
 }
 
 .modal-container:focus{

@@ -49,10 +49,12 @@ var helper = {
 	openModal(modal){
 		helper.trap();
 		modal.classList.add("show");
+		modal.firstElementChild.classList.add("show");
 		modal.firstElementChild.setAttribute("aria-hidden", "false");
 	},
 	closeModal(modal){
 		modal.classList.remove("show");	
+		modal.firstElementChild.classList.remove("show");
 		modal.firstElementChild.setAttribute("aria-hidden", "true");
 		helper.trappedObject.focus();
 	},
@@ -241,7 +243,7 @@ var bookList = {
 	createDeleteModal(newBook, item){
 				let deleteModal = document.createElement("div");
 				deleteModal.classList.add("backdrop");
-				deleteModal.classList.add("show");
+				
 				deleteModal.setAttribute("id", "delete-backdrop");
 				deleteModal.insertAdjacentHTML("beforeend", `
 					<section class="modal-container" id="delete-modal" tabindex="0" role="dialog" aria-hidden="false">
@@ -263,6 +265,7 @@ var bookList = {
 				// Exit the modal when you press escape
 					deleteModal.querySelector("#delete-modal").addEventListener("keydown", function(event){
 						if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+							deleteModal.classList.remove("show");
 							general.main.removeChild(deleteModal);
 							helper.trappedObject.focus();
 						}
@@ -281,6 +284,7 @@ var bookList = {
 						tabbables[i].addEventListener("keydown", function(event){
 							event.stopPropagation();
 							if(event.key === "Escape" || event.which === 27 || event.keyCode === 27) {
+								deleteModal.classList.remove("show");
 								general.main.removeChild(deleteModal);
 								helper.trappedObject.focus();
 							}
@@ -331,6 +335,7 @@ var bookList = {
 						bookList.tableBody.removeChild(item);
 						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1);
 						localStorage.setItem("library", JSON.stringify(bookList.library));
+						deleteModal.classList.remove("show");
 						general.main.removeChild(deleteModal);
 						helper.touch();
 				};
@@ -355,6 +360,7 @@ var bookList = {
                 
 				setTimeout(function(){ 
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("touchstart", function(){
+						deleteModal.classList.remove("show");
 						general.main.removeChild(deleteModal);
 						helper.trappedObject.focus();
 						helper.touch();
@@ -362,6 +368,7 @@ var bookList = {
 
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("click", function(){
 						if(!(helper.touched)) {
+							deleteModal.classList.remove("show");
 							general.main.removeChild(deleteModal);
 							helper.trappedObject.focus();
 						}						
@@ -370,6 +377,7 @@ var bookList = {
 
 					deleteModal.querySelector("#cancel-modal-button").addEventListener("keydown", function(event){
 							if(event.key === "Enter" || event.which === 13 || event.keyCode === 13) {
+								deleteModal.classList.remove("show");
 								general.main.removeChild(deleteModal);
 								helper.trappedObject.focus();
 							}
@@ -379,6 +387,7 @@ var bookList = {
                 setTimeout(function(){ 
 					deleteModal.addEventListener("touchstart", function(event){
 						if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+							deleteModal.classList.remove("show");
 							general.main.removeChild(deleteModal);
 							helper.trappedObject.focus();
 						}
@@ -388,6 +397,7 @@ var bookList = {
 					deleteModal.addEventListener("click", function(event){
 						if(!(helper.touched)) {
 							if(!((event.target === deleteModal.firstElementChild) || (deleteModal.firstElementChild.contains(event.target)))) {
+								deleteModal.classList.remove("show");
 								general.main.removeChild(deleteModal);
 								helper.trappedObject.focus();
 							}
@@ -397,6 +407,7 @@ var bookList = {
 				}, 0);
 				setTimeout(function(){ 
 					deleteModal.querySelector("#delete-close").addEventListener("touchstart", function(event){
+						deleteModal.classList.remove("show");
 						general.main.removeChild(deleteModal);
 						helper.trappedObject.focus();
 						helper.touch();	
@@ -404,6 +415,7 @@ var bookList = {
 
 					deleteModal.querySelector("#delete-close").addEventListener("click", function(event){
 						if(!(helper.touched)) {
+							deleteModal.classList.remove("show");
 							general.main.removeChild(deleteModal);
 						}
 						helper.untouch();
@@ -411,6 +423,7 @@ var bookList = {
 				}, 0);
 				helper.trap();
 				general.main.appendChild(deleteModal);
+				deleteModal.classList.add("show");
 				document.querySelector("#delete-modal").focus();
 
 	},
