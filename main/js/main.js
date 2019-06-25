@@ -36,7 +36,8 @@ setTimeout(function () {
 var general = {
 	main: document.querySelector(".main-content"),
 	backdrops: document.querySelectorAll(".backdrop"),
-	closeButtons: document.querySelectorAll(".modal__close")
+	closeButtons: document.querySelectorAll(".modal__close"),
+	navTitle: document.querySelector(".nav__title")
 }
 
 var helper = { 
@@ -169,12 +170,7 @@ var bookList = {
 	addButton: document.getElementById("add-book"),
 	table: document.getElementById("books-list-1"),
 	tableBody: document.querySelector(".books-list-body"),
-	tableRows: document.getElementsByClassName("books-item"),
-	readContainer: document.querySelectorAll(".books-read-container"),
-	readIcons: document.querySelectorAll(".books-read-icon"),
-	deleteIcons: document.querySelectorAll(".books-delete-container"),
-	library: JSON.parse(localStorage.getItem("library")),
-	itemCounter: [0, 1],
+	library: [],
 	Book: function(title, author, pages, read){
 		this.title = title;
 		this.author = author;
@@ -239,6 +235,8 @@ var bookList = {
 			readContainer.setAttribute("role", "button");
 			}
 		newBook.toggleRead();		
+		localStorage.setItem("library", JSON.stringify(bookList.library));
+
 	},
 	createDeleteModal(newBook, item){
 				let deleteModal = document.createElement("div");
@@ -316,14 +314,27 @@ var bookList = {
 				}
 
 				// Close the delete modal when clicking the delete buttonAs well as delete the row and book item
+				function focusAfterDelete() {
+					let deleteIcon = item.querySelector(".books-delete-container");
+					let deleteIcons = document.querySelectorAll(".books-delete-container");
+					for(let i = 0; i < deleteIcons.length; i++) {
+						if(deleteIcons[i] === deleteIcon && i !== 0) {
+							let previous = i - 1;
+							deleteIcons[previous].focus();
+							return;
+						}
+					}
+					general.navTitle.focus();
+				}
 				function confirmDeleteModal() {
+						focusAfterDelete();
 						bookList.tableBody.removeChild(item);
-						document.querySelector(".nav__title").focus();
 						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1);
 						localStorage.setItem("library", JSON.stringify(bookList.library));
 						general.main.removeChild(deleteModal);
 						helper.touch();
 				};
+
 				setTimeout(function(){
 					deleteModal.querySelector("#delete-modal-button").addEventListener("touchstart", function(){
 						confirmDeleteModal();
@@ -424,6 +435,7 @@ var bookList = {
 			setTimeout(function(){
 				readContainer.addEventListener("touchstart", function(){
 					bookList.toggleReadIcon(readContainer, readIcon, newBook);
+
 					helper.touch();
 				});
 			}, 0);
@@ -600,9 +612,8 @@ setTimeout(function(){
 }, 0);
 
 
-
-{//Listeners for the text fields
-	
+setTimeout(function () {
+	//Listeners for the text fields
 	let textFields = document.querySelectorAll(".text-field");
 	for(let i = 0; i < textFields.length; i++) {
 		helper.errorCounts[i] = 0;
@@ -630,9 +641,8 @@ setTimeout(function(){
 		textFields[i].addEventListener("focus", function(){
 			textFields[i].classList.remove("invalid");
 		});
-			
 	}
-}
+}, 0);
 
 // Submit listener for the modal form
 addModal.submit.addEventListener("touchstart", function(event){
@@ -657,9 +667,18 @@ addModal.submit.addEventListener("keydown", function(event){
 	}
 });
 
+// Retrieve the library from storage and render it
+var temporary = {
+	library: JSON.parse(localStorage.getItem("library")),
+}
+
+console.log(`Stored library contains:`);
+console.log(temporary.library);
+
 setTimeout(function(){ 
-	if(localStorage.getItem("library")) {
-		bookList.renderLibrary(bookList.library);
+	// Check if the library has any contents before rendering
+	if(temporary.library) {
+		bookList.renderLibrary(temporary.library);
 	} 
- }, 0);
+}, 0);
 
