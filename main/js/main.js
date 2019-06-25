@@ -236,8 +236,10 @@ var bookList = {
 			readContainer.setAttribute("aria-label", "read, toggle to change to not read");
 			readContainer.setAttribute("role", "button");
 			}
-		newBook.toggleRead();		
-		localStorage.setItem("library", JSON.stringify(bookList.library));
+		newBook.toggleRead();
+		var firebaseRef = firebase.database().ref();
+		firebaseRef.child("library").set(JSON.stringify(bookList.library));		
+		// localStorage.setItem("library", JSON.stringify(bookList.library));
 
 	},
 	createDeleteModal(newBook, item){
@@ -334,7 +336,9 @@ var bookList = {
 						focusAfterDelete();
 						bookList.tableBody.removeChild(item);
 						bookList.library.splice(bookList.library.findIndex(book => book.counter === newBook.counter), 1);
-						localStorage.setItem("library", JSON.stringify(bookList.library));
+						var firebaseRef = firebase.database().ref();
+						firebaseRef.child("library").set(JSON.stringify(bookList.library));	
+						// localStorage.setItem("library", JSON.stringify(bookList.library));
 						deleteModal.classList.remove("show");
 						general.main.removeChild(deleteModal);
 						helper.touch();
@@ -441,7 +445,9 @@ var bookList = {
             helper.counter++;
 
 			bookList.library.push(newBook);
-			localStorage.setItem("library", JSON.stringify(bookList.library));
+			var firebaseRef = firebase.database().ref();
+			firebaseRef.child("library").set(JSON.stringify(bookList.library));
+			// localStorage.setItem("library", JSON.stringify(bookList.library));
 
 			let readContainer = item.querySelector(".books-read-container");
 			let readIcon = item.querySelector(".books-read-icon");
@@ -680,18 +686,29 @@ addModal.submit.addEventListener("keydown", function(event){
 	}
 });
 
-// Retrieve the library from storage and render it
-var temporary = {
-	library: JSON.parse(localStorage.getItem("library")),
-}
+setTimeout(function(){
+	// Retrieve the library from storage and render it
+	var temporary = {
+		// library: JSON.parse(localStorage.getItem("library")),
+		library: []
+	}
 
-console.log(`Stored library contains:`);
-console.log(temporary.library);
+	var firebaseLibraryRef = firebase.database().ref().child("library");
+	firebaseLibraryRef.on('value', function(datasnapshot){
+		temporary.library = JSON.parse(datasnapshot.val());
+		console.log(datasnapshot.val());
+	});
+	
+	console.log(`Stored library contains:`);
+	console.log(temporary.library);
 
-setTimeout(function(){ 
-	// Check if the library has any contents before rendering
-	if(temporary.library) {
-		bookList.renderLibrary(temporary.library);
-	} 
+	setTimeout(function(){ 
+		// Check if the library has any contents before rendering
+		if(temporary.library) {
+			bookList.renderLibrary(temporary.library);
+		} 
+	}, 0);
 }, 0);
+
+
 
