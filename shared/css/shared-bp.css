@@ -7,13 +7,14 @@
 	#add-book{
 		position: relative;
 		top: 0;
-		margin-left: 0;
+		right: 0;
+    	margin-left: calc(35vw - 6rem);
 		margin-right: 0.8rem;
 		border-radius: 5px;
 		background-color: #d0f5cd;
 		color: #3d2922;
 		width: 10rem;
-		font-size: 1.3rem;
+		font-size: 1.25rem;
 		font-family: 'Roboto', serif;
 	}
 
@@ -26,7 +27,21 @@
 		content: "Add New Book";
 
 	}
-
+	#delete-all{
+		display: block;
+        position: relative;
+        left: 0;
+        right: 0;
+        top: 0;
+        margin-left: 0;
+        margin-right: 0.8rem;
+        border-radius: 5px;
+        background-color: #f5d0cd;
+        color: #3d2922;
+        width: 6.8rem;
+        font-size: 1.15rem;
+        font-family: 'Roboto', serif;
+    }
 	.plus-svg, .plus-png {
 		display: none;
 	}
@@ -38,6 +53,5 @@
 	}
 	
 	#add-book {
-    	margin-right: calc(45vw - 27rem);
 	}
 }

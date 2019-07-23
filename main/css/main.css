@@ -207,7 +207,7 @@ td, th {
     /*opacity: 0.7;*/
     bottom: 0;
     right: 0;
-    transition: all 0.5s ease-in-out;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 .backdrop.show{
@@ -237,14 +237,14 @@ td, th {
 
 #add-content {
     transform: translateY(-1000px);
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.3s ease-in-out;
 }
 
 #add-content.show {
     transform: translateY(0px);
 }
 
-#delete-modal {
+#delete-modal, #delete-all-modal {
     position: relative;
     top: 8%;
 }
@@ -385,6 +385,17 @@ td, th {
     text-align: center;
 }
 
+#remove-all{
+    text-transform: uppercase;
+    color: #922;
+    text-shadow: 0 0 0.2px #922;
+}
+
+#delete-all-warning{
+    font-size: 1rem;
+    color: #922;
+}
+
 .button-container {
     display: flex;
     flex-direction: row;
@@ -395,7 +406,7 @@ td, th {
     max-width: 20rem;
 }
 
-#delete-modal-button {
+#delete-modal-button, #delete-all-modal-button {
     position: relative;
     margin: 0 auto;
     left: 0.5rem;
@@ -405,14 +416,14 @@ td, th {
     border: none;
 }
 
-#delete-modal-button:hover {
+#delete-modal-button:hover, #delete-all-modal-button:hover {
     background-color: #bf1b1b; 
     /*color: #111;*/
     text-shadow: 1px 1px 0 #111;
 }
 
 
-#cancel-modal-button {
+#cancel-modal-button, #cancel-all-modal-button {
     position: relative;
     margin: 0 auto;
     margin-right: 1rem;
@@ -425,7 +436,7 @@ td, th {
     font-size: 1rem;
 }
 
-#cancel-modal-button:hover {
+#cancel-modal-button:hover, #cancel-all-modal-button:hover {
     background-color: #b0b0b0;
     text-shadow: 0 0 0.1px #111;
 }

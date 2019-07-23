@@ -106,6 +106,7 @@
                 <img class="hide-png no-display svg-fallback plus-png" src="main/images/plus.png" alt="Plus Sign">
                 <!-- Add New Book  -->
             </button>
+            <button class="button" id="delete-all">Delete All</button>
         </nav>
     </header>
     <main class="main-content">
@@ -163,6 +164,24 @@
                 </form>
             
             </section>
+        </div>
+        <div class="backdrop" id="delete-all-backdrop">
+                    <section class="modal-container" id="delete-all-modal" tabindex="0" role="dialog" aria-hidden="false">
+                        <div class="modal__close" id="delete-all-close" tabindex="-1" role="button" aria-label="close button">
+                            <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/silviu-runceanu" title="Silviu Runceanu">Silviu Runceanu</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                            <image href="https://image.flaticon.com/icons/svg/53/53804.svg" src="main/images/close.svg" width="90" height="90" alt="Close Button"/>
+                            </svg>
+                            <img class="hide-png no-display svg-fallback modal__close-png" src="main/images/close.png" alt="Close Button">
+                        </div>
+                        <h1 class="modal-header">Delete All Books</h1>
+                        <p class="modal-paragraph">Do you want to <span id="remove-all">remove all books</span> from the list?</p>
+                        <p class="modal-paragraph" id="delete-all-warning">WARNING: Data on books listed can no longer be recovered upon deletion.</p>
+                        <div class="button-container">
+                            <button class="modal-button" id="cancel-all-modal-button">Cancel</button>
+                            <button class="modal-button" id="delete-all-modal-button">Delete All</button>
+                        </div>
+                    </section>
         </div>
     </main>
 
