@@ -246,12 +246,17 @@ var bookList = {
 	// the counter is also used to delete a specific book
 	counter: 0,
 
-	// This is the Book constructor function
-	Book: function(title, author, pages, read){
-		this.title = title;
-		this.author = author;
-		this.pages = pages;
-		this.read = read;
+	// This is the Book class
+	Book: class Book{
+		constructor(title, author, pages, read) {
+			this.title = title;
+			this.author = author;
+			this.pages = pages;
+			this.read = read;
+		}
+		toggleRead(){
+			this.read = !(this.read);	
+		}
 	},
 	// method that creates a book row
 	createBookRow(title, author, pages, read){
@@ -639,10 +644,6 @@ var bookList = {
 	}
 
 };
-// Add a method  for toggling read status to the Book constructor's prototype
-bookList.Book.prototype.toggleRead = function () {
-	this.read = !(this.read);
-}
 
 // Add event listeners to the add book button
 setTimeout(function(){
