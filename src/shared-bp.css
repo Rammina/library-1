@@ -1,0 +1,71 @@
+/* Width breakpoints */
+@media screen and (min-width: 700px) {
+	main {
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+	#add-book{
+		position: relative;
+		top: 0;
+		right: 0;
+    	margin-left: calc(100vw - 34.5rem);
+		margin-right: 0.8rem;
+		border-radius: 5px;
+		background-color: #d0f5cd;
+		color: #3d2922;
+		width: 10rem;
+		font-size: 1.25rem;
+		font-family: 'Roboto', serif;
+		-webkit-box-shadow: 0px 0px 0px 0px rgba(56, 56, 56, 0.8); 
+    	box-shadow: 0px 0px 0px 0px rgba(56, 56, 56, 0.8);
+	}
+
+	#add-book:hover {
+		text-shadow: 0 0 0.3px #111;
+		background-color: #c0f0c5;
+	}
+
+	#add-book::after {
+		content: "Add New Book";
+
+	}
+	#delete-all{
+		display: block;
+        position: relative;
+        left: 0;
+        right: 0;
+        top: 0;
+        margin-left: 0;
+        margin-right: 0.8rem;
+        border-radius: 5px;
+        background-color: #9b0606;
+        color: white;
+        width: 6.8rem;
+        font-size: 1.15rem;
+		font-family: 'Roboto', serif;
+		-webkit-box-shadow: 0px 0px 1px 1px rgba(255,255,255,0.8); 
+		box-shadow: 0px 0px 1px 1px rgba(255,255,255,0.8);
+	}
+	
+	#delete-all:hover {
+		background-color: #c30808;
+	}
+
+	.plus-svg, .plus-png, .delete-all-png {
+		display: none;
+	}
+	#delete-all::after {
+		content: "Delete All";
+
+	}
+}
+
+@media screen and (min-width: 1000px){
+	.nav__title{
+		margin-left: calc(45vw - 27.5rem);
+	}
+
+	#add-book {
+		margin-left: calc(10vw + 22rem);
+	}
+}
