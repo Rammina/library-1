@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "css-loader": "^3.1.0",
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.1",
     "style-loader": "^0.23.1"
   }
